@@ -1,5 +1,6 @@
 # morchoco
 
+<img src="https://imgur.com/hXDxZcS.jpg" width="400">  
   
 |--------------------------|
 ### [>> Demo <<](https://yoshiyyc.github.io/morchoco/)
