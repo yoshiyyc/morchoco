@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./stylesheets/all.scss";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import App from "./App";
 import axios from "axios";
 import { HashRouter } from "react-router-dom";
