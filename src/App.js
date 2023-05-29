@@ -11,6 +11,7 @@ import ProductDetail from "./pages/front/ProductDetail";
 import Cart from "./pages/front/Cart";
 import Checkout from "./pages/front/Checkout";
 import OrderSuccess from "./pages/front/OrderSuccess";
+import Credits from "./pages/front/Credits";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="success/:orderId" element={<OrderSuccess />} />
+          <Route path="credits" element={<Credits />} />
         </Route>
         <Route path="/admin" element={<Dashboard />}>
           <Route path="products" element={<AdminProducts />} />

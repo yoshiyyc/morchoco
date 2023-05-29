@@ -5,6 +5,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import App from "./App";
 import axios from "axios";
 import { HashRouter } from "react-router-dom";
+import { store } from "./store";
+import { Provider } from "react-redux";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -14,7 +16,9 @@ const root = ReactDOM.createRoot(el);
 root.render(
   <React.StrictMode>
     <HashRouter>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </HashRouter>
   </React.StrictMode>
 );

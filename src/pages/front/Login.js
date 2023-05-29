@@ -35,11 +35,10 @@ function Login() {
   };
 
   return (
-    <div className="container py-5 min-vh-100">
-      <div className="row justify-content-center">
+    <div className="container py-5">
+      <div className="row justify-content-center mb-5">
         <div className="col-md-6">
-          <h2>登入帳號</h2>
-
+          <h2 className="my-3">登入帳號</h2>
           <div
             className={`alert alert-danger ${
               loginState.message ? "d-block" : "d-none"

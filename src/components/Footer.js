@@ -37,8 +37,8 @@ function Footer() {
               </li>
             </ul>
           </div>
-          <ul className="row col-md-9 list-unstyled m-0">
-            <li className="col-5">
+          <ul className="row flex-column flex-sm-row col-md-9 list-unstyled m-0">
+            <li className="col col-sm-5 mb-4 mb-sm-0">
               <h5>關於我們</h5>
               <ul className="list-unstyled">
                 <li className="my-2">
@@ -59,7 +59,7 @@ function Footer() {
                 </li>
               </ul>
             </li>
-            <li className="col-3">
+            <li className="col col-sm-3 mb-4 mb-sm-0">
               <h5>美味甜點</h5>
               <ul className="list-unstyled">
                 <li className="my-2">
@@ -89,7 +89,7 @@ function Footer() {
                 </li>
               </ul>
             </li>
-            <li className="col-3">
+            <li className="col col-sm-3 mb-4 mb-sm-0">
               <h5>會員專區</h5>
               <ul className="list-unstyled">
                 <li className="my-2">
@@ -101,6 +101,11 @@ function Footer() {
                   <a className="text-decoration-none link-light" href="#">
                     宅配協助
                   </a>
+                </li>
+                <li className="my-2">
+                  <NavLink to="/credits" className="nav-link link-warning">
+                    Credits
+                  </NavLink>
                 </li>
               </ul>
               <NavLink

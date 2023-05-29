@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
+import MessageToast from "../../components/MessageToast";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
@@ -24,11 +25,14 @@ function FrontLayout() {
   }, []);
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar cartData={cartData} />
-      <Outlet context={{ getCart, cartData }}></Outlet>
+      <MessageToast />
+      <div className="flex-grow-1">
+        <Outlet context={{ getCart, cartData }}></Outlet>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
 
