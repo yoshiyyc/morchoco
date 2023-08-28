@@ -2,52 +2,55 @@ import { useEffect, useReducer } from "react";
 import { Outlet, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Message from "../../components/Message";
-import { MessageContext, messageReducer, initState } from "../../store/messageStore";
+import {
+  MessageContext,
+  messageReducer,
+  initState,
+} from "../../store/messageStore";
 
 function Dashboard() {
   const navigate = useNavigate();
   const reducer = useReducer(messageReducer, initState);
 
-  const handleLogout = () => {
-    document.cookie = `morchocoToken=;`;
-    navigate("/login");
-  };
-
-  // Get token
+  // Get token from cookie
   const token = document.cookie
-  .split("; ")
-  .find((row) => row.startsWith("morchocoToken="))
-  ?.split("=")[1];
+    .split("; ")
+    .find((row) => row.startsWith("morchocoToken="))
+    ?.split("=")[1];
 
+  // Assign token to axios headers
   axios.defaults.headers.common["Authorization"] = token;
 
+  // Check if there is a valid token, then navigate accordingly
   useEffect(() => {
-    if(!token) {
+    if (!token) {
       return navigate("/login");
     }
 
     (async () => {
-      try{
+      try {
         await axios.post("/v2/api/user/check");
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
         if (!error.response.data.success) {
           navigate("/login");
         }
       }
     })();
-
   }, [navigate, token]);
+
+  // Logout callback - clear cookies and navigate to login page
+  const handleLogout = () => {
+    document.cookie = `morchocoToken=;`;
+    navigate("/login");
+  };
 
   return (
     <MessageContext.Provider value={reducer}>
       <Message />
       <nav className="navbar navbar-expand-lg bg-dark">
         <div className="container-fluid">
-          <p className="text-white mb-0">
-            Morchoco 後台管理系統
-          </p>
+          <p className="text-white mb-0">Morchoco 後台管理系統</p>
           <button
             className="navbar-toggler"
             type="button"
@@ -65,8 +68,8 @@ function Dashboard() {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="btn btn-sm btn-light"
                   onClick={handleLogout}
                 >
@@ -84,7 +87,7 @@ function Dashboard() {
               className="list-group-item list-group-item-action py-3"
               to="/admin/products"
             >
-              <i className="bi bi-cup-fill me-2" />
+              <i className="bi bi-cup-hot-fill me-2"></i>
               產品列表
             </Link>
             <Link
@@ -103,9 +106,7 @@ function Dashboard() {
             </Link>
           </ul>
         </div>
-        <div className="w-100">
-          {token && <Outlet />}
-        </div>
+        <div className="w-100">{token && <Outlet />}</div>
       </div>
     </MessageContext.Provider>
   );

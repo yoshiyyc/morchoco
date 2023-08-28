@@ -16,7 +16,7 @@ function ProductDetail() {
     const productRes = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`
     );
-    console.log(productRes);
+
     setProduct(productRes.data.product);
   };
 
