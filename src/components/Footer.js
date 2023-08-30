@@ -63,29 +63,44 @@ function Footer() {
               <h5>美味甜點</h5>
               <ul className="list-unstyled">
                 <li className="my-2">
-                  <a className="text-decoration-none link-light" href="#">
+                  <NavLink
+                    className="text-decoration-none link-light"
+                    to={`/products/六吋蛋糕`}
+                  >
                     六吋蛋糕
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="my-2">
-                  <a className="text-decoration-none link-light" href="#">
+                  <NavLink
+                    className="text-decoration-none link-light"
+                    to={`/products/小蛋糕`}
+                  >
                     小蛋糕
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="my-2">
-                  <a className="text-decoration-none link-light" href="#">
+                  <NavLink
+                    className="text-decoration-none link-light"
+                    to={`/products/手工小點`}
+                  >
                     手工小點
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="my-2">
-                  <a className="text-decoration-none link-light" href="#">
+                  <NavLink
+                    className="text-decoration-none link-light"
+                    to={`/products/飲品`}
+                  >
                     飲品
-                  </a>
+                  </NavLink>
                 </li>
                 <li className="my-2">
-                  <a className="text-decoration-none link-light" href="#">
+                  <NavLink
+                    className="text-decoration-none link-light"
+                    to={`/products/純巧克力`}
+                  >
                     純巧克力
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </li>

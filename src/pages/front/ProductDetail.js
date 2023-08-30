@@ -32,7 +32,7 @@ function ProductDetail() {
 
     try {
       const res = await axios.post(
-        `/v2/api/${process.env.REACT_APP_API_PATH}/cart s`,
+        `/v2/api/${process.env.REACT_APP_API_PATH}/cart`,
         data
       );
       console.log(res);

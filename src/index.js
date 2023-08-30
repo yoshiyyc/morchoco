@@ -7,6 +7,7 @@ import axios from "axios";
 import { HashRouter } from "react-router-dom";
 import { store } from "./store";
 import { Provider } from "react-redux";
+import ScrollToTop from "./utilities/ScrollToTop";
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -17,6 +18,7 @@ root.render(
   <React.StrictMode>
     <HashRouter>
       <Provider store={store}>
+        <ScrollToTop />
         <App />
       </Provider>
     </HashRouter>

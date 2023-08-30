@@ -47,6 +47,14 @@ function Navbar({ cartData }) {
               <li className="nav-item">
                 <NavLink
                   className="nav-link btn btn-outline-secondary border-0 rounded-0 px-4"
+                  to="/"
+                >
+                  首頁
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link btn btn-outline-secondary border-0 rounded-0 px-4"
                   to="/products"
                 >
                   所有甜點

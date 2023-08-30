@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
 
 function Products() {
+  const { category } = useParams();
+
   const [allProducts, setAllProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [categories, setCategories] = useState([
+  const [currentCategory, setCurrentCategory] = useState(
+    category ? category : "所有甜點"
+  );
+  const [pagination, setPagination] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  const categories = [
     "所有甜點",
     "六吋蛋糕",
     "小蛋糕",
     "手工小點",
     "純巧克力",
     "飲品",
-  ]);
-  const [currentCategory, setCurrentCategory] = useState("所有甜點");
-  const [pagination, setPagination] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  ];
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  useEffect(() => {
+    setCurrentCategory(category ? category : "所有甜點");
+  }, [category]);
 
   const getProducts = async (page = 1) => {
     setIsLoading(true);
@@ -31,29 +43,16 @@ function Products() {
       });
 
     setAllProducts(productData.products);
-    setFilteredProducts(productData.products);
+
     setPagination(productData.pagination);
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
-
-  useEffect(() => {
-    filterProducts(currentCategory);
-  }, [currentCategory]);
-
-  const filterProducts = (category) => {
-    if (category === "所有甜點") {
-      setFilteredProducts(allProducts);
-    } else {
-      const updatedProducts = allProducts.filter((i) => {
-        return i.category === category;
-      });
-
-      setFilteredProducts(updatedProducts);
-    }
+  const filterProducts = (allProducts) => {
+    return allProducts.filter(
+      (product) =>
+        currentCategory === "所有甜點" || product.category === currentCategory
+    );
   };
 
   const handleChangeCategory = (e) => {
@@ -69,7 +68,7 @@ function Products() {
             <ul className="list-group">
               {categories.map((category) => {
                 return (
-                  <li
+                  <button
                     key={category}
                     className={`list-group-item list-group-item-action ${
                       currentCategory === category && "active"
@@ -78,7 +77,7 @@ function Products() {
                     onClick={(e) => handleChangeCategory(e)}
                   >
                     {category}
-                  </li>
+                  </button>
                 );
               })}
             </ul>
@@ -88,8 +87,8 @@ function Products() {
               {currentCategory}
             </h3>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center justify-content-sm-start gx-5 gy-3 mb-5">
-              {filteredProducts.length ? (
-                filteredProducts.map((product) => {
+              {filterProducts(allProducts).length ? (
+                filterProducts(allProducts).map((product) => {
                   return (
                     <div className="col-7 " key={product.id}>
                       <div className="card border-0 mb-4">

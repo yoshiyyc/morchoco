@@ -136,7 +136,7 @@ function Home() {
         <div className="row">
           <div className="col-4 d-flex flex-column">
             <div className="row flex-column flex-fill">
-              <div
+              <Link
                 className="col d-flex p-0"
                 style={{
                   backgroundImage:
@@ -145,6 +145,7 @@ function Home() {
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                 }}
+                to={`/products/手工小點`}
               >
                 <p
                   className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
@@ -152,8 +153,8 @@ function Home() {
                 >
                   手工小點
                 </p>
-              </div>
-              <div
+              </Link>
+              <Link
                 className="col d-flex p-0"
                 style={{
                   backgroundImage:
@@ -162,6 +163,7 @@ function Home() {
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                 }}
+                to={`/products/飲品`}
               >
                 <p
                   className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
@@ -169,10 +171,10 @@ function Home() {
                 >
                   飲品
                 </p>
-              </div>
+              </Link>
             </div>
           </div>
-          <div
+          <Link
             className="col-4 d-flex"
             style={{
               height: 300,
@@ -182,6 +184,7 @@ function Home() {
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
             }}
+            to={`/products/六吋蛋糕`}
           >
             <p
               className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
@@ -189,10 +192,10 @@ function Home() {
             >
               六吋蛋糕
             </p>
-          </div>
+          </Link>
           <div className="col-4 d-flex flex-column">
             <div className="row flex-column flex-fill">
-              <div
+              <Link
                 className="col d-flex p-0"
                 style={{
                   backgroundImage:
@@ -201,6 +204,7 @@ function Home() {
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                 }}
+                to={`/products/小蛋糕`}
               >
                 <p
                   className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
@@ -208,8 +212,8 @@ function Home() {
                 >
                   小蛋糕
                 </p>
-              </div>
-              <div
+              </Link>
+              <Link
                 className="col d-flex p-0"
                 style={{
                   backgroundImage:
@@ -218,6 +222,7 @@ function Home() {
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
                 }}
+                to={`/products/純巧克力`}
               >
                 <p
                   className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
@@ -225,7 +230,7 @@ function Home() {
                 >
                   純巧克力
                 </p>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
