@@ -1,11 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/front/Login";
+import AdminLogin from "./pages/admin/AdminLogin";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import AdminOrders from "./pages/admin/AdminOrders";
 import FrontLayout from "./pages/front/FrontLayout";
 import Home from "./pages/front/Home";
+import UserLogin from "./pages/front/UserLogin";
+import CreateAccount from "./pages/front/CreateAccount";
+import ForgotPassword from "./pages/front/ForgotPassword";
 import Products from "./pages/front/Products";
 import ProductDetail from "./pages/front/ProductDetail";
 import Cart from "./pages/front/Cart";
@@ -19,7 +22,9 @@ function App() {
       <Routes className="App">
         <Route path="/" element={<FrontLayout />}>
           <Route path="" element={<Home />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="login" element={<UserLogin />} />
+          <Route path="createaccount" element={<CreateAccount />} />
+          <Route path="forgotpassword" element={<ForgotPassword />} />
           <Route path="products" element={<Products />} />
           <Route path="products/:category" element={<Products />} />
           <Route path="product/:id" element={<ProductDetail />} />
@@ -28,6 +33,7 @@ function App() {
           <Route path="success/:orderId" element={<OrderSuccess />} />
           <Route path="credits" element={<Credits />} />
         </Route>
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<Dashboard />}>
           <Route path="products" element={<AdminProducts />} />
           <Route path="coupons" element={<AdminCoupons />} />

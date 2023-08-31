@@ -105,12 +105,15 @@ function Footer() {
               </ul>
             </li>
             <li className="col col-sm-3 mb-4 mb-sm-0">
-              <h5>會員專區</h5>
+              <h5>會員權益</h5>
               <ul className="list-unstyled">
                 <li className="my-2">
-                  <a className="text-decoration-none link-light" href="#">
-                    會員登入
-                  </a>
+                  <NavLink
+                    className="text-decoration-none link-light"
+                    to="/login"
+                  >
+                    會員專區
+                  </NavLink>
                 </li>
                 <li className="my-2">
                   <a className="text-decoration-none link-light" href="#">
@@ -124,7 +127,7 @@ function Footer() {
                 </li>
               </ul>
               <NavLink
-                to="/login"
+                to={`/admin/login`}
                 className="nav-link btn mt-4 py-1 link-light bg-danger"
               >
                 管理員頁面（Demo）

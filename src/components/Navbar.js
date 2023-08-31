@@ -1,6 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 function Navbar({ cartData }) {
+  const location = useLocation();
+
   return (
     <header className="bg-white">
       <div className="container">
@@ -34,7 +36,7 @@ function Navbar({ cartData }) {
                   {cartData.carts?.length}
                 </span>
               </NavLink>
-              <NavLink to="" className="nav-link mx-3" disabled>
+              <NavLink to="/login" className="nav-link mx-3">
                 <i className="bi bi-person-circle fs-4"></i>
               </NavLink>
             </div>
@@ -61,7 +63,14 @@ function Navbar({ cartData }) {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link px-4" to="/" disabled>
+                <NavLink
+                  className={`nav-link btn btn-outline-secondary border-0 rounded-0 px-4 ${
+                    (location.pathname === "/createaccount" ||
+                      location.pathname === "/forgotpassword") &&
+                    "active"
+                  }`}
+                  to="/login"
+                >
                   會員專區
                 </NavLink>
               </li>

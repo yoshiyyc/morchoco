@@ -24,7 +24,7 @@ function Dashboard() {
   // Check if there is a valid token, then navigate accordingly
   useEffect(() => {
     if (!token) {
-      return navigate("/login");
+      return navigate("/admin/login");
     }
 
     (async () => {
@@ -33,7 +33,7 @@ function Dashboard() {
       } catch (error) {
         console.log(error);
         if (!error.response.data.success) {
-          navigate("/login");
+          navigate("/admin/login");
         }
       }
     })();
@@ -42,7 +42,7 @@ function Dashboard() {
   // Logout callback - clear cookies and navigate to login page
   const handleLogout = () => {
     document.cookie = `morchocoToken=;`;
-    navigate("/login");
+    navigate("/admin/login");
   };
 
   return (
