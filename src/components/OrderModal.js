@@ -62,8 +62,8 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">
+          <div className="modal-header bg-primary">
+            <h1 className="modal-title fs-5 text-light" id="exampleModalLabel">
               {`編輯 ${tempData.id}`}
             </h1>
             <button
@@ -75,9 +75,7 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
           </div>
           <div className="modal-body">
             <div className="mb-3 row">
-              <span className="col-sm-2 col-form-label">
-                Email
-              </span>
+              <span className="col-sm-2 col-form-label">Email</span>
               <div className="col-sm-10">
                 <input
                   type="email"
@@ -89,9 +87,7 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
               </div>
             </div>
             <div className="mb-3 row">
-              <span className="col-sm-2 col-form-label">
-                訂購者
-              </span>
+              <span className="col-sm-2 col-form-label">訂購者</span>
               <div className="col-sm-10">
                 <input
                   type="text"
@@ -103,9 +99,7 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
               </div>
             </div>
             <div className="mb-3 row">
-              <span className="col-sm-2 col-form-label">
-                外送地址
-              </span>
+              <span className="col-sm-2 col-form-label">外送地址</span>
               <div className="col-sm-10">
                 <input
                   type="text"
@@ -116,9 +110,7 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
               </div>
             </div>
             <div className="mb-3 row">
-              <span className="col-sm-2 col-form-label">
-                留言
-              </span>
+              <span className="col-sm-2 col-form-label">留言</span>
               <div className="col-sm-10">
                 <textarea
                   name="
@@ -134,12 +126,8 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>
-                      品項名稱
-                    </th>
-                    <th>
-                      數量
-                    </th>
+                    <th>品項名稱</th>
+                    <th>數量</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -152,9 +140,7 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td className="border-0 text-end">
-                      總金額
-                    </td>
+                    <td className="border-0 text-end">總金額</td>
                     <td className="border-0">${tempOrder.total}</td>
                   </tr>
                 </tfoot>
@@ -162,9 +148,7 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
             )}
 
             <div>
-              <h5 className="mt-4">
-                修改訂單狀態
-              </h5>
+              <h5 className="mt-4">修改訂單狀態</h5>
               <div className="form-check mb-4">
                 <label className="form-check-label" htmlFor="is_paid">
                   <input
@@ -206,7 +190,11 @@ function OrderModal({ closeModal, getOrders, tempOrder }) {
             >
               關閉
             </button>
-            <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSubmit}
+            >
               儲存
             </button>
           </div>

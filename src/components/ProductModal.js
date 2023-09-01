@@ -1,6 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { MessageContext, handleSuccessMessage, handleErrorMessage } from "../store/messageStore";
+import {
+  MessageContext,
+  handleSuccessMessage,
+  handleErrorMessage,
+} from "../store/messageStore";
 
 function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   const [tempData, setTempData] = useState({
@@ -12,13 +16,13 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     description: "",
     content: "",
     is_enabled: 1,
-    imageUrl: ""
+    imageUrl: "",
   });
 
   const [, dispatch] = useContext(MessageContext);
 
   useEffect(() => {
-    if(type === "create") {
+    if (type === "create") {
       setTempData({
         title: "",
         category: "",
@@ -28,65 +32,56 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         description: "",
         content: "",
         is_enabled: 1,
-        imageUrl: ""
+        imageUrl: "",
       });
-    }
-    else if (type === "edit"){
+    } else if (type === "edit") {
       setTempData(tempProduct);
     }
-
-  }, [type, tempProduct])
+  }, [type, tempProduct]);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
 
-    if(["price", "origin_price"].includes(name)) {
+    if (["price", "origin_price"].includes(name)) {
       setTempData({
         ...tempData,
-        [name]: Number(value)
-      })
-    }
-    else if (name === "is_enabled") {
+        [name]: Number(value),
+      });
+    } else if (name === "is_enabled") {
       setTempData({
         ...tempData,
-        [name]: +e.target.checked
-      })
-    }
-    else {
-      setTempData ({
+        [name]: +e.target.checked,
+      });
+    } else {
+      setTempData({
         ...tempData,
-        [name]: value
+        [name]: value,
       });
     }
-
-  }
+  };
 
   const handleSubmit = async () => {
     try {
       let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product`;
       let method = "post";
 
-      if(type === "edit") {
+      if (type === "edit") {
         api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product/${tempProduct.id}`;
         method = "put";
       }
-      
-      const res = await axios[method](
-        api,
-        {
-          data: tempData
-        }
-      );
+
+      const res = await axios[method](api, {
+        data: JSON.parse(JSON.stringify(tempData)),
+      });
       console.log(res);
       handleSuccessMessage(dispatch, res);
       closeProductModal();
       getProducts();
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
       handleErrorMessage(dispatch, error);
     }
-  }
+  };
 
   return (
     <div
@@ -98,9 +93,9 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">
-              { type === "create" ? "建立新商品": `編輯 ${tempData.title}`}
+          <div className="modal-header bg-primary">
+            <h1 className="modal-title fs-5 text-light" id="exampleModalLabel">
+              {type === "create" ? "建立新商品" : `編輯 ${tempData.title}`}
             </h1>
             <button
               type="button"
@@ -272,7 +267,11 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
             >
               關閉
             </button>
-            <button type="button" className="btn btn-primary" onClick={handleSubmit}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleSubmit}
+            >
               儲存
             </button>
           </div>
@@ -283,4 +282,3 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
 }
 
 export default ProductModal;
-

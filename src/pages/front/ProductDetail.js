@@ -3,6 +3,7 @@ import { useOutletContext, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { createAsyncMessage } from "../../slice/messageSlice";
+import Loading from "../../components/Loading";
 
 function ProductDetail() {
   const [product, setProduct] = useState({});
@@ -12,12 +13,20 @@ function ProductDetail() {
   const { getCart } = useOutletContext();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    getProduct(id);
+  }, [id]);
+
   const getProduct = async (id) => {
-    const productRes = await axios.get(
-      `/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`
-    );
+    setIsLoading(true);
+    const productRes = await axios
+      .get(`/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`)
+      .then((response) => {
+        return response;
+      });
 
     setProduct(productRes.data.product);
+    setIsLoading(false);
   };
 
   const addToCart = async () => {
@@ -35,7 +44,6 @@ function ProductDetail() {
         `/v2/api/${process.env.REACT_APP_API_PATH}/cart`,
         data
       );
-      console.log(res);
       dispatch(createAsyncMessage(res.data));
       getCart();
       setIsLoading(false);
@@ -46,23 +54,20 @@ function ProductDetail() {
     }
   };
 
-  useEffect(() => {
-    getProduct(id);
-  }, [id]);
-
   return (
-    <div className="container">
-      <div
+    <div className="container pb-5">
+      <Loading isLoading={isLoading} />
+      {/* <div
         className="mb-5"
         style={{
-          minHeight: "400px",
+          minHeight: "200px",
           backgroundImage: `url(${product.imageUrl})`,
           backgroundPosition: "center center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
-      ></div>
-      <div className="row justify-content-between mt-4 mb-7">
+      ></div> */}
+      <div className="row justify-content-between gx-5 mt-4 mb-7">
         <div className="col-md-6">
           <div className="d-flex bg-light">
             <img
@@ -75,8 +80,8 @@ function ProductDetail() {
         </div>
         <div className="col-md-6">
           <h2 className="mb-0">{product.title}</h2>
-          <p className="my-1 text-muted">{product.description}</p>
-          <p className="my-4">{product.content}</p>
+          {/* <p className="my-1 text-muted">{product.description}</p> */}
+          <p className="my-4 text-muted">{product.description}</p>
           {product.price === product.origin_price ? (
             <p className="text-muted mt-4 fw-bold">NT$ {product.price}</p>
           ) : (
@@ -130,6 +135,12 @@ function ProductDetail() {
             加入購物車
           </button>
         </div>
+      </div>
+      <div className="">
+        <h3 className="mb-3 ps-3 text-dark border-start border-5 border-primary">
+          商品介紹
+        </h3>
+        <p className="json-new-line mb-4">{product.content}</p>
       </div>
     </div>
   );

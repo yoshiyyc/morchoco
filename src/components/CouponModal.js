@@ -91,8 +91,8 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
-          <div className="modal-header">
-            <h1 className="modal-title fs-5" id="exampleModalLabel">
+          <div className="modal-header bg-primary">
+            <h1 className="modal-title fs-5 text-light" id="exampleModalLabel">
               {type === "create" ? "建立新優惠券" : `編輯 ${tempData.title}`}
             </h1>
             <button

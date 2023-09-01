@@ -4,10 +4,12 @@ import { Modal } from "bootstrap";
 import ProductModal from "../../components/ProductModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
+import Loading from "../../components/Loading";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   //type: Decide modal type
   const [type, setType] = useState("create"); // edit
@@ -28,12 +30,15 @@ function AdminProducts() {
   }, []);
 
   const getProducts = async (page = 1) => {
+    setIsLoading(true);
+
     const productRes = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/admin/products?page=${page}`
     );
     console.log(productRes);
     setProducts(productRes.data.products);
     setPagination(productRes.data.pagination);
+    setIsLoading(false);
   };
 
   const openProductModal = (type, product) => {
@@ -71,6 +76,7 @@ function AdminProducts() {
 
   return (
     <div className="p-3">
+      <Loading isLoading={isLoading} />
       <ProductModal
         closeProductModal={closeProductModal}
         getProducts={getProducts}

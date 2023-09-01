@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from "react";
-import { Outlet, useNavigate, Link } from "react-router-dom";
+import { Outlet, useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
 import Message from "../../components/Message";
 import {
@@ -9,14 +9,19 @@ import {
 } from "../../store/messageStore";
 
 function Dashboard() {
+  console.log("ad");
   const navigate = useNavigate();
   const reducer = useReducer(messageReducer, initState);
+
+  console.log("coo", document.cookie);
 
   // Get token from cookie
   const token = document.cookie
     .split("; ")
     .find((row) => row.startsWith("morchocoToken="))
     ?.split("=")[1];
+
+  console.log("to", token);
 
   // Assign token to axios headers
   axios.defaults.headers.common["Authorization"] = token;
@@ -48,7 +53,7 @@ function Dashboard() {
   return (
     <MessageContext.Provider value={reducer}>
       <Message />
-      <nav className="navbar navbar-expand-lg bg-dark">
+      <nav className="navbar navbar-expand-lg sticky-top bg-dark">
         <div className="container-fluid">
           <p className="text-white mb-0">Morchoco 後台管理系統</p>
           <button
@@ -83,27 +88,27 @@ function Dashboard() {
       <div className="d-flex" style={{ minHeight: "calc(100vh - 56px)" }}>
         <div className="bg-light" style={{ width: "200px" }}>
           <ul className="list-group list-group-flush">
-            <Link
+            <NavLink
               className="list-group-item list-group-item-action py-3"
               to="/admin/products"
             >
               <i className="bi bi-cup-hot-fill me-2"></i>
               產品列表
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               className="list-group-item list-group-item-action py-3"
               to="/admin/coupons"
             >
               <i className="bi bi-ticket-perforated-fill me-2" />
               優惠卷列表
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               className="list-group-item list-group-item-action py-3"
               to="/admin/orders"
             >
               <i className="bi bi-receipt me-2" />
               訂單列表
-            </Link>
+            </NavLink>
           </ul>
         </div>
         <div className="w-100">{token && <Outlet />}</div>

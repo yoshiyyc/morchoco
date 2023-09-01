@@ -22,14 +22,22 @@ function AdminLogin() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("d", data);
+
     try {
-      const res = await axios.post("/v2/admin/signin", data);
+      const res = await axios.post("/v2/admin/signin", {
+        username: data.email,
+        password: data.password,
+      });
       const { token, expired } = res.data;
       console.log(res.data);
+      console.log("loto", token);
+
       // Set token
       document.cookie = `morchocoToken=${token}; expires=${new Date(expired)}`;
 
       if (res.data.success) {
+        console.log("hi");
         navigate("/admin/products");
       }
     } catch (error) {

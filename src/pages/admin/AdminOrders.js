@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { Modal } from "bootstrap";
 import OrderModal from "../../components/OrderModal";
 import Pagination from "../../components/Pagination";
-import { Modal } from "bootstrap";
+import Loading from "../../components/Loading";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const [pagination, setPagination] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   // type: 決定 modal 展開的用途
   const [type, setType] = useState("create"); // edit
   const [tempOrder, setTempOrder] = useState({});
@@ -21,12 +24,15 @@ function AdminOrders() {
   }, []);
 
   const getOrders = async (page = 1) => {
+    setIsLoading(true);
+
     const res = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/admin/orders?page=${page}`
     );
     console.log(res);
     setOrders(res.data.orders);
     setPagination(res.data.pagination);
+    setIsLoading(false);
   };
 
   const openOrderModal = (order) => {
@@ -40,6 +46,7 @@ function AdminOrders() {
 
   return (
     <div className="p-3">
+      <Loading isLoading={isLoading} />
       <OrderModal
         closeModal={closeModal}
         getOrders={getOrders}
@@ -47,15 +54,7 @@ function AdminOrders() {
       />
       <h3>訂單列表</h3>
       <hr />
-      {/* <div className="text-end">
-        <button
-          type="button"
-          className="btn btn-primary btn-sm"
-          onClick={() => openOrderModal("create", {})}
-        >
-          建立新商品
-        </button>
-      </div> */}
+
       <table className="table">
         <thead>
           <tr>

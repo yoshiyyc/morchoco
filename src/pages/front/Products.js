@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, NavLink } from "react-router-dom";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
@@ -7,7 +7,7 @@ import Loading from "../../components/Loading";
 function Products() {
   const { category } = useParams();
 
-  const [allProducts, setAllProducts] = useState([]);
+  const [productList, setProductList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState(
     category ? category : "所有甜點"
   );
@@ -31,10 +31,21 @@ function Products() {
     setCurrentCategory(category ? category : "所有甜點");
   }, [category]);
 
+  useEffect(() => {
+    getProducts();
+  }, [currentCategory]);
+
   const getProducts = async (page = 1) => {
     setIsLoading(true);
+
     const productData = await axios
-      .get(`/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`)
+      .get(
+        `/v2/api/${
+          process.env.REACT_APP_API_PATH
+        }/products?page=${page}&category=${
+          currentCategory === "所有甜點" ? "" : currentCategory
+        }`
+      )
       .then((response) => {
         return response.data;
       })
@@ -42,21 +53,9 @@ function Products() {
         console.log(error);
       });
 
-    setAllProducts(productData.products);
-
+    setProductList(productData.products);
     setPagination(productData.pagination);
     setIsLoading(false);
-  };
-
-  const filterProducts = (allProducts) => {
-    return allProducts.filter(
-      (product) =>
-        currentCategory === "所有甜點" || product.category === currentCategory
-    );
-  };
-
-  const handleChangeCategory = (e) => {
-    setCurrentCategory(e.target.innerHTML);
   };
 
   return (
@@ -68,16 +67,16 @@ function Products() {
             <ul className="list-group">
               {categories.map((category) => {
                 return (
-                  <button
+                  <NavLink
                     key={category}
                     className={`list-group-item list-group-item-action ${
                       currentCategory === category && "active"
                     }`}
                     aria-current={currentCategory === category ? true : false}
-                    onClick={(e) => handleChangeCategory(e)}
+                    to={`/products/${category}`}
                   >
                     {category}
-                  </button>
+                  </NavLink>
                 );
               })}
             </ul>
@@ -87,8 +86,8 @@ function Products() {
               {currentCategory}
             </h3>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center justify-content-sm-start gx-5 gy-3 mb-5">
-              {filterProducts(allProducts).length ? (
-                filterProducts(allProducts).map((product) => {
+              {productList.length ? (
+                productList.map((product) => {
                   return (
                     <div className="col-7 " key={product.id}>
                       <div className="card border-0 mb-4">
