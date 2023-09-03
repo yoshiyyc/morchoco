@@ -78,7 +78,7 @@ function ProductDetail() {
             />
           </div>
         </div>
-        <div className="col-md-6">
+        <div className="d-flex flex-column col-md-6">
           <h2 className="mb-0">{product.title}</h2>
           {/* <p className="my-1 text-muted">{product.description}</p> */}
           <p className="my-4 text-muted">{product.description}</p>
@@ -93,7 +93,7 @@ function ProductDetail() {
             </div>
           )}
 
-          <div className="input-group mt-3 border">
+          <div className="input-group mt-auto border">
             <div className="input-group-prepend">
               <button
                 className="btn btn-outline-dark rounded-0 border-0 py-3"

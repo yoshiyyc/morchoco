@@ -17,11 +17,11 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="bg-light">
+    <>
       <div className="container pt-4 py-5">
         <div className="row justify-content-center mb-5">
           <div className="col-md-8">
-            <h3 className="my-4 text-center">忘記密碼</h3>
+            <h2 className="h3 my-4 text-center text-dark">忘記密碼</h2>
             <div className="bg-light border">
               <div className="col-9 mx-auto p-5">
                 <p className="mb-5">
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
                   寄出連結
                 </button>
               </div>
-              <div className="mx-auto  border-top bg-white">
+              <div className="mx-auto border-top">
                 <Link
                   className="col-12 btn btn-outline-secondary py-3 border-0 rounded-0"
                   to="/login"
@@ -61,7 +61,7 @@ const ForgotPassword = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

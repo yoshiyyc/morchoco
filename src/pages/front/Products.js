@@ -82,9 +82,9 @@ function Products() {
             </ul>
           </div>
           <div className="col-12 col-md-9">
-            <h3 className="mb-4 text-center text-sm-start">
+            <h2 className="h3 mb-4 text-center text-sm-start text-dark">
               {currentCategory}
-            </h3>
+            </h2>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center justify-content-sm-start gx-5 gy-3 mb-5">
               {productList.length ? (
                 productList.map((product) => {

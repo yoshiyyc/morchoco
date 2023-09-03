@@ -1,27 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createAsyncMessage } from "../../slice/messageSlice";
 import axios from "axios";
+import Loading from "../../components/Loading";
 
 function Cart() {
   const { cartData, getCart } = useOutletContext();
   const [loadingItems, setLoadingItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const removeCartItem = async (id) => {
-    try {
-      const res = await axios.delete(
-        `/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`
-      );
-      getCart();
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    setIsLoading(true);
+    getCart();
+    setIsLoading(false);
+  }, []);
 
   const updateCartItem = async (item, quantity) => {
+    setIsLoading(true);
+
     const data = {
       data: {
         product_id: item.product_id,
@@ -41,87 +39,173 @@ function Cart() {
       setLoadingItems(
         loadingItems.filter((loadingObject) => loadingObject !== item.id)
       );
-      dispatch(createAsyncMessage(res.data));
+      // dispatch(createAsyncMessage(res.data));
     } catch (error) {
       console.log(error);
       dispatch(createAsyncMessage(error.response.data));
     }
+
+    setIsLoading(false);
+  };
+
+  const removeCartItem = async (id) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.delete(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`
+      );
+      getCart();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIsLoading(false);
+  };
+
+  // Utility
+  const formatCurrency = (value) => {
+    // If the number exists, format it so price has a comma for every 3 digits
+    return value && value.toLocaleString();
+  };
+
+  // Components
+  const CartContent = ({ cartData }) => {
+    return cartData?.carts?.map((item) => {
+      return (
+        <tr key={item.product.title}>
+          <td className="col-5">
+            <Link
+              className="d-block text-decoration-none text-black"
+              to={`/product/${item.product.id}`}
+            >
+              <img
+                src={item.product.imageUrl}
+                alt={item.product.title}
+                className="object-cover me-2"
+                style={{
+                  width: "80px",
+                  height: "80px",
+                }}
+              />
+              {item.product.title}
+            </Link>
+          </td>
+          <td className="col-2 text-center">
+            NT${formatCurrency(item.product.price)}
+          </td>
+          <td className="col-2 text-center">
+            <div className="input-group mx-auto w-75 align-items-center">
+              <select
+                name="quantity"
+                className="form-select"
+                id="quantity"
+                value={item.qty}
+                onChange={(e) => {
+                  updateCartItem(item, e.target.value * 1);
+                }}
+                disabled={loadingItems.includes(item.id)}
+              >
+                {[...new Array(20)].map((i, num) => {
+                  return (
+                    <option value={num + 1} key={num}>
+                      {num + 1}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </td>
+          <td className="col-2 text-center">NT${formatCurrency(item.total)}</td>
+          <td className="col-1 text-center">
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-danger rounded-circle"
+              onClick={() => removeCartItem(item.id)}
+            >
+              <i className="bi bi-x-lg"></i>
+            </button>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  const EmptyCartContent = () => {
+    return (
+      <tr>
+        <td colSpan={5} className="py-4 text-center">
+          購物車內還沒有商品喔
+        </td>
+      </tr>
+    );
   };
 
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div
-          className="col-md-6 bg-white py-5"
-          style={{ minHeight: "calc(100vh - 56px - 76px)" }}
-        >
-          <div className="d-flex justify-content-between">
-            <h2 className="mt-2">您的餐點</h2>
+    <>
+      <div className="container pb-5">
+        <div className="col-9 mx-auto">
+          <h2 className="h3 my-5 text-center text-dark">購物車內容</h2>
+          <Loading isLoading={isLoading} />
+          <div className="table-responsive">
+            <table className="col-9 table table-borderless align-middle">
+              <thead className="bg-light">
+                <tr>
+                  <th scope="col" className="col-5">
+                    商品
+                  </th>
+                  <th scope="col" className="col-2 text-center">
+                    單價
+                  </th>
+                  <th scope="col" className="col-2 text-center">
+                    數量
+                  </th>
+                  <th scope="col" className="col-2 text-center">
+                    小計
+                  </th>
+                  <th scope="col" className="col-1 text-center"></th>
+                </tr>
+              </thead>
+              <tbody className="border-top border-bottom">
+                {cartData && cartData.carts && cartData.carts.length ? (
+                  <CartContent cartData={cartData} />
+                ) : (
+                  <EmptyCartContent />
+                )}
+              </tbody>
+              <tfoot className="bg-light">
+                <tr>
+                  <td colSpan={3} className="text-end fw-bold">
+                    總金額
+                  </td>
+                  <td colSpan={1} className="text-center fw-bold">
+                    NT$
+                    {formatCurrency(cartData.total)}
+                  </td>
+                  <td colSpan={1}></td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
-          {cartData?.carts?.map((item) => {
-            return (
-              <div className="d-flex mt-4 bg-light" key={item.id}>
-                <img
-                  src={item.product.imageUrl}
-                  alt=""
-                  className="object-cover"
-                  style={{
-                    width: "120px",
-                  }}
-                />
-                <div className="w-100 p-3 position-relative">
-                  <button
-                    type="button"
-                    className="btn position-absolute"
-                    style={{ top: "10px", right: "10px" }}
-                    onClick={() => removeCartItem(item.id)}
-                  >
-                    <i className="bi bi-x-lg"></i>
-                  </button>
-                  <p className="mb-0 fw-bold">{item.product.title}</p>
-                  <p className="mb-1 text-muted" style={{ fontSize: "14px" }}>
-                    {item.product.content}
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center w-100">
-                    <div className="input-group w-50 align-items-center">
-                      <select
-                        name=""
-                        className="form-select"
-                        id=""
-                        value={item.qty}
-                        onChange={(e) => {
-                          updateCartItem(item, e.target.value * 1);
-                        }}
-                        disabled={loadingItems.includes(item.id)}
-                      >
-                        {[...new Array(20)].map((i, num) => {
-                          return (
-                            <option value={num + 1} key={num}>
-                              {num + 1}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    </div>
-                    <p className="mb-0 ms-auto">NT${item.final_total}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-          <div className="d-flex justify-content-between mt-4">
-            <p className="mb-0 h4 fw-bold">總金額</p>
-            <p className="mb-0 h4 fw-bold">NT${cartData.final_total}</p>
+          <div className="d-flex flex-column flex-sm-row my-5">
+            <Link
+              className="col col-sm-4 col-md-3 col-lg-2 btn btn-outline-secondary my-3 my-sm-0 py-3 rounded-0"
+              to="/products"
+            >
+              返回商品頁面
+            </Link>
+            <button
+              className="col col-sm-4 col-md-4 col-lg-3 btn btn-dark ms-sm-auto py-3 rounded-0"
+              disabled={cartData && cartData.carts && !cartData.carts.length}
+            >
+              <Link className="text-decoration-none link-light" to="/checkout">
+                立即結帳
+              </Link>
+            </button>
           </div>
-          <Link
-            to="/checkout"
-            className="btn btn-primary w-100 mt-4 rounded-0 py-3"
-          >
-            確認餐點正確
-          </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

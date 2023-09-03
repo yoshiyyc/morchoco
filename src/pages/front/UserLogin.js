@@ -35,11 +35,11 @@ function UserLogin() {
   };
 
   return (
-    <div className="bg-light">
+    <>
       <div className="container pt-4 py-5">
         <div className="row justify-content-center mb-5">
           <div className="col-md-8">
-            <h3 className="my-4 text-center">登入帳號</h3>
+            <h2 className="h3 my-4 text-center text-dark">登入帳號</h2>
             <div
               className={`alert alert-danger ${
                 loginState.message ? "d-block" : "d-none"
@@ -84,7 +84,7 @@ function UserLogin() {
                   登入
                 </button>
               </div>
-              <div className="mx-auto  border-top bg-white">
+              <div className="mx-auto  border-top">
                 <Link
                   className="col-6 btn btn-outline-secondary py-3 border-0 rounded-0"
                   to="/forgotpassword"
@@ -102,7 +102,7 @@ function UserLogin() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
