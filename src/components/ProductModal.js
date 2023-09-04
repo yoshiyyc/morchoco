@@ -131,7 +131,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                     />
                   </label>
                 </div>
-                <img src=" alt=" className="img-fluid" />
+                <img src="" alt="" className="img-fluid" />
               </div>
               <div className="col-sm-8">
                 <div className="form-group mb-2">

@@ -195,10 +195,13 @@ function Cart() {
               返回商品頁面
             </Link>
             <button
-              className="col col-sm-4 col-md-4 col-lg-3 btn btn-dark ms-sm-auto py-3 rounded-0"
+              className="col col-sm-4 col-md-4 col-lg-3 btn btn-dark ms-sm-auto p-0 border-0 rounded-0"
               disabled={cartData && cartData.carts && !cartData.carts.length}
             >
-              <Link className="text-decoration-none link-light" to="/checkout">
+              <Link
+                className="d-block m-0 py-3 text-decoration-none link-light"
+                to="/checkout"
+              >
                 立即結帳
               </Link>
             </button>

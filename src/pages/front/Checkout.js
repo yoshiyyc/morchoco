@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createAsyncMessage } from "../../slice/messageSlice";
-import { Input } from "../../components/FormElements";
+import { Input, Textarea } from "../../components/FormElements";
 import Loading from "../../components/Loading";
 
 function Checkout() {
@@ -15,12 +15,15 @@ function Checkout() {
     watch,
     getValues,
     control,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitSuccessful },
   } = useForm({
     mode: "onTouched",
+    defaultValues: { name: "", email: "", tel: "", address: "", message: "" },
   });
   const dispatch = useDispatch();
 
+  const [submittedData, setSubmittedData] = useState({});
   const [couponCode, setCouponCode] = useState("");
   const [currentCoupon, setCurrentCoupon] = useState("");
   const [discountedTotal, setDiscountedTotal] = useState(0);
@@ -45,11 +48,21 @@ function Checkout() {
     }
   }, [cartData]);
 
+  // Reset form and update cart num after form submission
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({ name: "", email: "", tel: "", address: "", message: "" });
+    }
+    getCart();
+  }, [isSubmitSuccessful, submittedData, reset]);
+
   const handleCouponChange = (e) => {
     setCouponCode(e.target.value);
   };
 
   const handleApplyCoupon = async (e) => {
+    setIsLoading(true);
+
     const data = {
       data: {
         code: couponCode,
@@ -62,12 +75,13 @@ function Checkout() {
         console.log("res", res);
 
         setDiscountedTotal(res.data.data.final_total);
-        dispatch(createAsyncMessage(res.data));
         setCouponCode("");
-        getCart();
+        setIsLoading(false);
+        dispatch(createAsyncMessage(res.data));
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
         dispatch(createAsyncMessage(error.response.data));
       });
   };
@@ -80,7 +94,9 @@ function Checkout() {
   };
 
   const onSubmit = async (data) => {
-    const { name, email, tel, address } = data;
+    setIsLoading(true);
+
+    const { name, email, tel, address, message } = data;
 
     const form = {
       data: {
@@ -90,16 +106,25 @@ function Checkout() {
           tel,
           address,
         },
-        message: "這是留言",
+        message: message,
       },
     };
 
-    const res = await axios.post(
-      `/v2/api/${process.env.REACT_APP_API_PATH}/order`,
-      form
-    );
-    console.log(res);
-    navigate(`/success/${res.data.orderId}`);
+    await axios
+      .post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`, form)
+      .then((res) => {
+        console.log(res);
+        setCouponCode("");
+        setSubmittedData(data);
+        setIsLoading(false);
+        dispatch(createAsyncMessage(res.data));
+        navigate(`/success/${res.data.orderId}`);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        dispatch(createAsyncMessage(error.response.data));
+      });
   };
 
   return (
@@ -108,12 +133,28 @@ function Checkout() {
         <Loading isLoading={isLoading} />
         <div className="row g-0 flex-column-reverse flex-md-row justify-content-center align-content-stretch">
           <form
-            className="col col-md-7 px-5 pb-5"
+            className="col col-md-7 px-5 pt-4 pb-5"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="p-4">
-              <h4 className="fw-bold">外送資料</h4>
-              <div className="mb-2">
+            <h2 className="h4 mb-4">配送資訊</h2>
+            <div>
+              <div className="mb-3">
+                <Input
+                  id="name"
+                  type="text"
+                  errors={errors}
+                  labelText="姓名"
+                  register={register}
+                  rules={{
+                    required: "姓名為必填",
+                    maxLength: {
+                      value: 10,
+                      message: "姓名長度不超過 10",
+                    },
+                  }}
+                ></Input>
+              </div>
+              <div className="mb-3">
                 <Input
                   id="email"
                   labelText="Email"
@@ -129,23 +170,7 @@ function Checkout() {
                   }}
                 ></Input>
               </div>
-              <div className="mb-2">
-                <Input
-                  id="name"
-                  type="text"
-                  errors={errors}
-                  labelText="使用者名稱"
-                  register={register}
-                  rules={{
-                    required: "使用者名稱為必填",
-                    maxLength: {
-                      value: 10,
-                      message: "使用者名稱長度不超過 10",
-                    },
-                  }}
-                ></Input>
-              </div>
-              <div className="mb-2">
+              <div className="mb-3">
                 <Input
                   id="tel"
                   labelText="電話"
@@ -165,7 +190,7 @@ function Checkout() {
                   }}
                 ></Input>
               </div>
-              <div className="mb-2">
+              <div className="mb-3">
                 <Input
                   id="address"
                   labelText="地址"
@@ -177,21 +202,33 @@ function Checkout() {
                   }}
                 ></Input>
               </div>
+              <div className="mb-3">
+                <Textarea
+                  id="message"
+                  labelText="留言"
+                  rows="5"
+                  errors={errors}
+                  register={register}
+                ></Textarea>
+              </div>
             </div>
-            <div className="d-flex flex-column-reverse flex-md-row mt-4 justify-content-between align-items-md-center align-items-end w-100">
-              <Link className="text-dark mt-md-0 mt-3" to="/cart">
-                <i className="bi bi-chevron-left me-2"></i> 繼續點餐
+            <div className="d-flex flex-column-reverse flex-sm-row flex-md-column-reverse flex-lg-row justify-content-between align-items-center w-100 mt-5">
+              <Link
+                className="col-12 col-sm-4 col-md-12 col-lg-3 btn btn-outline-secondary my-3 my-sm-0 my-md-3 my-lg-5 py-3 rounded-0"
+                to="/cart"
+              >
+                返回購物車
               </Link>
               <button
                 type="submit"
-                className="btn btn-dark py-3 px-7 rounded-0"
+                className="col-12 col-sm-4 col-md-12 col-lg-4 btn btn-dark ms-sm-auto py-3 border-0 rounded-0"
               >
                 送出表單
               </button>
             </div>
           </form>
-          <div className="col px-5 py-4 bg-light">
-            <h4 className="mb-4">選購餐點</h4>
+          <div className="col px-5 pt-4 pb-4 pb-md-5 bg-light">
+            <h3 className="h5 mb-4">購物車內容</h3>
             <div className="mb-5">
               {cartData?.carts?.map((item) => {
                 return (
@@ -226,11 +263,11 @@ function Checkout() {
                   優惠券
                   <br />
                   <small className="fw-normal text-muted">
-                    請確認所有商品都選購完畢才使用優惠券
+                    請確認所有商品都選購完畢後才使用優惠券
                   </small>
                 </label>
               </div>
-              <div className="col-9">
+              <div className="col-9 col-md-12 col-lg-9">
                 <input
                   id="coupon"
                   className="form-control"
@@ -240,7 +277,7 @@ function Checkout() {
                   onChange={handleCouponChange}
                 />
               </div>
-              <div className="col-3 p-0">
+              <div className="col-3 col-md-10 col-lg-3 mx-auto mt-md-3 mt-lg-0 p-0">
                 <button
                   type="button"
                   className="btn btn-dark d-block w-100"
@@ -257,7 +294,7 @@ function Checkout() {
                 </div>
               )}
             </div>
-            <div className="my-5">
+            <div className="mt-5 mb-4 my-md-5">
               <div className="d-flex justify-content-between mb-2">
                 <p className="mb-0">小計</p>
                 <p className="mb-0">NT$ {formatCurrency(cartData.total)}</p>
