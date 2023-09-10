@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
 import OrderModal from "../../components/OrderModal";
+import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
 
@@ -15,8 +16,13 @@ function AdminOrders() {
   const [tempOrder, setTempOrder] = useState({});
 
   const orderModal = useRef(null);
+  const deleteModal = useRef(null);
+
   useEffect(() => {
     orderModal.current = new Modal("#orderModal", {
+      backdrop: "static",
+    });
+    deleteModal.current = new Modal("#deleteModal", {
       backdrop: "static",
     });
 
@@ -26,12 +32,12 @@ function AdminOrders() {
   const getOrders = async (page = 1) => {
     setIsLoading(true);
 
-    const res = await axios.get(
+    const orderRes = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/admin/orders?page=${page}`
     );
-    console.log(res);
-    setOrders(res.data.orders);
-    setPagination(res.data.pagination);
+    console.log(orderRes);
+    setOrders(orderRes.data.orders);
+    setPagination(orderRes.data.pagination);
     setIsLoading(false);
   };
 
@@ -39,22 +45,51 @@ function AdminOrders() {
     setTempOrder(order);
     orderModal.current.show();
   };
-  const closeModal = () => {
-    setTempOrder({});
+
+  const closeOrderModal = () => {
+    setTempOrder({}); // ?check
     orderModal.current.hide();
+  };
+
+  const openDeleteModal = (order) => {
+    setTempOrder(order);
+    deleteModal.current.show();
+  };
+
+  const closeDeleteModal = () => {
+    deleteModal.current.hide();
+  };
+
+  const deleteOrder = async (id) => {
+    try {
+      const res = await axios.delete(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/admin/order/${id}`
+      );
+      if (res.data.success) {
+        getOrders();
+        deleteModal.current.hide();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="p-3">
       <Loading isLoading={isLoading} />
       <OrderModal
-        closeModal={closeModal}
+        closeModal={closeOrderModal}
         getOrders={getOrders}
         tempOrder={tempOrder}
       />
+      <DeleteModal
+        close={closeDeleteModal}
+        text={tempOrder.title}
+        handleDelete={deleteOrder}
+        id={tempOrder.id}
+      />
       <h3>訂單列表</h3>
       <hr />
-
       <table className="table">
         <thead>
           <tr>
@@ -73,10 +108,7 @@ function AdminOrders() {
             return (
               <tr key={order.id}>
                 <td>{order.id}</td>
-                <td>
-                  {order.user?.name}
-                  {order.user?.email}
-                </td>
+                <td>{order.user?.name}</td>
                 <td>${order.total}</td>
                 <td>
                   {order.is_paid ? (
@@ -101,6 +133,13 @@ function AdminOrders() {
                     }}
                   >
                     查看
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger btn-sm ms-2"
+                    onClick={() => openDeleteModal(order)}
+                  >
+                    刪除
                   </button>
                 </td>
               </tr>

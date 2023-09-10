@@ -1,6 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Grid } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/grid";
+import "../../stylesheets/_swiper.scss";
 import Loading from "../../components/Loading";
 import flour from "../../img/flour.png";
 import baker from "../../img/baker.png";
@@ -9,8 +15,11 @@ import takeaway from "../../img/take-away.png";
 
 function Home() {
   const [products, setProducts] = useState([]);
-  const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   const getProducts = async (page = 1) => {
     setIsLoading(true);
@@ -22,13 +31,36 @@ function Home() {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    getProducts();
-  }, []);
+  // Swiper
+  const swiperEventRef = useRef();
+  const swiperPopularRef = useRef();
+
+  const SlidePrevButton = ({ swiperRef }) => {
+    return (
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() => swiperRef.current.slidePrev()}
+      >
+        <i className="bi bi-chevron-left"></i>
+      </button>
+    );
+  };
+
+  const SlideNextButton = ({ swiperRef }) => {
+    return (
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() => swiperRef.current.slideNext()}
+      >
+        <i className="bi bi-chevron-right"></i>
+      </button>
+    );
+  };
 
   return (
     <>
-      <section className="d-block container">
+      <section className="d-block container mb-5">
+        <Loading isLoading={isLoading} />
         <div
           className="d-flex align-items-center px-4"
           style={{
@@ -47,20 +79,133 @@ function Home() {
           </h2>
         </div>
       </section>
-      <section className="container py-4">
-        <h4 className="my-5 text-center text-dark">活動專區</h4>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 mt-5">
-          {products
-            .filter((product, index) => {
-              return product.origin_price !== product.price && index < 5;
-            })
-            .map((product) => {
+      <section className="container py-5">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <SlidePrevButton swiperRef={swiperEventRef} />
+          <h4 className="text-center text-dark">活動專區</h4>
+          <SlideNextButton swiperRef={swiperEventRef} />
+        </div>
+        <div>
+          <Swiper
+            onSwiper={(swiper) => {
+              swiperEventRef.current = swiper;
+            }}
+            modules={[Navigation]}
+            slidesPerView={1}
+            spaceBetween={24}
+            breakpoints={{
+              992: {
+                slidesPerView: 5,
+              },
+              768: {
+                slidesPerView: 4,
+              },
+              350: {
+                slidesPerView: 2,
+              },
+            }}
+          >
+            {products
+              .filter((product) => {
+                return product.origin_price !== product.price;
+              })
+              .map((product) => {
+                return (
+                  <SwiperSlide key={product.id}>
+                    <div className="card mb-4 mb-sm-0 border-0">
+                      <img
+                        src={product.imageUrl}
+                        className="card-img-top rounded-0 object-cover"
+                        height={225}
+                        alt={product.title}
+                      />
+                      <div className="card-body p-0">
+                        <h6 className="mb-0 mt-2">
+                          <Link
+                            className="stretched-link text-decoration-none"
+                            to={`/product/${product.id}`}
+                          >
+                            {product.title}
+                          </Link>
+                        </h6>
+                        {product.price === product.origin_price ? (
+                          <p className="text-muted mt-1 mb-0">
+                            NT$ {product.price}
+                          </p>
+                        ) : (
+                          <div className="d-flex">
+                            <p className="text-danger mt-1 mb-0">
+                              NT$ {product.price}
+                            </p>
+                            <p className="text-decoration-line-through text-muted mt-1 ms-2 mb-0">
+                              NT$ {product.origin_price}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
+            <SwiperSlide>
+              <div className="card mb-4 bg-light border-0 rounded-0">
+                <Link
+                  className="stretched-link text-decoration-none"
+                  to={`/products`}
+                >
+                  <div
+                    className="d-flex justify-content-center align-items-center text-center text-primary rounded-0 "
+                    style={{ height: "225px" }}
+                  >
+                    <h6 className="mb-0">查看更多商品</h6>
+                    <i className="d-block bi bi-arrow-right ms-2" />
+                  </div>
+                </Link>
+              </div>
+            </SwiperSlide>
+          </Swiper>
+        </div>
+      </section>
+      <section className="container py-5">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <SlidePrevButton swiperRef={swiperPopularRef} />
+          <h4 className="text-center text-dark">人氣甜點</h4>
+          <SlideNextButton swiperRef={swiperPopularRef} />
+        </div>
+        <div>
+          <Swiper
+            onSwiper={(swiper) => {
+              swiperPopularRef.current = swiper;
+            }}
+            modules={[Navigation, Grid]}
+            slidesPerView={1}
+            grid={{
+              rows: 2,
+              fill: "row",
+            }}
+            spaceBetween={24}
+            breakpoints={{
+              992: {
+                slidesPerView: 5,
+                slidesPerGroup: 5,
+              },
+              768: {
+                slidesPerView: 4,
+                slidesPerGroup: 4,
+              },
+              350: {
+                slidesPerView: 2,
+                slidesPerGroup: 2,
+              },
+            }}
+          >
+            {products.map((product) => {
               return (
-                <div className="col" key={product.id}>
-                  <div className="card border-0 mb-4">
+                <SwiperSlide key={product.id}>
+                  <div className="card mb-4 mb-sm-0 border-0">
                     <img
                       src={product.imageUrl}
-                      className="card-img-top rounded-0 object-cover"
+                      className="card-img-top rounded-0"
                       height={225}
                       alt={product.title}
                     />
@@ -87,48 +232,26 @@ function Home() {
                       )}
                     </div>
                   </div>
-                </div>
+                </SwiperSlide>
               );
             })}
-        </div>
-      </section>
-      <section className="container py-4">
-        <h4 className="my-5 text-center text-dark">人氣甜點</h4>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-5 mt-5">
-          {products.map((product) => {
-            return (
-              <div className="col" key={product.id}>
-                <div className="card border-0 mb-4">
-                  <img
-                    src={product.imageUrl}
-                    className="card-img-top rounded-0 object-cover"
-                    height={225}
-                    alt={product.title}
-                  />
-                  <div className="card-body p-0">
-                    <h6 className="mb-0 mt-2">
-                      <Link
-                        className="stretched-link text-decoration-none"
-                        to={`/product/${product.id}`}
-                      >
-                        {product.title}
-                      </Link>
-                    </h6>
-                    {product.price === product.origin_price ? (
-                      <p className="text-muted mt-1">NT$ {product.price}</p>
-                    ) : (
-                      <div className="d-flex">
-                        <p className="text-danger mt-1">NT$ {product.price}</p>
-                        <p className="text-decoration-line-through text-muted mt-1 ms-2">
-                          NT$ {product.origin_price}
-                        </p>
-                      </div>
-                    )}
+            <SwiperSlide>
+              <div className="card mb-4 bg-light border-0 rounded-0">
+                <Link
+                  className="stretched-link text-decoration-none"
+                  to={`/products`}
+                >
+                  <div
+                    className="d-flex justify-content-center align-items-center text-center text-primary rounded-0 "
+                    style={{ height: "225px" }}
+                  >
+                    <h6 className="mb-0">查看更多商品</h6>
+                    <i className="d-block bi bi-arrow-right ms-2" />
                   </div>
-                </div>
+                </Link>
               </div>
-            );
-          })}
+            </SwiperSlide>
+          </Swiper>
         </div>
       </section>
       <section className="container py-4">
@@ -238,8 +361,8 @@ function Home() {
       <section className="mt-5 bg-light">
         <div className="container py-4">
           <h4 className="my-4 text-center text-dark">選擇 Morchoco</h4>
-          <ul className="row my-4 list-unstyled text-secondary">
-            <li className="col-md-3">
+          <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-4 my-4 list-unstyled text-secondary">
+            <li className="col">
               <div className="card d-flex my-4 bg-transparent border-0">
                 <img
                   src={flour}
@@ -253,7 +376,7 @@ function Home() {
                 <h6 className="card-title text-center mt-4">嚴選食材</h6>
               </div>
             </li>
-            <li className="col-md-3">
+            <li className="col">
               <div className="card d-flex my-4 bg-transparent border-0">
                 <img
                   src={baker}
@@ -267,7 +390,7 @@ function Home() {
                 <h6 className="card-title text-center mt-4">職人手作</h6>
               </div>
             </li>
-            <li className="col-md-3">
+            <li className="col">
               <div className="card d-flex my-4 bg-transparent border-0">
                 <img
                   src={delicious}
@@ -281,7 +404,7 @@ function Home() {
                 <h6 className="card-title text-center mt-4">精緻美味</h6>
               </div>
             </li>
-            <li className="col-md-3">
+            <li className="col">
               <div className="card d-flex my-4 bg-transparent border-0">
                 <img
                   src={takeaway}

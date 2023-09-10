@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { createAsyncMessage } from "../../slice/messageSlice";
 import axios from "axios";
+import { createAsyncMessage } from "../../slice/messageSlice";
+import { formatCurrency } from "../../utilities/utils";
 import Loading from "../../components/Loading";
 
 function Cart() {
@@ -63,12 +64,6 @@ function Cart() {
     setIsLoading(false);
   };
 
-  // Utility
-  const formatCurrency = (value) => {
-    // If the number exists, format it so price has a comma for every 3 digits
-    return value && value.toLocaleString();
-  };
-
   // Components
   const CartContent = ({ cartData }) => {
     return cartData?.carts?.map((item) => {
@@ -82,7 +77,7 @@ function Cart() {
               <img
                 src={item.product.imageUrl}
                 alt={item.product.title}
-                className="object-cover me-2"
+                className="me-2"
                 style={{
                   width: "80px",
                   height: "80px",

@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createAsyncMessage } from "../../slice/messageSlice";
+import { formatCurrency } from "../../utilities/utils";
 import { Input, Textarea } from "../../components/FormElements";
 import Loading from "../../components/Loading";
 
@@ -84,13 +85,6 @@ function Checkout() {
         setIsLoading(false);
         dispatch(createAsyncMessage(error.response.data));
       });
-  };
-
-  const formatCurrency = (value) => {
-    // If the number exists
-    // If there is decimal, take the higher integer
-    // Format it so price has a comma for every 3 digits
-    return value && Math.ceil(value).toLocaleString();
   };
 
   const onSubmit = async (data) => {
