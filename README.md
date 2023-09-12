@@ -4,9 +4,14 @@
   
 |--------------------------|
 ### [>> Demo <<](https://yoshiyyc.github.io/morchoco/)
+**Admin Page**
+
 Username: yoshi.wind.wing@gmail.com  
 
 Password: 123456   
+
+(User account page not available)  
+
 |--------------------------|　    
 
 　 
