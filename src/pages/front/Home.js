@@ -254,13 +254,13 @@ function Home() {
           </Swiper>
         </div>
       </section>
-      <section className="container py-4">
-        <h4 className="my-5 text-center text-dark">更多品項</h4>
-        <div className="row">
+      <section className="container py-5">
+        <h4 className="mb-4 text-center text-dark">更多品項</h4>
+        <div className="row g-4">
           <div className="col-4 d-flex flex-column">
-            <div className="row flex-column flex-fill">
+            <div className="row g-3 flex-column flex-fill">
               <Link
-                className="col d-flex p-0"
+                className="col p-0 text-decoration-none"
                 style={{
                   backgroundImage:
                     "url(https://images.unsplash.com/photo-1610611424854-5e07032143d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80)",
@@ -270,15 +270,14 @@ function Home() {
                 }}
                 to={`/products/手工小點`}
               >
-                <p
-                  className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
-                  style={{ boxShadow: "0px 0px 10px white" }}
-                >
-                  手工小點
+                <p className="d-flex w-100 h-100 text-light">
+                  <span className="d-block mb-auto px-4 py-3 bg-dark">
+                    手工小點
+                  </span>
                 </p>
               </Link>
               <Link
-                className="col d-flex p-0"
+                className="col p-0 text-decoration-none"
                 style={{
                   backgroundImage:
                     "url(https://images.unsplash.com/photo-1481391032119-d89fee407e44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80)",
@@ -288,38 +287,38 @@ function Home() {
                 }}
                 to={`/products/飲品`}
               >
-                <p
-                  className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
-                  style={{ boxShadow: "0px 0px 10px white" }}
-                >
-                  飲品
+                <p className="d-flex w-100 text-light">
+                  <span className="d-block mb-auto px-4 py-3 bg-dark">
+                    飲品
+                  </span>
                 </p>
               </Link>
             </div>
           </div>
-          <Link
-            className="col-4 d-flex"
-            style={{
-              height: 300,
-              backgroundImage:
-                "url(https://images.unsplash.com/photo-1505253149613-112d21d9f6a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
-              backgroundPosition: "center center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-            }}
-            to={`/products/六吋蛋糕`}
-          >
-            <p
-              className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
-              style={{ boxShadow: "0px 0px 10px white" }}
+          <div className="col">
+            <Link
+              className="d-block p-0 text-decoration-none"
+              style={{
+                height: 300,
+                backgroundImage:
+                  "url(https://images.unsplash.com/photo-1505253149613-112d21d9f6a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
+                backgroundPosition: "center center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+              }}
+              to={`/products/六吋蛋糕`}
             >
-              六吋蛋糕
-            </p>
-          </Link>
+              <p className="d-flex w-100 text-light">
+                <span className="d-block mb-auto px-4 py-3 bg-dark">
+                  六吋蛋糕
+                </span>
+              </p>
+            </Link>
+          </div>
           <div className="col-4 d-flex flex-column">
-            <div className="row flex-column flex-fill">
+            <div className="row g-3 flex-column flex-fill">
               <Link
-                className="col d-flex p-0"
+                className="col p-0 text-decoration-none"
                 style={{
                   backgroundImage:
                     "url(https://images.unsplash.com/photo-1624001934657-640af7e2c599?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
@@ -329,15 +328,14 @@ function Home() {
                 }}
                 to={`/products/小蛋糕`}
               >
-                <p
-                  className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
-                  style={{ boxShadow: "0px 0px 10px white" }}
-                >
-                  小蛋糕
+                <p className="d-flex w-100 text-light">
+                  <span className="d-block mb-auto px-4 py-3 bg-dark">
+                    小蛋糕
+                  </span>
                 </p>
               </Link>
               <Link
-                className="col d-flex p-0"
+                className="col p-0 text-decoration-none"
                 style={{
                   backgroundImage:
                     "url(https://images.unsplash.com/photo-1553452118-621e1f860f43?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
@@ -347,11 +345,10 @@ function Home() {
                 }}
                 to={`/products/純巧克力`}
               >
-                <p
-                  className="mx-auto my-auto w-50 py-5 fw-bold h5 text-center text-primary bg-light rounded bg-opacity-50"
-                  style={{ boxShadow: "0px 0px 10px white" }}
-                >
-                  純巧克力
+                <p className="d-flex w-100 text-light">
+                  <span className="d-block mb-auto px-4 py-3 bg-dark">
+                    純巧克力
+                  </span>
                 </p>
               </Link>
             </div>

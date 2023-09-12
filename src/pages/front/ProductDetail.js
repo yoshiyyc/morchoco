@@ -1,12 +1,19 @@
-import { useEffect, useState } from "react";
-import { useOutletContext, useParams } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { useOutletContext, useParams, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/grid";
+import "../../stylesheets/_swiper.scss";
 import { createAsyncMessage } from "../../slice/messageSlice";
 import Loading from "../../components/Loading";
 
 function ProductDetail() {
   const [product, setProduct] = useState({});
+  const [products, setProducts] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
@@ -15,17 +22,27 @@ function ProductDetail() {
 
   useEffect(() => {
     getProduct(id);
+    getProducts();
   }, [id]);
 
   const getProduct = async (id) => {
     setIsLoading(true);
-    const productRes = await axios
-      .get(`/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`)
-      .then((response) => {
-        return response;
-      });
+    const productRes = await axios.get(
+      `/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`
+    );
 
+    console.log(productRes);
     setProduct(productRes.data.product);
+    setIsLoading(false);
+  };
+
+  const getProducts = async (page = 1) => {
+    setIsLoading(true);
+    const productRes = await axios.get(
+      `/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`
+    );
+
+    setProducts(productRes.data.products);
     setIsLoading(false);
   };
 
@@ -54,6 +71,43 @@ function ProductDetail() {
     }
   };
 
+  const prioritizeCategoryMenu = (products) => {
+    const sameCategoryProducts = products.filter((i) => {
+      return i.category === product.category;
+    });
+
+    const diffCategoryProducts = products.filter((i) => {
+      return i.category !== product.category;
+    });
+
+    return [...sameCategoryProducts, ...diffCategoryProducts];
+  };
+
+  // Swiper
+  const swiperRef = useRef();
+
+  const SlidePrevButton = ({ swiperRef }) => {
+    return (
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() => swiperRef.current.slidePrev()}
+      >
+        <i className="bi bi-chevron-left"></i>
+      </button>
+    );
+  };
+
+  const SlideNextButton = ({ swiperRef }) => {
+    return (
+      <button
+        className="btn btn-sm btn-outline-primary"
+        onClick={() => swiperRef.current.slideNext()}
+      >
+        <i className="bi bi-chevron-right"></i>
+      </button>
+    );
+  };
+
   return (
     <div className="container pb-5">
       <Loading isLoading={isLoading} />
@@ -67,7 +121,7 @@ function ProductDetail() {
           backgroundSize: "cover",
         }}
       ></div> */}
-      <div className="row justify-content-between gx-5 mt-4 mb-7">
+      <section className="row justify-content-between gx-5 mt-4 mb-7">
         <div className="col-md-6">
           <div className="d-flex bg-light">
             <img
@@ -135,13 +189,109 @@ function ProductDetail() {
             加入購物車
           </button>
         </div>
-      </div>
-      <div className="">
+      </section>
+      <section className="py-4">
         <h3 className="mb-3 ps-3 text-dark border-start border-5 border-primary">
           商品介紹
         </h3>
         <p className="json-new-line mb-4">{product.content}</p>
-      </div>
+      </section>
+      <section className="py-4">
+        <div className="mb-4">
+          <h3 className="mb-3 ps-3 text-dark border-start border-5 border-primary">
+            其他商品
+          </h3>
+        </div>
+        <div className="d-flex justify-content-between align-items-center">
+          <SlidePrevButton swiperRef={swiperRef} />
+          <div className="w-100">
+            <Swiper
+              className="mx-4 mt-2"
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              modules={[Navigation]}
+              slidesPerView={1}
+              spaceBetween={24}
+              breakpoints={{
+                992: {
+                  slidesPerView: 5,
+                },
+                768: {
+                  slidesPerView: 4,
+                },
+                350: {
+                  slidesPerView: 2,
+                },
+              }}
+            >
+              {prioritizeCategoryMenu(products)
+                .filter((i) => {
+                  return i.id !== product.id;
+                })
+                .filter((i, index) => {
+                  return index < 10;
+                })
+                .map((product) => {
+                  return (
+                    <SwiperSlide key={product.id}>
+                      <div className="card mb-4 mb-sm-0 border-0">
+                        <img
+                          src={product.imageUrl}
+                          className="card-img-top rounded-0 object-cover"
+                          height={225}
+                          alt={product.title}
+                        />
+                        <div className="card-body p-0">
+                          <h6 className="mb-0 mt-2">
+                            <Link
+                              className="stretched-link text-decoration-none"
+                              to={`/product/${product.id}`}
+                            >
+                              {product.title}
+                            </Link>
+                          </h6>
+                          {product.price === product.origin_price ? (
+                            <p className="text-muted mt-1 mb-0">
+                              NT$ {product.price}
+                            </p>
+                          ) : (
+                            <div className="d-flex">
+                              <p className="text-danger mt-1 mb-0">
+                                NT$ {product.price}
+                              </p>
+                              <p className="text-decoration-line-through text-muted mt-1 ms-2 mb-0">
+                                NT$ {product.origin_price}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
+              {}
+              <SwiperSlide>
+                <div className="card mb-4 bg-light border-0 rounded-0">
+                  <Link
+                    className="stretched-link text-decoration-none"
+                    to={`/products`}
+                  >
+                    <div
+                      className="d-flex justify-content-center align-items-center text-center text-primary rounded-0 "
+                      style={{ height: "225px" }}
+                    >
+                      <h6 className="mb-0">查看更多商品</h6>
+                      <i className="d-block bi bi-arrow-right ms-2" />
+                    </div>
+                  </Link>
+                </div>
+              </SwiperSlide>
+            </Swiper>
+          </div>
+          <SlideNextButton swiperRef={swiperRef} />
+        </div>
+      </section>
     </div>
   );
 }
