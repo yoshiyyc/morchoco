@@ -64,6 +64,14 @@ function Navbar({ cartData }) {
               </li>
               <li className="nav-item">
                 <NavLink
+                  className="nav-link btn btn-outline-secondary border-0 rounded-0 px-4"
+                  to="/delivery"
+                >
+                  宅配須知
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
                   className={`nav-link btn btn-outline-secondary border-0 rounded-0 px-4 ${
                     (location.pathname === "/createaccount" ||
                       location.pathname === "/forgotpassword") &&

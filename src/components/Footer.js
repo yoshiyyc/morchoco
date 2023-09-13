@@ -116,9 +116,12 @@ function Footer() {
                   </NavLink>
                 </li>
                 <li className="my-2">
-                  <a className="text-decoration-none link-light" href="#">
-                    宅配協助
-                  </a>
+                  <NavLink
+                    className="text-decoration-none link-light"
+                    to="/delivery"
+                  >
+                    宅配須知
+                  </NavLink>
                 </li>
                 <li className="my-2">
                   <NavLink to="/credits" className="nav-link link-warning">
