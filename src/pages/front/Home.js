@@ -12,6 +12,7 @@ import flour from "../../img/flour.png";
 import baker from "../../img/baker.png";
 import delicious from "../../img/spaghetti.png";
 import takeaway from "../../img/take-away.png";
+import ProductCard from "../../components/ProductCard";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -112,38 +113,7 @@ function Home() {
               .map((product) => {
                 return (
                   <SwiperSlide key={product.id}>
-                    <div className="card mb-4 mb-sm-0 border-0">
-                      <img
-                        src={product.imageUrl}
-                        className="card-img-top rounded-0 object-cover"
-                        height={225}
-                        alt={product.title}
-                      />
-                      <div className="card-body p-0">
-                        <h6 className="mb-0 mt-2">
-                          <Link
-                            className="stretched-link text-decoration-none"
-                            to={`/product/${product.id}`}
-                          >
-                            {product.title}
-                          </Link>
-                        </h6>
-                        {product.price === product.origin_price ? (
-                          <p className="text-muted mt-1 mb-0">
-                            NT$ {product.price}
-                          </p>
-                        ) : (
-                          <div className="d-flex">
-                            <p className="text-danger mt-1 mb-0">
-                              NT$ {product.price}
-                            </p>
-                            <p className="text-decoration-line-through text-muted mt-1 ms-2 mb-0">
-                              NT$ {product.origin_price}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                    <ProductCard className="mb-4 mb-sm-0" product={product} />
                   </SwiperSlide>
                 );
               })}
@@ -202,36 +172,7 @@ function Home() {
             {products.map((product) => {
               return (
                 <SwiperSlide key={product.id}>
-                  <div className="card mb-4 mb-sm-0 border-0">
-                    <img
-                      src={product.imageUrl}
-                      className="card-img-top rounded-0"
-                      height={225}
-                      alt={product.title}
-                    />
-                    <div className="card-body p-0">
-                      <h6 className="mb-0 mt-2">
-                        <Link
-                          className="stretched-link text-decoration-none"
-                          to={`/product/${product.id}`}
-                        >
-                          {product.title}
-                        </Link>
-                      </h6>
-                      {product.price === product.origin_price ? (
-                        <p className="text-muted mt-1">NT$ {product.price}</p>
-                      ) : (
-                        <div className="d-flex">
-                          <p className="text-danger mt-1">
-                            NT$ {product.price}
-                          </p>
-                          <p className="text-decoration-line-through text-muted mt-1 ms-2">
-                            NT$ {product.origin_price}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  <ProductCard className="mb-4 mb-sm-0" product={product} />
                 </SwiperSlide>
               );
             })}

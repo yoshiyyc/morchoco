@@ -12,6 +12,7 @@ import ForgotPassword from "./pages/front/ForgotPassword";
 import Products from "./pages/front/Products";
 import ProductDetail from "./pages/front/ProductDetail";
 import Delivery from "./pages/front/Delivery";
+import About from "./pages/front/About";
 import Cart from "./pages/front/Cart";
 import Checkout from "./pages/front/Checkout";
 import OrderSuccess from "./pages/front/OrderSuccess";
@@ -30,6 +31,7 @@ function App() {
           <Route path="products/:category" element={<Products />} />
           <Route path="product/:id" element={<ProductDetail />} />
           <Route path="delivery" element={<Delivery />} />
+          <Route path="about" element={<About />} />
           <Route path="cart" element={<Cart />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="success/:orderId" element={<OrderSuccess />} />

@@ -10,6 +10,7 @@ import "swiper/css/grid";
 import "../../stylesheets/_swiper.scss";
 import { createAsyncMessage } from "../../slice/messageSlice";
 import Loading from "../../components/Loading";
+import ProductCard from "../../components/ProductCard";
 
 function ProductDetail() {
   const [product, setProduct] = useState({});
@@ -274,38 +275,7 @@ function ProductDetail() {
                 .map((product) => {
                   return (
                     <SwiperSlide key={product.id}>
-                      <div className="card mb-4 mb-sm-0 border-0">
-                        <img
-                          src={product.imageUrl}
-                          className="card-img-top rounded-0 object-cover"
-                          height={225}
-                          alt={product.title}
-                        />
-                        <div className="card-body p-0">
-                          <h6 className="mb-0 mt-2">
-                            <Link
-                              className="stretched-link text-decoration-none"
-                              to={`/product/${product.id}`}
-                            >
-                              {product.title}
-                            </Link>
-                          </h6>
-                          {product.price === product.origin_price ? (
-                            <p className="text-muted mt-1 mb-0">
-                              NT$ {product.price}
-                            </p>
-                          ) : (
-                            <div className="d-flex">
-                              <p className="text-danger mt-1 mb-0">
-                                NT$ {product.price}
-                              </p>
-                              <p className="text-decoration-line-through text-muted mt-1 ms-2 mb-0">
-                                NT$ {product.origin_price}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <ProductCard className="mb-4 mb-sm-0" product={product} />
                     </SwiperSlide>
                   );
                 })}

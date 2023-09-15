@@ -1,0 +1,32 @@
+.product-card {
+  height: 285px;
+  transition: all 0.2s linear;
+
+  .card-body {
+    flex: 0 0 auto;
+  }
+
+  &__img {
+    height: 225px;
+    object-fit: cover;
+    overflow: hidden;
+    transition: all 0.2s linear;
+  }
+
+  .card-footer {
+    visibility: hidden;
+  }
+}
+
+.product-card:hover {
+  & .product-card {
+    &__img {
+      height: 170px;
+      transition: all 0.2s linear;
+    }
+  }
+
+  .card-footer {
+    visibility: visible;
+  }
+}

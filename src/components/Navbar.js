@@ -4,7 +4,7 @@ function Navbar({ cartData }) {
   const location = useLocation();
 
   return (
-    <header className="bg-white">
+    <header className="bg-white sticky-top">
       <div className="container">
         <nav className="navbar p-0 navbar-expand-md navbar-light d-flex flex-column justify-content-between">
           <div className="d-flex position-relative w-100">
@@ -60,6 +60,14 @@ function Navbar({ cartData }) {
                   to="/products"
                 >
                   所有甜點
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link btn btn-outline-secondary border-0 rounded-0 px-4"
+                  to="/about"
+                >
+                  關於我們
                 </NavLink>
               </li>
               <li className="nav-item">

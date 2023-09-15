@@ -3,6 +3,7 @@ import { Link, useParams, NavLink } from "react-router-dom";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
+import ProductCard from "../../components/ProductCard";
 
 function Products() {
   const { category } = useParams();
@@ -90,38 +91,7 @@ function Products() {
                 productList.map((product) => {
                   return (
                     <div className="col-7 " key={product.id}>
-                      <div className="card border-0 mb-4">
-                        <img
-                          src={product.imageUrl}
-                          className="card-img-top rounded-0 object-cover"
-                          height={225}
-                          alt={product.title}
-                        />
-                        <div className="card-body p-0">
-                          <h6 className="mb-0 mt-2">
-                            <Link
-                              className="stretched-link text-decoration-none"
-                              to={`/product/${product.id}`}
-                            >
-                              {product.title}
-                            </Link>
-                          </h6>
-                          {product.price === product.origin_price ? (
-                            <p className="text-muted mt-1">
-                              NT$ {product.price}
-                            </p>
-                          ) : (
-                            <div className="d-flex">
-                              <p className="text-danger mt-1">
-                                NT$ {product.price}
-                              </p>
-                              <p className="text-decoration-line-through text-muted mt-1 ms-2">
-                                NT$ {product.origin_price}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <ProductCard className="mb-4" product={product} />
                     </div>
                   );
                 })
