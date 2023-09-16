@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/morchoco/static/css/main.b7fd6cd0.css",
-    "main.js": "/morchoco/static/js/main.3ba1de4d.js",
+    "main.css": "/morchoco/static/css/main.ab724d95.css",
+    "main.js": "/morchoco/static/js/main.5208e8d7.js",
     "static/media/bootstrap-icons.woff?": "/morchoco/static/media/bootstrap-icons.4753c5ba57962b4d7bf8.woff",
     "static/media/bootstrap-icons.woff2?": "/morchoco/static/media/bootstrap-icons.6d63d0501e5ed7b79dab.woff2",
     "static/media/flour.png": "/morchoco/static/media/flour.0da3786d62d0c153e813.png",
@@ -9,11 +9,11 @@
     "static/media/baker.png": "/morchoco/static/media/baker.593e2128f7de03b7363a.png",
     "static/media/take-away.png": "/morchoco/static/media/take-away.974b4f032f4edf434ce7.png",
     "index.html": "/morchoco/index.html",
-    "main.b7fd6cd0.css.map": "/morchoco/static/css/main.b7fd6cd0.css.map",
-    "main.3ba1de4d.js.map": "/morchoco/static/js/main.3ba1de4d.js.map"
+    "main.ab724d95.css.map": "/morchoco/static/css/main.ab724d95.css.map",
+    "main.5208e8d7.js.map": "/morchoco/static/js/main.5208e8d7.js.map"
   },
   "entrypoints": [
-    "static/css/main.b7fd6cd0.css",
-    "static/js/main.3ba1de4d.js"
+    "static/css/main.ab724d95.css",
+    "static/js/main.5208e8d7.js"
   ]
 }
