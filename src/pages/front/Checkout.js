@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useOutletContext, useNavigate } from "react-router-dom";
+import { Link, useOutletContext, useNavigate, NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { formatCurrency } from "../../utilities/utils";
 import { Input, Textarea } from "../../components/FormElements";
 import Loading from "../../components/Loading";
 
-function Checkout() {
+const Checkout = () => {
   const { cartData, getCart } = useOutletContext();
   const {
     register,
@@ -123,14 +123,33 @@ function Checkout() {
 
   return (
     <div className="bg-white">
+      <Loading isLoading={isLoading} />
+      <section className="container">
+        <nav aria-label="breadcrumb p-0">
+          <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
+            <li className="breadcrumb-item">
+              <NavLink className="text-decoration-none link-dark" to="/">
+                <i className="bi bi-house-fill"></i>
+              </NavLink>
+            </li>
+            <li className="breadcrumb-item">
+              <NavLink className="text-decoration-none link-dark" to="/cart">
+                購物車
+              </NavLink>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              結帳
+            </li>
+          </ol>
+        </nav>
+      </section>
       <div className="container">
-        <Loading isLoading={isLoading} />
         <div className="row g-0 flex-column-reverse flex-md-row justify-content-center align-content-stretch">
           <form
             className="col col-md-7 px-5 pt-4 pb-5"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h2 className="h4 mb-4">配送資訊</h2>
+            <h2 className="h4 mb-4 text-dark">配送資訊</h2>
             <div>
               <div className="mb-3">
                 <Input
@@ -138,6 +157,8 @@ function Checkout() {
                   type="text"
                   errors={errors}
                   labelText="姓名"
+                  placeholder="例：林小明"
+                  required={true}
                   register={register}
                   rules={{
                     required: "姓名為必填",
@@ -153,6 +174,8 @@ function Checkout() {
                   id="email"
                   labelText="Email"
                   type="email"
+                  placeholder="例：xxx@example.com"
+                  required={true}
                   errors={errors}
                   register={register}
                   rules={{
@@ -169,6 +192,8 @@ function Checkout() {
                   id="tel"
                   labelText="電話"
                   type="tel"
+                  placeholder="例：0987654321"
+                  required={true}
                   errors={errors}
                   register={register}
                   rules={{
@@ -189,8 +214,10 @@ function Checkout() {
                   id="address"
                   labelText="地址"
                   type="address"
+                  placeholder="例：◯◯市◯◯區◯◯路◯◯樓◯◯號"
                   errors={errors}
                   register={register}
+                  required={true}
                   rules={{
                     required: "地址為必填",
                   }}
@@ -200,6 +227,7 @@ function Checkout() {
                 <Textarea
                   id="message"
                   labelText="留言"
+                  placeholder="請輸入希望配送時段或其他備註"
                   rows="5"
                   errors={errors}
                   register={register}
@@ -222,7 +250,7 @@ function Checkout() {
             </div>
           </form>
           <div className="col px-5 pt-4 pb-4 pb-md-5 bg-light">
-            <h3 className="h5 mb-4">購物車內容</h3>
+            <h3 className="h5 mb-4 text-dark">購物車內容</h3>
             <div className="mb-5">
               {cartData?.carts?.map((item) => {
                 return (
@@ -322,6 +350,6 @@ function Checkout() {
       </div>
     </div>
   );
-}
+};
 
 export default Checkout;

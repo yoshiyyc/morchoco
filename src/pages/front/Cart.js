@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { Link, useOutletContext, NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { createAsyncMessage } from "../../slice/messageSlice";
 import { formatCurrency } from "../../utilities/utils";
 import Loading from "../../components/Loading";
 
-function Cart() {
+const Cart = () => {
   const { cartData, getCart } = useOutletContext();
   const [loadingItems, setLoadingItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -138,10 +138,24 @@ function Cart() {
 
   return (
     <>
-      <div className="container pb-5">
+      <Loading isLoading={isLoading} />
+      <section className="container">
+        <nav aria-label="breadcrumb p-0">
+          <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
+            <li className="breadcrumb-item">
+              <NavLink className="text-decoration-none link-dark" to="/">
+                <i className="bi bi-house-fill"></i>
+              </NavLink>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              購物車
+            </li>
+          </ol>
+        </nav>
+      </section>
+      <div className="container pt-4 pb-5">
         <div className="col-9 mx-auto">
-          <h2 className="h3 my-5 text-center text-dark">購物車內容</h2>
-          <Loading isLoading={isLoading} />
+          <h2 className="h3 mt-4 mb-5 text-center text-dark">購物車內容</h2>
           <div className="table-responsive">
             <table className="col-9 table table-borderless align-middle">
               <thead className="bg-light">
@@ -205,6 +219,6 @@ function Cart() {
       </div>
     </>
   );
-}
+};
 
 export default Cart;

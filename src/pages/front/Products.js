@@ -5,7 +5,7 @@ import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
 import ProductCard from "../../components/ProductCard";
 
-function Products() {
+const Products = () => {
   const { category } = useParams();
 
   const [productList, setProductList] = useState([]);
@@ -61,9 +61,23 @@ function Products() {
 
   return (
     <>
-      <section className="container mt-md-5 mt-3 mb-7">
-        <Loading isLoading={isLoading} />
-        <div className="row flex-column flex-md-row align-items-center align-items-md-start gx-5">
+      <Loading isLoading={isLoading} />
+      <section className="container">
+        <nav aria-label="breadcrumb p-0">
+          <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
+            <li className="breadcrumb-item">
+              <NavLink className="text-decoration-none link-dark" to="/">
+                <i className="bi bi-house-fill"></i>
+              </NavLink>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              所有甜點
+            </li>
+          </ol>
+        </nav>
+      </section>
+      <section className="container pt-3 pt-md-4 pb-5">
+        <div className="row flex-column flex-md-row align-items-center align-items-md-start gx-5 my-4">
           <div className="col-9 col-md-3 mb-5 mb-md-0">
             <ul className="list-group">
               {categories.map((category) => {
@@ -107,6 +121,6 @@ function Products() {
       </section>
     </>
   );
-}
+};
 
 export default Products;

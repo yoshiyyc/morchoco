@@ -1,7 +1,23 @@
-function Credits() {
+import { NavLink } from "react-router-dom";
+
+const Credits = () => {
   return (
     <>
-      <section className="container py-4">
+      <section className="container">
+        <nav aria-label="breadcrumb p-0">
+          <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
+            <li className="breadcrumb-item">
+              <NavLink className="text-decoration-none link-dark" to="/">
+                <i className="bi bi-house-fill"></i>
+              </NavLink>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              Credits
+            </li>
+          </ol>
+        </nav>
+      </section>
+      <section className="container pt-4 py-5">
         <h4 className="my-4 text-center text-dark">Credits</h4>
         <p>The following are the credits for the icons used in the website</p>
         <ul>
@@ -41,6 +57,6 @@ function Credits() {
       </section>
     </>
   );
-}
+};
 
 export default Credits;

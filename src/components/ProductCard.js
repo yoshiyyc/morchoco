@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { createAsyncMessage } from "../slice/messageSlice";
+import { formatCurrency } from "../utilities/utils";
 
 const ProductCard = ({ product }) => {
   const { getCart } = useOutletContext();
@@ -54,11 +55,15 @@ const ProductCard = ({ product }) => {
         </h6>
         {product.price === product.origin_price ? (
           <div className="d-flex justify-content-center">
-            <p className="text-muted mt-1 mb-0">NT$ {product.price}</p>
+            <p className="text-muted mt-1 mb-0">
+              NT$ {formatCurrency(product.price)}
+            </p>
           </div>
         ) : (
           <div className="d-flex justify-content-center">
-            <p className="text-danger mt-1 mb-0">NT$ {product.price}</p>
+            <p className="text-danger mt-1 mb-0">
+              NT$ {formatCurrency(product.price)}
+            </p>
             <p className="text-decoration-line-through text-muted mt-1 ms-2 mb-0">
               NT$ {product.origin_price}
             </p>

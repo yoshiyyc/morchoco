@@ -5,7 +5,7 @@ import MessageToast from "../../components/MessageToast";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-function FrontLayout() {
+const FrontLayout = () => {
   const [cartData, setCartData] = useState({});
 
   const getCart = async () => {
@@ -34,6 +34,6 @@ function FrontLayout() {
       <Footer />
     </div>
   );
-}
+};
 
 export default FrontLayout;

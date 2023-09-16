@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [data, setData] = useState({
@@ -18,7 +18,21 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <div className="container pt-4 py-5">
+      <section className="container">
+        <nav aria-label="breadcrumb p-0">
+          <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
+            <li className="breadcrumb-item">
+              <NavLink className="text-decoration-none link-dark" to="/">
+                <i className="bi bi-house-fill"></i>
+              </NavLink>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              忘記密碼
+            </li>
+          </ol>
+        </nav>
+      </section>
+      <div className="container pt-4 pb-5">
         <div className="row justify-content-center mb-5">
           <div className="col-md-8">
             <h2 className="h3 my-4 text-center text-dark">忘記密碼</h2>

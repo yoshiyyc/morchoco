@@ -6,7 +6,6 @@ import { Navigation, Grid } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/grid";
-import "../../stylesheets/_swiper.scss";
 import Loading from "../../components/Loading";
 import flour from "../../img/flour.png";
 import baker from "../../img/baker.png";
@@ -14,7 +13,7 @@ import delicious from "../../img/spaghetti.png";
 import takeaway from "../../img/take-away.png";
 import ProductCard from "../../components/ProductCard";
 
-function Home() {
+const Home = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -361,6 +360,6 @@ function Home() {
       </section>
     </>
   );
-}
+};
 
 export default Home;

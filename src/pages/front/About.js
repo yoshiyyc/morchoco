@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import flour from "../../img/flour.png";
 import baker from "../../img/baker.png";
 import delicious from "../../img/spaghetti.png";
@@ -5,7 +6,21 @@ import takeaway from "../../img/take-away.png";
 
 const About = () => {
   return (
-    <div>
+    <>
+      <section className="container">
+        <nav aria-label="breadcrumb p-0">
+          <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
+            <li className="breadcrumb-item">
+              <NavLink className="text-decoration-none link-dark" to="/">
+                <i className="bi bi-house-fill"></i>
+              </NavLink>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              關於我們
+            </li>
+          </ol>
+        </nav>
+      </section>
       <section className="container py-4">
         <h2 className="h3 my-4 text-center text-dark">Morchoco 的故事</h2>
         <div className="row flex-column">
@@ -110,7 +125,7 @@ const About = () => {
           </ul>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
