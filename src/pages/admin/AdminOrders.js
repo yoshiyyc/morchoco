@@ -5,6 +5,7 @@ import OrderModal from "../../components/OrderModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
+import { formatCurrency } from "../../utilities/utils";
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -109,7 +110,7 @@ function AdminOrders() {
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.user?.name}</td>
-                <td>${order.total}</td>
+                <td>NT$ {formatCurrency(order.total)}</td>
                 <td>
                   {order.is_paid ? (
                     <span className="text-success fw-bold">付款完成</span>

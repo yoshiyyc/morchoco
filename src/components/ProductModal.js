@@ -1,29 +1,64 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 import {
   MessageContext,
   handleSuccessMessage,
   handleErrorMessage,
 } from "../store/messageStore";
+import { Input, Textarea, CheckboxRadio } from "./FormElements";
 
 function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
-  const [tempData, setTempData] = useState({
-    title: "",
-    category: "",
-    origin_price: 100,
-    price: 300,
-    unit: "",
-    description: "",
-    content: "",
-    is_enabled: 1,
-    imageUrl: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    mode: "onTouched",
+    defaultValues: tempProduct,
   });
+
+  const watchTitle = watch("title");
+  const watchImageUrl = watch("image");
 
   const [, dispatch] = useContext(MessageContext);
 
   useEffect(() => {
     if (type === "create") {
-      setTempData({
+      setValue("title", "");
+      setValue("category", "");
+      setValue("unit", "");
+      setValue("origin_price", 300);
+      setValue("price", 100);
+      setValue("description", "");
+      setValue("content", "");
+      setValue("is_enabled", 1);
+      setValue("image", "");
+    } else if (type === "edit") {
+      setValue("title", tempProduct.title);
+      setValue("category", tempProduct.category);
+      setValue("unit", tempProduct.unit);
+      setValue("origin_price", tempProduct.origin_price);
+      setValue("price", tempProduct.price);
+      setValue("description", tempProduct.description);
+      setValue("content", tempProduct.content);
+      setValue("is_enabled", tempProduct.is_enabled);
+      setValue("image", tempProduct.imageUrl);
+    }
+  }, [type, tempProduct]);
+
+  const handleImageError = (e) => {
+    e.target.src =
+      "https://images.unsplash.com/photo-1663465374413-83cba00bff6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2680&q=80";
+  };
+
+  const handleCloseModal = () => {
+    closeProductModal();
+    if (type === "create") {
+      reset({
         title: "",
         category: "",
         origin_price: 100,
@@ -35,32 +70,18 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         imageUrl: "",
       });
     } else if (type === "edit") {
-      setTempData(tempProduct);
-    }
-  }, [type, tempProduct]);
-
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-
-    if (["price", "origin_price"].includes(name)) {
-      setTempData({
-        ...tempData,
-        [name]: Number(value),
-      });
-    } else if (name === "is_enabled") {
-      setTempData({
-        ...tempData,
-        [name]: +e.target.checked,
-      });
-    } else {
-      setTempData({
-        ...tempData,
-        [name]: value,
-      });
+      reset(tempProduct);
     }
   };
 
-  const handleSubmit = async () => {
+  const onSubmit = async (data) => {
+    const submitData = {
+      ...data,
+      origin_price: Number(data.origin_price),
+      price: Number(data.price),
+      imageUrl: data.image,
+    };
+
     try {
       let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product`;
       let method = "post";
@@ -71,11 +92,11 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       }
 
       const res = await axios[method](api, {
-        data: JSON.parse(JSON.stringify(tempData)),
+        data: JSON.parse(JSON.stringify(submitData)),
       });
-      console.log(res);
+
       handleSuccessMessage(dispatch, res);
-      closeProductModal();
+      handleCloseModal();
       getProducts();
     } catch (error) {
       console.log(error);
@@ -93,188 +114,178 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
-          <div className="modal-header bg-primary">
-            <h1 className="modal-title fs-5 text-light" id="exampleModalLabel">
-              {type === "create" ? "建立新商品" : `編輯 ${tempData.title}`}
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-              onClick={closeProductModal}
-            />
-          </div>
-          <div className="modal-body">
-            <div className="row">
-              <div className="col-sm-4">
-                <div className="form-group mb-2">
-                  <label className="w-100" htmlFor="image">
-                    輸入圖片網址
-                    <input
-                      type="text"
-                      name="imageUrl"
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="modal-header bg-primary">
+              <h1
+                className="modal-title fs-5 text-light"
+                id="exampleModalLabel"
+              >
+                {type === "create" ? "建立新商品" : `編輯 ${watchTitle}`}
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                aria-label="Close"
+                onClick={handleCloseModal}
+              />
+            </div>
+            <div className="modal-body">
+              <div className="row">
+                <div className="col-sm-4">
+                  <div className="form-group mb-2">
+                    <Input
                       id="image"
+                      type="text"
+                      labelText="輸入圖片網址"
                       placeholder="請輸入圖片連結"
-                      className="form-control"
-                      onChange={handleChange}
-                      value={tempData.imageUrl}
+                      register={register}
+                      errors={errors}
                     />
-                  </label>
-                </div>
-                <div className="form-group mb-2">
-                  <label className="w-100" htmlFor="customFile">
-                    或 上傳圖片
-                    <input
-                      type="file"
-                      id="customFile"
-                      className="form-control"
+                  </div>
+                  <div className="form-group">
+                    <p className="mb-0">預覽圖片</p>
+                    <img
+                      src={watchImageUrl}
+                      alt="預覽圖片"
+                      className="img-fluid"
+                      onError={handleImageError}
                     />
-                  </label>
+                  </div>
                 </div>
-                <img src="" alt="" className="img-fluid" />
-              </div>
-              <div className="col-sm-8">
-                <div className="form-group mb-2">
-                  <label className="w-100" htmlFor="title">
-                    標題
-                    <input
-                      type="text"
+                <div className="col-sm-8">
+                  <div className="form-group mb-2">
+                    <Input
                       id="title"
-                      name="title"
+                      type="text"
+                      errors={errors}
+                      labelText="標題"
                       placeholder="請輸入標題"
-                      className="form-control"
-                      onChange={handleChange}
-                      value={tempData.title}
+                      required={true}
+                      register={register}
+                      rules={{
+                        required: "姓名為必填",
+                      }}
                     />
-                  </label>
-                </div>
-                <div className="row">
-                  <div className="form-group mb-2 col-md-6">
-                    <label className="w-100" htmlFor="category">
-                      分類
-                      <input
-                        type="text"
+                  </div>
+                  <div className="row">
+                    <div className="form-group mb-2 col-md-6">
+                      <Input
                         id="category"
-                        name="category"
+                        type="text"
+                        errors={errors}
+                        labelText="分類"
                         placeholder="請輸入分類"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={tempData.category}
+                        required={true}
+                        register={register}
+                        rules={{
+                          required: "分類為必填",
+                        }}
                       />
-                    </label>
-                  </div>
-                  <div className="form-group mb-2 col-md-6">
-                    <label className="w-100" htmlFor="unit">
-                      單位
-                      <input
-                        type="unit"
+                    </div>
+                    <div className="form-group mb-2 col-md-6">
+                      <Input
                         id="unit"
-                        name="unit"
+                        type="text"
+                        errors={errors}
+                        labelText="單位"
                         placeholder="請輸入單位"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={tempData.unit}
+                        required={true}
+                        register={register}
+                        rules={{
+                          required: "單位為必填",
+                        }}
                       />
-                    </label>
+                    </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="form-group mb-2 col-md-6">
-                    <label className="w-100" htmlFor="origin_price">
-                      原價
-                      <input
-                        type="number"
+                  <div className="row">
+                    <div className="form-group mb-2 col-md-6">
+                      <Input
                         id="origin_price"
-                        name="origin_price"
-                        placeholder="請輸入原價"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={tempData.origin_price}
-                      />
-                    </label>
-                  </div>
-                  <div className="form-group mb-2 col-md-6">
-                    <label className="w-100" htmlFor="price">
-                      售價
-                      <input
                         type="number"
+                        errors={errors}
+                        labelText="原價"
+                        placeholder="請輸入原價"
+                        required={true}
+                        register={register}
+                        rules={{
+                          required: "原價為必填",
+                          min: {
+                            value: 0,
+                            message: "請輸入 0 以上的數字",
+                          },
+                        }}
+                      />
+                    </div>
+                    <div className="form-group mb-2 col-md-6">
+                      <Input
                         id="price"
-                        name="price"
+                        type="number"
+                        errors={errors}
+                        labelText="售價"
                         placeholder="請輸入售價"
-                        className="form-control"
-                        onChange={handleChange}
-                        value={tempData.price}
+                        required={true}
+                        register={register}
+                        rules={{
+                          required: "售價為必填",
+                          min: {
+                            value: 0,
+                            message: "請輸入 0 以上的數字",
+                          },
+                        }}
                       />
-                    </label>
+                    </div>
                   </div>
-                </div>
-                <hr />
-                <div className="form-group mb-2">
-                  <label className="w-100" htmlFor="description">
-                    產品描述
-                    <textarea
-                      type="text"
+                  <hr />
+                  <div className="form-group mb-2">
+                    <Textarea
                       id="description"
-                      name="description"
+                      labelText="產品描述"
                       placeholder="請輸入產品描述"
-                      className="form-control"
-                      onChange={handleChange}
-                      value={tempData.description}
+                      rows="2"
+                      errors={errors}
+                      register={register}
                     />
-                  </label>
-                </div>
-                <div className="form-group mb-2">
-                  <label className="w-100" htmlFor="content">
-                    說明內容
-                    <textarea
-                      type="text"
+                  </div>
+                  <div className="form-group mb-2">
+                    <Textarea
                       id="content"
-                      name="content"
-                      placeholder="請輸入產品說明內容"
-                      className="form-control"
-                      onChange={handleChange}
-                      value={tempData.content}
+                      labelText="說明內容"
+                      placeholder="請輸入說明內容"
+                      rows="5"
+                      errors={errors}
+                      register={register}
                     />
-                  </label>
-                </div>
-                <div className="form-group mb-2">
-                  <div className="form-check">
-                    <label
-                      className="w-100 form-check-label"
-                      htmlFor="is_enabled"
-                    >
-                      是否啟用
-                      <input
-                        type="checkbox"
-                        id="is_enabled"
-                        name="is_enabled"
-                        placeholder="請輸入產品說明內容"
-                        className="form-check-input"
-                        onChange={handleChange}
-                        checked={!!tempData.is_enabled}
-                      />
-                    </label>
+                  </div>
+                  <div className="form-group mb-2">
+                    <CheckboxRadio
+                      id="is_enabled"
+                      name="is_enabled"
+                      type="checkbox"
+                      labelText="是否啟用"
+                      register={register}
+                      errors={errors}
+                    />
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={closeProductModal}
-            >
-              關閉
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleSubmit}
-            >
-              儲存
-            </button>
-          </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleCloseModal}
+              >
+                關閉
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
+                儲存
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

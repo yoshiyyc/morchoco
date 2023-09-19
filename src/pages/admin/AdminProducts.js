@@ -5,6 +5,7 @@ import ProductModal from "../../components/ProductModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
+import { formatCurrency } from "../../utilities/utils";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -19,9 +20,11 @@ function AdminProducts() {
   const deleteModal = useRef(null);
 
   useEffect(() => {
+    // In Bootstrap official website, it's written as: const myModalAlternative = new bootstrap.Modal('#myModal', options)
     productModal.current = new Modal("#productModal", {
       backdrop: "static",
     });
+
     deleteModal.current = new Modal("#deleteModal", {
       backdrop: "static",
     });
@@ -35,7 +38,6 @@ function AdminProducts() {
     const productRes = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/admin/products?page=${page}`
     );
-    console.log(productRes);
     setProducts(productRes.data.products);
     setPagination(productRes.data.pagination);
     setIsLoading(false);
@@ -116,7 +118,7 @@ function AdminProducts() {
               <tr key={product.id}>
                 <td>{product.category}</td>
                 <td>{product.title}</td>
-                <td>{product.price}</td>
+                <td>NT$ {formatCurrency(product.price)}</td>
                 <td>{product.is_enabled ? "啟用" : "未啟用"}</td>
                 <td>
                   <button

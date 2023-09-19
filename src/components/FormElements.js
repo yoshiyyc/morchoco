@@ -5,6 +5,7 @@ export const CheckboxRadio = ({
   type,
   errors,
   rules,
+  required,
   value,
   name,
 }) => {

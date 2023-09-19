@@ -9,19 +9,14 @@ import {
 } from "../../store/messageStore";
 
 function Dashboard() {
-  console.log("ad");
   const navigate = useNavigate();
   const reducer = useReducer(messageReducer, initState);
-
-  console.log("coo", document.cookie);
 
   // Get token from cookie
   const token = document.cookie
     .split("; ")
     .find((row) => row.startsWith("morchocoToken="))
     ?.split("=")[1];
-
-  console.log("to", token);
 
   // Assign token to axios headers
   axios.defaults.headers.common["Authorization"] = token;
@@ -53,7 +48,7 @@ function Dashboard() {
   return (
     <MessageContext.Provider value={reducer}>
       <Message />
-      <nav className="navbar navbar-expand-lg sticky-top bg-dark">
+      <nav className="navbar navbar-dark navbar-expand-lg sticky-top bg-dark">
         <div className="container-fluid">
           <p className="text-white mb-0">Morchoco 後台管理系統</p>
           <button
