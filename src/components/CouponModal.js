@@ -1,61 +1,77 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import axios from "axios";
+import dayjs from "dayjs";
+import { useForm } from "react-hook-form";
 import {
   MessageContext,
   handleSuccessMessage,
   handleErrorMessage,
 } from "../store/messageStore";
+import { Input, CheckboxRadio } from "./FormElements";
 
-function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
-  const [tempData, setTempData] = useState({
-    title: "",
-    is_enabled: 0,
-    percent: 0,
-    due_date: new Date().getTime(),
-    code: "",
+function CouponModal({ closeCouponModal, getCoupons, type, tempCoupon }) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    mode: "onTouched",
+    defaultValues: tempCoupon,
   });
 
-  const [date, setDate] = useState(new Date());
+  const watchTitle = watch("title");
+
   const [, dispatch] = useContext(MessageContext);
 
   useEffect(() => {
     if (type === "create") {
-      setTempData({
-        title: "",
-        is_enabled: 0,
-        percent: 0,
-        due_date: new Date().getTime(),
-        code: "",
-      });
-      setDate(new Date());
+      setValue("title", "");
+      setValue("percent", 0);
+      setValue("code", "");
+      setValue("due_date", null);
+      setValue("is_enabled", 1);
     } else if (type === "edit") {
-      setTempData(tempCoupon);
-      setDate(new Date(tempCoupon.due_date));
+      setValue("title", tempCoupon.title);
+      setValue("percent", tempCoupon.percent);
+      setValue("code", tempCoupon.code);
+      setValue("due_date", formatDatePickerDate(tempCoupon.due_date));
+      setValue("is_enabled", tempCoupon.is_enabled);
     }
   }, [type, tempCoupon]);
 
-  const handleChange = (e) => {
-    const { value, name } = e.target;
+  const formatDatePickerDate = (timestamp) => {
+    return dayjs(timestamp).format("YYYY-MM-DD");
+  };
 
-    if (["percent"].includes(name)) {
-      setTempData({
-        ...tempData,
-        [name]: Number(value),
+  const handleCloseModal = () => {
+    closeCouponModal();
+    if (type === "create") {
+      reset({
+        title: "",
+        percent: 0,
+        due_date: null,
+        code: "",
+        is_enabled: 0,
       });
-    } else if (name === "is_enabled") {
-      setTempData({
-        ...tempData,
-        [name]: +e.target.checked,
-      });
-    } else {
-      setTempData({
-        ...tempData,
-        [name]: value,
+    } else if (type === "edit") {
+      reset({
+        ...tempCoupon,
+        due_date: formatDatePickerDate(tempCoupon.due_date),
       });
     }
   };
 
-  const handleSubmit = async () => {
+  const onSubmit = async (data) => {
+    const submitData = {
+      ...data,
+      percent: Number(data.percent),
+      due_date: dayjs(data.due_date).valueOf(),
+      is_enabled: +data.is_enabled,
+    };
+
     try {
       let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon`;
       let method = "post";
@@ -66,14 +82,11 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
       }
 
       const res = await axios[method](api, {
-        data: {
-          ...tempData,
-          due_date: date.getTime(),
-        },
+        data: submitData,
       });
-      console.log(res);
+
       handleSuccessMessage(dispatch, res);
-      closeModal();
+      handleCloseModal();
       getCoupons();
     } catch (error) {
       console.log(error);
@@ -91,114 +104,107 @@ function CouponModal({ closeModal, getCoupons, type, tempCoupon }) {
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
-          <div className="modal-header bg-primary">
-            <h1 className="modal-title fs-5 text-light" id="exampleModalLabel">
-              {type === "create" ? "建立新優惠券" : `編輯 ${tempData.title}`}
-            </h1>
-            <button
-              type="button"
-              className="btn-close"
-              aria-label="Close"
-              onClick={closeModal}
-            />
-          </div>
-          <div className="modal-body">
-            <div className="mb-2">
-              <label className="w-100" htmlFor="title">
-                標題
-                <input
-                  type="text"
-                  id="title"
-                  placeholder="請輸入標題"
-                  name="title"
-                  className="form-control mt-1"
-                  value={tempData.title}
-                  onChange={handleChange}
-                />
-              </label>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="modal-header bg-primary">
+              <h1
+                className="modal-title fs-5 text-light"
+                id="exampleModalLabel"
+              >
+                {type === "create" ? "建立新優惠券" : `編輯 ${watchTitle}`}
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                aria-label="Close"
+                onClick={handleCloseModal}
+              />
             </div>
-            <div className="row">
-              <div className="col-md-6 mb-2">
-                <label className="w-100" htmlFor="percent">
-                  折扣（%）
-                  <input
-                    type="text"
-                    name="percent"
-                    id="percent"
-                    placeholder="請輸入折扣（%）"
-                    className="form-control mt-1"
-                    value={tempData.percent}
-                    onChange={handleChange}
-                  />
-                </label>
+            <div className="modal-body">
+              <div className="mb-2">
+                <Input
+                  id="title"
+                  type="text"
+                  labelText="標題"
+                  placeholder="請輸入標題"
+                  required={true}
+                  register={register}
+                  errors={errors}
+                  rules={{
+                    required: "標題為必填",
+                  }}
+                />
               </div>
-              <div className="col-md-6 mb-2">
-                <label className="w-100" htmlFor="due_date">
-                  到期日
-                  <input
-                    type="date"
-                    id="due_date"
-                    name="due_date"
-                    placeholder="請輸入到期日"
-                    className="form-control mt-1"
-                    value={`${date.getFullYear().toString()}-${(
-                      date.getMonth() + 1
-                    )
-                      .toString()
-                      .padStart(2, 0)}-${date
-                      .getDate()
-                      .toString()
-                      .padStart(2, 0)}`}
-                    onChange={(e) => {
-                      console.log(e.target.value);
-                      setDate(new Date(e.target.value));
+              <div className="row">
+                <div className="col-md-6 mb-2">
+                  <Input
+                    id="percent"
+                    type="number"
+                    labelText="折扣 (%)"
+                    placeholder="請輸入折扣 (%)"
+                    required={true}
+                    register={register}
+                    errors={errors}
+                    rules={{
+                      required: "折扣為必填",
                     }}
                   />
-                </label>
-              </div>
-              <div className="col-md-6 mb-2">
-                <label className="w-100" htmlFor="code">
-                  優惠碼
-                  <input
-                    type="text"
-                    id="code"
-                    name="code"
-                    placeholder="請輸入優惠碼"
-                    className="form-control mt-1"
-                    value={tempData.code}
-                    onChange={handleChange}
+                </div>
+                <div className="col-md-6 mb-2">
+                  <Input
+                    id="due_date"
+                    type="date"
+                    labelText="到期日"
+                    required={true}
+                    register={register}
+                    errors={errors}
+                    rules={{
+                      required: "到期日為必填",
+                    }}
                   />
-                </label>
+                </div>
+                <div className="col-md-6 mb-2">
+                  <Input
+                    id="code"
+                    type="text"
+                    labelText="優惠碼"
+                    placeholder="請輸入優惠碼"
+                    required={true}
+                    register={register}
+                    errors={errors}
+                    rules={{
+                      required: "優惠碼為必填",
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="form-group mb-2">
+                <CheckboxRadio
+                  id="is_enabled"
+                  name="is_enabled"
+                  type="checkbox"
+                  labelText="是否啟用"
+                  register={register}
+                  errors={errors}
+                />
               </div>
             </div>
-            <label className="form-check-label" htmlFor="is_enabled">
-              <input
-                className="form-check-input me-2"
-                type="checkbox"
-                id="is_enabled"
-                name="is_enabled"
-                checked={!!tempData.is_enabled}
-                onChange={handleChange}
-              />
-              是否啟用
-            </label>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={closeModal}
-            >
-              關閉
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleSubmit}
-            >
-              儲存
-            </button>
-          </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={handleCloseModal}
+              >
+                關閉
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
+                儲存
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

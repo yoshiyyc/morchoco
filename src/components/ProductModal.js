@@ -157,13 +157,13 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                     <Input
                       id="title"
                       type="text"
-                      errors={errors}
                       labelText="標題"
                       placeholder="請輸入標題"
                       required={true}
                       register={register}
+                      errors={errors}
                       rules={{
-                        required: "姓名為必填",
+                        required: "標題為必填",
                       }}
                     />
                   </div>

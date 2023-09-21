@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
+import dayjs from "dayjs";
 import CouponModal from "../../components/CouponModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
@@ -47,7 +48,7 @@ function AdminCoupons() {
     couponModal.current.show();
   };
 
-  const closeModal = () => {
+  const closeCouponModal = () => {
     couponModal.current.hide();
   };
 
@@ -74,11 +75,15 @@ function AdminCoupons() {
     }
   };
 
+  const formatDate = (timestamp) => {
+    return dayjs(timestamp).format("YYYY/MM/DD");
+  };
+
   return (
     <div className="p-3">
       <Loading isLoading={isLoading} />
       <CouponModal
-        closeModal={closeModal}
+        closeCouponModal={closeCouponModal}
         getCoupons={getCoupons}
         tempCoupon={tempCoupon}
         type={type}
@@ -104,7 +109,7 @@ function AdminCoupons() {
         <thead>
           <tr>
             <th scope="col">標題</th>
-            <th scope="col">折扣</th>
+            <th scope="col">折扣 (%)</th>
             <th scope="col">到期日</th>
             <th scope="col">優惠碼</th>
             <th scope="col">啟用狀態</th>
@@ -117,7 +122,8 @@ function AdminCoupons() {
               <tr key={coupon.id}>
                 <td>{coupon.title}</td>
                 <td>{coupon.percent}</td>
-                <td>{new Date(coupon.due_date).toDateString()}</td>
+                {/* <td>{new Date(coupon.due_date).toDateString()}</td> */}
+                <td>{formatDate(coupon.due_date)}</td>
                 <td>{coupon.code}</td>
                 <td>{coupon.is_enabled ? "啟用" : "未啟用"}</td>
                 <td>
