@@ -28,6 +28,7 @@ const Checkout = () => {
   const [couponCode, setCouponCode] = useState("");
   const [currentCoupon, setCurrentCoupon] = useState("");
   const [discountedTotal, setDiscountedTotal] = useState(0);
+  // const [orderId, setOrderId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -101,18 +102,33 @@ const Checkout = () => {
           address,
         },
         message: message,
+        status: "0",
       },
     };
 
     await axios
       .post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`, form)
       .then((res) => {
-        console.log(res);
+        console.log("a", res);
         setCouponCode("");
         setSubmittedData(data);
+        completePayment(res.data.orderId);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+        dispatch(createAsyncMessage(error.response.data));
+      });
+  };
+
+  const completePayment = async (orderId) => {
+    await axios
+      .post(`/v2/api/${process.env.REACT_APP_API_PATH}/pay/${orderId}`)
+      .then((res) => {
+        console.log("b", res);
         setIsLoading(false);
         dispatch(createAsyncMessage(res.data));
-        navigate(`/success/${res.data.orderId}`);
+        navigate(`/success/${orderId}`);
       })
       .catch((error) => {
         console.log(error);
@@ -340,7 +356,7 @@ const Checkout = () => {
                 <p className="mb-0">
                   NT${" "}
                   {discountedTotal
-                    ? formatCurrency(cartData.final_total)
+                    ? formatCurrency(discountedTotal)
                     : formatCurrency(cartData.total)}
                 </p>
               </div>

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { Modal } from "bootstrap";
+import dayjs from "dayjs";
 import OrderModal from "../../components/OrderModal";
 import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
@@ -12,12 +13,17 @@ function AdminOrders() {
   const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // type: 決定 modal 展開的用途
-  const [type, setType] = useState("create"); // edit
   const [tempOrder, setTempOrder] = useState({});
 
   const orderModal = useRef(null);
   const deleteModal = useRef(null);
+
+  const orderStatus = {
+    0: "未確認",
+    1: "已確認",
+    2: "外送中",
+    3: "已送達",
+  };
 
   useEffect(() => {
     orderModal.current = new Modal("#orderModal", {
@@ -30,13 +36,16 @@ function AdminOrders() {
     getOrders();
   }, []);
 
+  const formatDate = (timestamp) => {
+    return dayjs.unix(timestamp).format("YYYY/MM/DD");
+  };
+
   const getOrders = async (page = 1) => {
     setIsLoading(true);
 
     const orderRes = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/admin/orders?page=${page}`
     );
-    console.log(orderRes);
     setOrders(orderRes.data.orders);
     setPagination(orderRes.data.pagination);
     setIsLoading(false);
@@ -48,7 +57,6 @@ function AdminOrders() {
   };
 
   const closeOrderModal = () => {
-    setTempOrder({}); // ?check
     orderModal.current.hide();
   };
 
@@ -79,7 +87,7 @@ function AdminOrders() {
     <div className="p-3">
       <Loading isLoading={isLoading} />
       <OrderModal
-        closeModal={closeOrderModal}
+        closeOrderModal={closeOrderModal}
         getOrders={getOrders}
         tempOrder={tempOrder}
       />
@@ -99,7 +107,7 @@ function AdminOrders() {
             <th scope="col">訂單金額</th>
             <th scope="col">付款狀態</th>
             <th scope="col">付款日期</th>
-            {/* <th scope="col">外送進度</th> */}
+            <th scope="col">外送進度</th>
             <th scope="col">留言訊息</th>
             <th scope="col">編輯</th>
           </tr>
@@ -119,11 +127,9 @@ function AdminOrders() {
                   )}
                 </td>
                 <td>
-                  {order.paid_date
-                    ? new Date(order.paid_date * 1000).toLocaleString()
-                    : "未付款"}
+                  {order.paid_date ? formatDate(order.paid_date) : "未付款"}
                 </td>
-                {/* <td>{order.message}</td> 外送進度*/}
+                <td>{order.status ? orderStatus[order.status] : "未確認"}</td>
                 <td>{order.message ? "有" : "無"}</td>
                 <td>
                   <button
@@ -133,7 +139,7 @@ function AdminOrders() {
                       openOrderModal(order);
                     }}
                   >
-                    查看
+                    編輯
                   </button>
                   <button
                     type="button"
