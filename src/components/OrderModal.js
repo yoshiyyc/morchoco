@@ -37,9 +37,6 @@ function OrderModal({ closeOrderModal, getOrders, tempOrder }) {
   const handleCloseModal = () => {
     closeOrderModal();
 
-    console.log("a", tempOrder.is_paid);
-    console.log("b", tempOrder.status);
-
     reset({
       ...tempOrder,
       is_paid: tempOrder.is_paid,

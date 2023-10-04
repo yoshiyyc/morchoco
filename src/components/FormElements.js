@@ -41,6 +41,7 @@ export const Input = ({
   required,
   errors,
   rules,
+  onChange,
 }) => {
   return (
     <>

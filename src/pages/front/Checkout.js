@@ -5,7 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { createAsyncMessage } from "../../slice/messageSlice";
 import { formatCurrency } from "../../utilities/utils";
-import { Input, Textarea } from "../../components/FormElements";
+import { Input, Textarea, CheckboxRadio } from "../../components/FormElements";
 import Loading from "../../components/Loading";
 
 const Checkout = () => {
@@ -20,15 +20,29 @@ const Checkout = () => {
     formState: { errors, isSubmitSuccessful },
   } = useForm({
     mode: "onTouched",
-    defaultValues: { name: "", email: "", tel: "", address: "", message: "" },
+    defaultValues: {
+      name: "",
+      email: "",
+      tel: "",
+      address: "",
+      message: "",
+      payment: "creditCard",
+      cardHolder: "",
+      creditNum: null,
+      creditCVV: null,
+      creditExpDate: "",
+      bankAccount: null,
+    },
   });
+
+  const watchPayment = watch("payment");
+
   const dispatch = useDispatch();
 
   const [submittedData, setSubmittedData] = useState({});
   const [couponCode, setCouponCode] = useState("");
   const [currentCoupon, setCurrentCoupon] = useState("");
   const [discountedTotal, setDiscountedTotal] = useState(0);
-  // const [orderId, setOrderId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
@@ -53,7 +67,19 @@ const Checkout = () => {
   // Reset form and update cart num after form submission
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset({ name: "", email: "", tel: "", address: "", message: "" });
+      reset({
+        name: "",
+        email: "",
+        tel: "",
+        address: "",
+        message: "",
+        payment: "creditCard",
+        cardHolder: "",
+        creditNum: null,
+        creditCVV: null,
+        creditExpDate: "",
+        bankAccount: null,
+      });
     }
     getCart();
   }, [isSubmitSuccessful, submittedData, reset]);
@@ -74,12 +100,12 @@ const Checkout = () => {
     await axios
       .post(`/v2/api/${process.env.REACT_APP_API_PATH}/coupon`, data)
       .then((res) => {
-        console.log("res", res);
-
         setDiscountedTotal(res.data.data.final_total);
+
         setCouponCode("");
         setIsLoading(false);
         dispatch(createAsyncMessage(res.data));
+        getCart();
       })
       .catch((error) => {
         console.log(error);
@@ -109,7 +135,6 @@ const Checkout = () => {
     await axios
       .post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`, form)
       .then((res) => {
-        console.log("a", res);
         setCouponCode("");
         setSubmittedData(data);
         completePayment(res.data.orderId);
@@ -125,7 +150,6 @@ const Checkout = () => {
     await axios
       .post(`/v2/api/${process.env.REACT_APP_API_PATH}/pay/${orderId}`)
       .then((res) => {
-        console.log("b", res);
         setIsLoading(false);
         dispatch(createAsyncMessage(res.data));
         navigate(`/success/${orderId}`);
@@ -165,90 +189,252 @@ const Checkout = () => {
             className="col col-md-7 px-5 pt-4 pb-5"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h2 className="h4 mb-4 text-dark">配送資訊</h2>
-            <div>
-              <div className="mb-3">
-                <Input
-                  id="name"
-                  type="text"
-                  errors={errors}
-                  labelText="姓名"
-                  placeholder="例：林小明"
-                  required={true}
-                  register={register}
-                  rules={{
-                    required: "姓名為必填",
-                    maxLength: {
-                      value: 10,
-                      message: "姓名長度不超過 10",
-                    },
-                  }}
-                ></Input>
+            <div className="mb-5">
+              <h2 className="h4 mb-4 text-dark">配送資訊</h2>
+              <div>
+                <div className="mb-3">
+                  <Input
+                    id="name"
+                    type="text"
+                    errors={errors}
+                    labelText="姓名"
+                    placeholder="例：林小明"
+                    required={true}
+                    register={register}
+                    rules={{
+                      required: "姓名為必填",
+                      maxLength: {
+                        value: 10,
+                        message: "姓名長度不超過 10",
+                      },
+                    }}
+                  ></Input>
+                </div>
+                <div className="mb-3">
+                  <Input
+                    id="email"
+                    labelText="Email"
+                    type="email"
+                    placeholder="例：xxx@example.com"
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "Email 為必填",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Email 格式不正確",
+                      },
+                    }}
+                  ></Input>
+                </div>
+                <div className="mb-3">
+                  <Input
+                    id="tel"
+                    labelText="電話"
+                    type="tel"
+                    placeholder="例：0987654321"
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "電話為必填",
+                      minLength: {
+                        value: 6,
+                        message: "電話不少於 6 碼",
+                      },
+                      maxLength: {
+                        value: 12,
+                        message: "電話不超過 12 碼",
+                      },
+                    }}
+                  ></Input>
+                </div>
+                <div className="mb-3">
+                  <Input
+                    id="address"
+                    labelText="地址"
+                    type="address"
+                    placeholder="例：◯◯市◯◯區◯◯路◯◯樓◯◯號"
+                    errors={errors}
+                    register={register}
+                    required={true}
+                    rules={{
+                      required: "地址為必填",
+                    }}
+                  ></Input>
+                </div>
+                <div className="mb-3">
+                  <Textarea
+                    id="message"
+                    labelText="留言"
+                    placeholder="請輸入希望配送時段或其他備註"
+                    rows="5"
+                    errors={errors}
+                    register={register}
+                  ></Textarea>
+                </div>
               </div>
-              <div className="mb-3">
-                <Input
-                  id="email"
-                  labelText="Email"
-                  type="email"
-                  placeholder="例：xxx@example.com"
-                  required={true}
-                  errors={errors}
-                  register={register}
-                  rules={{
-                    required: "Email 為必填",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "Email 格式不正確",
-                    },
-                  }}
-                ></Input>
+            </div>
+            <div className="mb-5">
+              <h2 className="h4 mb-4 text-dark">付款方式</h2>
+              <div className="row mb-3">
+                <div className="col-6 mb-3">
+                  <CheckboxRadio
+                    id="creditCard"
+                    name="payment"
+                    type="radio"
+                    value="creditCard"
+                    labelText="信用卡"
+                    register={register}
+                    errors={errors}
+                    rules={{
+                      required: "付款方式為必填",
+                    }}
+                  />
+                </div>
+                <div className="col-6 mb-3">
+                  <CheckboxRadio
+                    id="bankTransfer"
+                    name="payment"
+                    type="radio"
+                    labelText="匯款"
+                    value="bankTransfer"
+                    register={register}
+                    errors={errors}
+                    rules={{
+                      required: "付款方式為必填",
+                    }}
+                  />
+                </div>
               </div>
-              <div className="mb-3">
-                <Input
-                  id="tel"
-                  labelText="電話"
-                  type="tel"
-                  placeholder="例：0987654321"
-                  required={true}
-                  errors={errors}
-                  register={register}
-                  rules={{
-                    required: "電話為必填",
-                    minLength: {
-                      value: 6,
-                      message: "電話不少於 6 碼",
-                    },
-                    maxLength: {
-                      value: 12,
-                      message: "電話不超過 12 碼",
-                    },
-                  }}
-                ></Input>
-              </div>
-              <div className="mb-3">
-                <Input
-                  id="address"
-                  labelText="地址"
-                  type="address"
-                  placeholder="例：◯◯市◯◯區◯◯路◯◯樓◯◯號"
-                  errors={errors}
-                  register={register}
-                  required={true}
-                  rules={{
-                    required: "地址為必填",
-                  }}
-                ></Input>
-              </div>
-              <div className="mb-3">
-                <Textarea
-                  id="message"
-                  labelText="留言"
-                  placeholder="請輸入希望配送時段或其他備註"
-                  rows="5"
-                  errors={errors}
-                  register={register}
-                ></Textarea>
-              </div>
+              {watchPayment === "creditCard" && (
+                <div className="row mb-3">
+                  <div className="mb-3">
+                    <Input
+                      id="cardHolder"
+                      labelText="持卡人姓名"
+                      type="text"
+                      placeholder="例：Apple Wang"
+                      required={true}
+                      errors={errors}
+                      register={register}
+                      rules={{
+                        required: "持卡人姓名為必填",
+                      }}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <Input
+                      id="creditNum"
+                      labelText="信用卡號碼"
+                      type="number"
+                      placeholder="0000 0000 0000 0000"
+                      required={true}
+                      errors={errors}
+                      register={register}
+                      rules={{
+                        required: "信用卡號碼為必填",
+                        minLength: {
+                          value: 12,
+                          message: "請輸入完整 12 碼號碼",
+                        },
+                        maxLength: {
+                          value: 12,
+                          message: "請輸入完整 12 碼號碼",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div className="col-6 mb-3">
+                    <Input
+                      id="creditCVV"
+                      labelText="驗證碼"
+                      type="number"
+                      placeholder="000"
+                      required={true}
+                      errors={errors}
+                      register={register}
+                      rules={{
+                        required: "驗證碼為必填",
+                        minLength: {
+                          value: 3,
+                          message: "請輸入完整 3 碼號碼",
+                        },
+                        maxLength: {
+                          value: 3,
+                          message: "請輸入完整 3 碼號碼",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div className="col-6 mb-3">
+                    <Input
+                      id="creditExpDate"
+                      labelText="到期日"
+                      type="text"
+                      placeholder="MM/YY"
+                      errors={errors}
+                      register={register}
+                      required={true}
+                      rules={{
+                        required: "到期日為必填",
+                        pattern: {
+                          value: /^(0[1-9]|1[0-2])\/[0-9]{2}$/i,
+                          message:
+                            "輸入年月需符合 MM/YY 格式，請確認月份及年份是否正確",
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+              {watchPayment === "bankTransfer" && (
+                <div className="row mb-3">
+                  <small className="text-dark mb-4">
+                    *請匯款至以下帳戶（在備註處註記姓名），並在下方欄位填寫帳號後
+                    5 碼
+                  </small>
+                  <table className="table table-borderless mx-2 mb-4 bg-light">
+                    <tbody>
+                      <tr>
+                        <th>銀行</th>
+                        <td>822 （中國信託）</td>
+                      </tr>
+                      <tr>
+                        <th>帳號</th>
+                        <td>493590245732</td>
+                      </tr>
+                      <tr>
+                        <th>戶名</th>
+                        <td>莫巧克</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="col-6">
+                    <Input
+                      id="bankAccount"
+                      labelText="帳號後 5 碼"
+                      type="number"
+                      placeholder="00000"
+                      required={true}
+                      errors={errors}
+                      register={register}
+                      rules={{
+                        required: "帳號後 5 碼為必填",
+                        minLength: {
+                          value: 5,
+                          message: "請輸入完整 5 碼號碼",
+                        },
+                        maxLength: {
+                          value: 5,
+                          message: "請輸入完整 5 碼號碼",
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             <div className="d-flex flex-column-reverse flex-sm-row flex-md-column-reverse flex-lg-row justify-content-between align-items-center w-100 mt-5">
               <Link
