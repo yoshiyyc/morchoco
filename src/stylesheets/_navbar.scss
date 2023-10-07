@@ -1,0 +1,32 @@
+.navbar .nav-item {
+  & .dropdown-menu[data-bs-popper] {
+    margin-top: 0px;
+  }
+
+  &:has(.dropdown-menu .dropdown-item:hover) > .dropdown-toggle,
+  &:has(.dropdown-menu .dropdown-item:focus) > .dropdown-toggle {
+    background-color: $secondary;
+  }
+
+  & .dropdown-item {
+    padding-top: $spacer * 0.5;
+    padding-bottom: $spacer * 0.5;
+
+    &:hover,
+    &:focus {
+      background-color: $secondary;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .navbar .nav-item {
+    & .dropdown-menu {
+      display: none;
+    }
+
+    &:hover .dropdown-menu {
+      display: block;
+    }
+  }
+}

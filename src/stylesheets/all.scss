@@ -17,11 +17,11 @@ $utilities: map-merge(
             map-merge(
               map-get(map-get($utilities, "line-height"), "values"),
               (
-                md: $line-height-md,
+                md: $line-height-md
               )
-            ),
+            )
         )
-      ),
+      )
   )
 );
 @import "bootstrap/scss/utilities/api";
@@ -30,6 +30,7 @@ $utilities: map-merge(
 @import "./tools";
 
 // Components
+@import "./navbar";
 @import "./product-card";
 
 // pages

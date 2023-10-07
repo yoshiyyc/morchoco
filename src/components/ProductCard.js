@@ -65,7 +65,7 @@ const ProductCard = ({ product }) => {
               NT$ {formatCurrency(product.price)}
             </p>
             <p className="text-decoration-line-through text-muted mt-1 ms-2 mb-0">
-              NT$ {product.origin_price}
+              NT$ {formatCurrency(product.origin_price)}
             </p>
           </div>
         )}

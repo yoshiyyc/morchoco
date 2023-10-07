@@ -1,6 +1,6 @@
 function Pagination({ pagination, changePage }) {
   return (
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Page navigation">
       <ul className="pagination">
         <li className="page-item">
           <a
@@ -19,7 +19,9 @@ function Pagination({ pagination, changePage }) {
           // eslint-disable-next-line react/no-array-index-key
           <li className="page-item" key={`${index}_page`}>
             <a
-              className={`page-link ${index + 1 === pagination.current_page && "active"}`}
+              className={`page-link ${
+                index + 1 === pagination.current_page && "active"
+              }`}
               href="/"
               onClick={(e) => {
                 e.preventDefault();

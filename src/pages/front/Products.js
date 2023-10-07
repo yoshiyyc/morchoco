@@ -13,6 +13,8 @@ const Products = () => {
     category ? category : "所有甜點"
   );
   const [pagination, setPagination] = useState({});
+  const [productTotal, setProductTotal] = useState({});
+  // const [productOrder, setProductOrder] = useState("default");
   const [isLoading, setIsLoading] = useState(false);
 
   const categories = [
@@ -26,6 +28,7 @@ const Products = () => {
 
   useEffect(() => {
     getProducts();
+    countProductTotal();
   }, []);
 
   useEffect(() => {
@@ -35,6 +38,31 @@ const Products = () => {
   useEffect(() => {
     getProducts();
   }, [currentCategory]);
+
+  const countProductTotal = async () => {
+    setIsLoading(true);
+
+    const allProducts = await axios
+      .get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`)
+      .then((response) => {
+        console.log("c", response);
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    // Calcutate product total by categories
+    let obj = {};
+
+    allProducts.products.forEach((i) => {
+      obj[i.category] ? obj[i.category]++ : (obj[i.category] = 1);
+    });
+
+    setProductTotal({ ...obj, 所有甜點: allProducts.products.length });
+
+    setIsLoading(false);
+  };
 
   const getProducts = async (page = 1) => {
     setIsLoading(true);
@@ -48,6 +76,7 @@ const Products = () => {
         }`
       )
       .then((response) => {
+        console.log("a", response);
         return response.data;
       })
       .catch((error) => {
@@ -58,6 +87,36 @@ const Products = () => {
     setPagination(productData.pagination);
     setIsLoading(false);
   };
+
+  // const handleProductOrder = (e) => {
+  // setProductOrder(e.target.value);
+
+  // if (e.target.value === "ascPrice") {
+  //   const tempProductList = productList.sort((a, b) => {
+  //     return a.price - b.price;
+  //   });
+  //   setProductList(tempProductList);
+  // } else if (e.target.value === "dscPrice") {
+  //   const tempProductList = productList.sort((a, b) => {
+  //     return b.price - a.price;
+  //   });
+  //   setProductList(tempProductList);
+  // }
+  // };
+
+  // const sortProductOrder = (order) => {
+  //   if (order === "ascPrice") {
+  //     const tempProductList = productList.sort((a, b) => {
+  //       return a.price - b.price;
+  //     });
+  //     setProductList(tempProductList);
+  //   } else if (order === "dscPrice") {
+  //     const tempProductList = productList.sort((a, b) => {
+  //       return b.price - a.price;
+  //     });
+  //     setProductList(tempProductList);
+  //   }
+  // };
 
   return (
     <>
@@ -79,7 +138,7 @@ const Products = () => {
       <section className="container pt-3 pt-md-4 pb-5">
         <div className="row flex-column flex-md-row align-items-center align-items-md-start gx-5 my-4">
           <div className="col-9 col-md-3 mb-5 mb-md-0">
-            <ul className="list-group">
+            <ul className="list-group list-group-flush">
               {categories.map((category) => {
                 return (
                   <NavLink
@@ -97,10 +156,31 @@ const Products = () => {
             </ul>
           </div>
           <div className="col-12 col-md-9">
-            <h2 className="h3 mb-4 text-center text-sm-start text-dark">
-              {currentCategory}
-            </h2>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center justify-content-sm-start gx-5 gy-3 mb-5">
+            <div className="d-flex align-items-center mb-5">
+              <h2 className="h3 mb-0 text-center text-sm-start text-dark">
+                {currentCategory}
+              </h2>
+              <div className="d-flex align-items-center ms-auto">
+                {/* <select
+                  className="form-select ms-auto"
+                  aria-label="product-filter"
+                  value={productOrder}
+                  onChange={handleProductOrder}
+                >
+                  <option value="default">預設</option>
+                  <option value="ascPrice">價格由低到高</option>
+                  <option value="dscPrice">價格由高到低</option>
+                </select> */}
+                <p className="ms-3 mb-0 w-100 text-muted">
+                  共{" "}
+                  {productTotal[currentCategory]
+                    ? productTotal[currentCategory].toLocaleString()
+                    : 0}{" "}
+                  件商品
+                </p>
+              </div>
+            </div>
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center justify-content-sm-start gx-5 gy-4 mb-5">
               {productList.length ? (
                 productList.map((product) => {
                   return (

@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 function Navbar({ cartData }) {
   const location = useLocation();
@@ -46,13 +46,48 @@ function Navbar({ cartData }) {
             id="navbarNav"
           >
             <ul className="navbar-nav d-flex justify-content-center w-100 border-top border-bottom">
-              <li className="nav-item">
+              <li className="nav-item dropdown">
                 <NavLink
-                  className="nav-link btn btn-outline-secondary border-0 rounded-0 px-4"
+                  className="nav-link dropdown-toggle btn btn-outline-secondary border-0 rounded-0 px-4"
                   to="/products"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
                 >
-                  所有甜點
+                  Morchoco 甜點
                 </NavLink>
+                <ul className="dropdown-menu p-0 w-100 rounded-0">
+                  <li>
+                    <Link className="dropdown-item" to={`/products`}>
+                      所有甜點
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to={`/products/六吋蛋糕`}>
+                      六吋蛋糕
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to={`/products/小蛋糕`}>
+                      小蛋糕
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to={`/products/手工小點`}>
+                      手工小點
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to={`/products/飲品`}>
+                      飲品
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to={`/products/純巧克力`}>
+                      純巧克力
+                    </Link>
+                  </li>
+                </ul>
               </li>
               <li className="nav-item">
                 <NavLink
