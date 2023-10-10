@@ -6,7 +6,7 @@ function Footer() {
       <div className="container py-4 text-light">
         <div className="row">
           <div className="col-md-3">
-            <h2 className="my-2">Morchoco</h2>
+            <h2 className="my-2 logo">Morchoco</h2>
             <ul className="list-unstyled d-flex my-3">
               <li className="me-3">
                 <a
