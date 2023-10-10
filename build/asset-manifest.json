@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/morchoco/static/css/main.ba3e94b1.css",
+    "main.js": "/morchoco/static/js/main.a7a95f4d.js",
+    "static/media/bootstrap-icons.woff?": "/morchoco/static/media/bootstrap-icons.4753c5ba57962b4d7bf8.woff",
+    "static/media/bootstrap-icons.woff2?": "/morchoco/static/media/bootstrap-icons.6d63d0501e5ed7b79dab.woff2",
+    "static/media/logo-long-dark.png": "/morchoco/static/media/logo-long-dark.6727ee27da6b7e481bd0.png",
+    "static/media/logo-long.png": "/morchoco/static/media/logo-long.0bf25f3479d34a786cd4.png",
+    "static/media/flour.png": "/morchoco/static/media/flour.0da3786d62d0c153e813.png",
+    "static/media/spaghetti.png": "/morchoco/static/media/spaghetti.5367b396f6c40d418399.png",
+    "static/media/baker.png": "/morchoco/static/media/baker.593e2128f7de03b7363a.png",
+    "static/media/take-away.png": "/morchoco/static/media/take-away.974b4f032f4edf434ce7.png",
+    "index.html": "/morchoco/index.html",
+    "main.ba3e94b1.css.map": "/morchoco/static/css/main.ba3e94b1.css.map",
+    "main.a7a95f4d.js.map": "/morchoco/static/js/main.a7a95f4d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ba3e94b1.css",
+    "static/js/main.a7a95f4d.js"
+  ]
+}
