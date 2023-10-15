@@ -24,15 +24,17 @@ $utilities: map-merge(
       )
   )
 );
+
 @import "bootstrap/scss/utilities/api";
 
 // Tools
 @import "./tools";
 
 // Components
-@import "./navbar";
-@import "./product-card";
-@import "./footer";
+@import "./components/navbar";
+@import "./components/product-card";
+@import "./components/footer";
 
 // pages
-@import "./delivery";
+@import "./pages/home";
+@import "./pages/delivery";

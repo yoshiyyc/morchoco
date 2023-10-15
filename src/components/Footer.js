@@ -7,7 +7,7 @@ function Footer() {
         <div className="row">
           <div className="col-md-3">
             <h2 className="my-2 logo">Morchoco</h2>
-            <ul className="list-unstyled d-flex my-3">
+            <ul className="list-unstyled d-flex my-3 px-2">
               <li className="me-3">
                 <a
                   className="text-decoration-none link-light"

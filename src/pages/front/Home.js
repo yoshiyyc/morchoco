@@ -200,13 +200,10 @@ const Home = () => {
           <div className="col-4 d-flex flex-column">
             <div className="row g-3 flex-column flex-fill">
               <Link
-                className="col p-0 text-decoration-none"
+                className="col category p-0 text-decoration-none"
                 style={{
                   backgroundImage:
                     "url(https://images.unsplash.com/photo-1610611424854-5e07032143d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80)",
-                  backgroundPosition: "center center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
                 }}
                 to={`/products/手工小點`}
               >
@@ -217,13 +214,10 @@ const Home = () => {
                 </p>
               </Link>
               <Link
-                className="col p-0 text-decoration-none"
+                className="col category p-0 text-decoration-none"
                 style={{
                   backgroundImage:
                     "url(https://images.unsplash.com/photo-1481391032119-d89fee407e44?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80)",
-                  backgroundPosition: "center center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
                 }}
                 to={`/products/飲品`}
               >
@@ -237,14 +231,11 @@ const Home = () => {
           </div>
           <div className="col">
             <Link
-              className="d-block p-0 text-decoration-none"
+              className="d-block category p-0 text-decoration-none"
               style={{
                 height: 300,
                 backgroundImage:
                   "url(https://images.unsplash.com/photo-1505253149613-112d21d9f6a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
-                backgroundPosition: "center center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
               }}
               to={`/products/六吋蛋糕`}
             >
@@ -258,13 +249,10 @@ const Home = () => {
           <div className="col-4 d-flex flex-column">
             <div className="row g-3 flex-column flex-fill">
               <Link
-                className="col p-0 text-decoration-none"
+                className="col category p-0 text-decoration-none"
                 style={{
                   backgroundImage:
                     "url(https://images.unsplash.com/photo-1624001934657-640af7e2c599?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
-                  backgroundPosition: "center center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
                 }}
                 to={`/products/小蛋糕`}
               >
@@ -275,13 +263,10 @@ const Home = () => {
                 </p>
               </Link>
               <Link
-                className="col p-0 text-decoration-none"
+                className="col category p-0 text-decoration-none"
                 style={{
                   backgroundImage:
                     "url(https://images.unsplash.com/photo-1553452118-621e1f860f43?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
-                  backgroundPosition: "center center",
-                  backgroundRepeat: "no-repeat",
-                  backgroundSize: "cover",
                 }}
                 to={`/products/純巧克力`}
               >
