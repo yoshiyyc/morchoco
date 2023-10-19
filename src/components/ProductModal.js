@@ -23,10 +23,17 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
 
   const watchTitle = watch("title");
   const watchImageUrl = watch("image");
+  const watchImg1Url = watch("img1");
+  const watchImg2Url = watch("img2");
+  const watchImg3Url = watch("img3");
+  const watchImg4Url = watch("img4");
+  const watchImg5Url = watch("img5");
 
   const [, dispatch] = useContext(MessageContext);
 
   useEffect(() => {
+    console.log("sada", tempProduct);
+
     if (type === "create") {
       setValue("title", "");
       setValue("category", "");
@@ -37,16 +44,32 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       setValue("content", "");
       setValue("is_enabled", 1);
       setValue("image", "");
+      setValue("img1", "");
+      setValue("img2", "");
+      setValue("img3", "");
+      setValue("img4", "");
+      setValue("img5", "");
     } else if (type === "edit") {
-      setValue("title", tempProduct.title);
-      setValue("category", tempProduct.category);
-      setValue("unit", tempProduct.unit);
-      setValue("origin_price", tempProduct.origin_price);
-      setValue("price", tempProduct.price);
-      setValue("description", tempProduct.description);
-      setValue("content", tempProduct.content);
-      setValue("is_enabled", tempProduct.is_enabled);
-      setValue("image", tempProduct.imageUrl);
+      if (
+        tempProduct &&
+        tempProduct.imagesUrl &&
+        tempProduct.imagesUrl.length
+      ) {
+        setValue("title", tempProduct.title);
+        setValue("category", tempProduct.category);
+        setValue("unit", tempProduct.unit);
+        setValue("origin_price", tempProduct.origin_price);
+        setValue("price", tempProduct.price);
+        setValue("description", tempProduct.description);
+        setValue("content", tempProduct.content);
+        setValue("is_enabled", tempProduct.is_enabled);
+        setValue("image", tempProduct.imageUrl);
+        setValue("img1", tempProduct.imagesUrl[0]);
+        setValue("img2", tempProduct.imagesUrl[1]);
+        setValue("img3", tempProduct.imagesUrl[2]);
+        setValue("img4", tempProduct.imagesUrl[3]);
+        setValue("img5", tempProduct.imagesUrl[4]);
+      }
     }
   }, [type, tempProduct]);
 
@@ -68,6 +91,11 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
         content: "",
         is_enabled: 1,
         imageUrl: "",
+        img1: "",
+        img2: "",
+        img3: "",
+        img4: "",
+        img5: "",
       });
     } else if (type === "edit") {
       reset(tempProduct);
@@ -76,11 +104,19 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
 
   const onSubmit = async (data) => {
     const submitData = {
-      ...data,
+      title: data.title,
+      category: data.category,
       origin_price: Number(data.origin_price),
       price: Number(data.price),
+      unit: data.unit,
+      description: data.description,
+      content: data.content,
+      is_enabled: data.is_enabled,
       imageUrl: data.image,
+      imagesUrl: [data.img1, data.img2, data.img3, data.img4, data.img5],
     };
+
+    console.log("submitData", submitData);
 
     try {
       let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product`;
@@ -130,29 +166,143 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
               />
             </div>
             <div className="modal-body">
-              <div className="row">
-                <div className="col-sm-4">
-                  <div className="form-group mb-2">
-                    <Input
-                      id="image"
-                      type="text"
-                      labelText="輸入圖片網址"
-                      placeholder="請輸入圖片連結"
-                      register={register}
-                      errors={errors}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <p className="mb-0">預覽圖片</p>
-                    <img
-                      src={watchImageUrl}
-                      alt="預覽圖片"
-                      className="img-fluid"
-                      onError={handleImageError}
-                    />
+              <div className="row flex-column">
+                <div className="col mb-4">
+                  <div className="row gx-5">
+                    <div className="col-sm-4 mb-3 mb-sm-0">
+                      <h6 className="h5 mb-2">主圖片</h6>
+                      <div className="form-group mb-3">
+                        <Input
+                          id="image"
+                          type="text"
+                          labelText="輸入圖片網址"
+                          placeholder="請輸入圖片連結"
+                          register={register}
+                          errors={errors}
+                        />
+                      </div>
+                      <div className="form-group">
+                        {/* <p className="mb-0">預覽圖片</p> */}
+                        <img
+                          src={watchImageUrl}
+                          alt="預覽圖片"
+                          className="img-fluid"
+                          onError={handleImageError}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-sm-8">
+                      <h6 className="h5 mb-2">副圖片</h6>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img1"
+                            type="text"
+                            labelText="圖片一"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex ms-auto form-group">
+                          <img
+                            src={watchImg1Url}
+                            alt="預覽圖片"
+                            className="img-fluid mx-auto"
+                            style={{ maxHeight: "100px" }}
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img2"
+                            type="text"
+                            labelText="圖片二"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex ms-auto form-group">
+                          <img
+                            src={watchImg2Url}
+                            alt="預覽圖片"
+                            className="img-fluid mx-auto"
+                            style={{ maxHeight: "100px" }}
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img3"
+                            type="text"
+                            labelText="圖片三"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex ms-auto form-group">
+                          <img
+                            src={watchImg3Url}
+                            alt="預覽圖片"
+                            className="img-fluid mx-auto"
+                            style={{ maxHeight: "100px" }}
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img4"
+                            type="text"
+                            labelText="圖片四"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex ms-auto form-group">
+                          <img
+                            src={watchImg4Url}
+                            alt="預覽圖片"
+                            className="img-fluid mx-auto"
+                            style={{ maxHeight: "100px" }}
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img5"
+                            type="text"
+                            labelText="圖片五"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex ms-auto form-group">
+                          <img
+                            src={watchImg5Url}
+                            alt="預覽圖片"
+                            className="img-fluid mx-auto"
+                            style={{ maxHeight: "100px" }}
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="col-sm-8">
+                <hr />
+                <div className="col">
                   <div className="form-group mb-2">
                     <Input
                       id="title"
@@ -235,7 +385,6 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                       />
                     </div>
                   </div>
-                  <hr />
                   <div className="form-group mb-2">
                     <Textarea
                       id="description"
@@ -256,7 +405,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                       register={register}
                     />
                   </div>
-                  <div className="form-group mb-2">
+                  <div className="form-group mt-5 mb-2">
                     <CheckboxRadio
                       id="is_enabled"
                       name="is_enabled"

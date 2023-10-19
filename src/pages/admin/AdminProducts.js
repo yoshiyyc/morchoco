@@ -32,12 +32,18 @@ function AdminProducts() {
     getProducts();
   }, []);
 
+  useEffect(() => {
+    console.log("test", products);
+  }, [products]);
+
   const getProducts = async (page = 1) => {
     setIsLoading(true);
 
     const productRes = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/admin/products?page=${page}`
     );
+
+    console.log("pr", productRes);
     setProducts(productRes.data.products);
     setPagination(productRes.data.pagination);
     setIsLoading(false);
@@ -105,6 +111,7 @@ function AdminProducts() {
       <table className="table">
         <thead>
           <tr>
+            <th scope="col">ID</th>
             <th scope="col">分類</th>
             <th scope="col">名稱</th>
             <th scope="col">售價</th>
@@ -116,6 +123,7 @@ function AdminProducts() {
           {products.map((product) => {
             return (
               <tr key={product.id}>
+                <td>{product.id}</td>
                 <td>{product.category}</td>
                 <td>{product.title}</td>
                 <td>NT$ {formatCurrency(product.price)}</td>

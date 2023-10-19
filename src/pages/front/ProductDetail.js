@@ -40,6 +40,7 @@ const ProductDetail = () => {
     const productRes = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/products/all`
     );
+    console.log(productRes.data.products);
 
     setProducts(productRes.data.products);
     setIsLoading(false);
@@ -158,16 +159,21 @@ const ProductDetail = () => {
             <h2 className="mb-0">{product.title}</h2>
             {/* <p className="my-1 text-muted">{product.description}</p> */}
             <p className="my-4 text-muted">{product.description}</p>
-            {product.price === product.origin_price ? (
-              <p className="text-muted mt-4 fw-bold">NT$ {product.price}</p>
-            ) : (
-              <div className="d-flex">
-                <p className="text-danger mt-4 h4">NT$ {product.price}</p>
-                <p className="text-decoration-line-through text-muted mt-4 ms-2 h4">
-                  NT$ {product.origin_price}
-                </p>
+            <div className="d-flex justify-content-between align-items-center mt-4">
+              <div className="mb-0 h4">
+                {product.price === product.origin_price ? (
+                  <p className="mb-0 text-muted">NT$ {product.price}</p>
+                ) : (
+                  <div className="d-flex">
+                    <p className="mb-0 text-danger mb-0">NT$ {product.price}</p>
+                    <p className="mb-0 text-decoration-line-through text-muted ms-2">
+                      NT$ {product.origin_price}
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
+              <p className="text-muted mb-0">/ {product.unit}</p>
+            </div>
 
             <div className="input-group mt-auto border">
               <div className="input-group-prepend">
@@ -226,7 +232,7 @@ const ProductDetail = () => {
             <li>
               為了確保商品的新鮮及配送安全，
               <span className="text-primary fw-semibold">
-                蛋糕類商品全程都會使用低溫冷凍配送，其餘則採常溫配送
+                蛋糕及冰品類商品全程都會使用低溫冷凍配送，特定商品採冷藏配送（例：慕斯布丁），其餘除則採常溫配送
               </span>
               。內含新鮮水果及無法冷凍的食材的蛋糕，以及飲品類商品恕不提供宅配。
             </li>

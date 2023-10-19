@@ -78,8 +78,8 @@ function Navbar({ cartData }) {
                     </Link>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to={`/products/飲品`}>
-                      飲品
+                    <Link className="dropdown-item" to={`/products/冰品`}>
+                      冰品
                     </Link>
                   </li>
                   <li>

@@ -89,9 +89,9 @@ function Footer() {
                 <li className="my-2">
                   <NavLink
                     className="text-decoration-none link-light"
-                    to={`/products/飲品`}
+                    to={`/products/冰品`}
                   >
-                    飲品
+                    冰品
                   </NavLink>
                 </li>
                 <li className="my-2">
