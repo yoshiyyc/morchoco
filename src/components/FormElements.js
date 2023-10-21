@@ -97,6 +97,7 @@ export const Select = ({
   register,
   errors,
   rules,
+  required,
   children,
   disabled = false,
 }) => {
@@ -104,6 +105,7 @@ export const Select = ({
     <>
       <label htmlFor={id} className="form-label">
         {labelText}
+        {required && <span className="text-danger">*</span>}
       </label>
       <select
         id={id}

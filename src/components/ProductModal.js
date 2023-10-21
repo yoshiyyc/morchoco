@@ -6,7 +6,7 @@ import {
   handleSuccessMessage,
   handleErrorMessage,
 } from "../store/messageStore";
-import { Input, Textarea, CheckboxRadio } from "./FormElements";
+import { Input, Textarea, CheckboxRadio, Select } from "./FormElements";
 
 function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   const {
@@ -32,8 +32,6 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   const [, dispatch] = useContext(MessageContext);
 
   useEffect(() => {
-    console.log("sada", tempProduct);
-
     if (type === "create") {
       setValue("title", "");
       setValue("category", "");
@@ -116,8 +114,6 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       imagesUrl: [data.img1, data.img2, data.img3, data.img4, data.img5],
     };
 
-    console.log("submitData", submitData);
-
     try {
       let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product`;
       let method = "post";
@@ -178,11 +174,14 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                           labelText="輸入圖片網址"
                           placeholder="請輸入圖片連結"
                           register={register}
+                          required={true}
                           errors={errors}
+                          rules={{
+                            required: "主圖片網址為必填",
+                          }}
                         />
                       </div>
                       <div className="form-group">
-                        {/* <p className="mb-0">預覽圖片</p> */}
                         <img
                           src={watchImageUrl}
                           alt="預覽圖片"
@@ -192,7 +191,12 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                       </div>
                     </div>
                     <div className="col-sm-8">
-                      <h6 className="h5 mb-2">副圖片</h6>
+                      <div className="d-flex align-items-end mb-2">
+                        <h6 className="h5 me-2 mb-0">商品預覽圖</h6>
+                        <small className="text-muted">
+                          （圖片一建議與主圖片相同）
+                        </small>
+                      </div>
                       <div className="row justify-content-between mb-2">
                         <div className="col-8 form-group">
                           <Input
@@ -201,7 +205,11 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                             labelText="圖片一"
                             placeholder="請輸入圖片連結"
                             register={register}
+                            required={true}
                             errors={errors}
+                            rules={{
+                              required: "圖片一網址為必填",
+                            }}
                           />
                         </div>
                         <div className="col d-flex ms-auto form-group">
@@ -319,18 +327,25 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                   </div>
                   <div className="row">
                     <div className="form-group mb-2 col-md-6">
-                      <Input
+                      <Select
                         id="category"
-                        type="text"
-                        errors={errors}
                         labelText="分類"
-                        placeholder="請輸入分類"
-                        required={true}
                         register={register}
+                        required={true}
                         rules={{
                           required: "分類為必填",
                         }}
-                      />
+                        errors={errors}
+                      >
+                        <option value="" selected disabled>
+                          請選擇商品分類
+                        </option>
+                        <option value="六吋蛋糕">六吋蛋糕</option>
+                        <option value="小蛋糕">小蛋糕</option>
+                        <option value="手工小點">手工小點</option>
+                        <option value="冰品">冰品</option>
+                        <option value="冰品">純巧克力</option>
+                      </Select>
                     </div>
                     <div className="form-group mb-2 col-md-6">
                       <Input

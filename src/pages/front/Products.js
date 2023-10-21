@@ -45,7 +45,6 @@ const Products = () => {
     const allProducts = await axios
       .get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`)
       .then((response) => {
-        console.log("c", response);
         return response.data;
       })
       .catch((error) => {
@@ -76,7 +75,6 @@ const Products = () => {
         }`
       )
       .then((response) => {
-        console.log("a", response);
         return response.data;
       })
       .catch((error) => {

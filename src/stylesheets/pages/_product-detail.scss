@@ -1,0 +1,58 @@
+.product-preview {
+  .swiper {
+    --swiper-navigation-color: #{$gray-400};
+    --swiper-pagination-color: #ffffff;
+
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .swiper-slide {
+    text-align: center;
+    // font-size: 18px;
+    background-color: $light;
+    background-size: cover;
+    background-position: center;
+
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  // The main image
+  .mySwiper2 {
+    height: 80%; // Will be covered by Bootstrap h-100 if there is only 1 image
+    width: 100%;
+
+    & img {
+      object-fit: contain;
+    }
+  }
+
+  // The thumbnail list (will not appear if there is only 1 image)
+  .mySwiper {
+    height: 20%;
+    box-sizing: border-box;
+    padding-top: 10px; // The padding around thumbnails
+
+    & .swiper-slide {
+      width: 25%;
+      height: 100%;
+      opacity: 0.4;
+    }
+
+    & .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+  }
+}

@@ -32,10 +32,6 @@ function AdminProducts() {
     getProducts();
   }, []);
 
-  useEffect(() => {
-    console.log("test", products);
-  }, [products]);
-
   const getProducts = async (page = 1) => {
     setIsLoading(true);
 
@@ -43,7 +39,6 @@ function AdminProducts() {
       `/v2/api/${process.env.REACT_APP_API_PATH}/admin/products?page=${page}`
     );
 
-    console.log("pr", productRes);
     setProducts(productRes.data.products);
     setPagination(productRes.data.pagination);
     setIsLoading(false);
