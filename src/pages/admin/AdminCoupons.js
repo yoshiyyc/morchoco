@@ -122,7 +122,6 @@ function AdminCoupons() {
               <tr key={coupon.id}>
                 <td>{coupon.title}</td>
                 <td>{coupon.percent}</td>
-                {/* <td>{new Date(coupon.due_date).toDateString()}</td> */}
                 <td>{formatDate(coupon.due_date)}</td>
                 <td>{coupon.code}</td>
                 <td>{coupon.is_enabled ? "啟用" : "未啟用"}</td>

@@ -1,37 +1,57 @@
-import { useState } from "react";
-import { useNavigate, Link, NavLink } from "react-router-dom";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Input } from "../../components/FormElements";
 
 const CreateAccount = () => {
-  const navigate = useNavigate();
-
-  const [data, setData] = useState({
-    username: "",
-    password: "",
-  });
-
   const [loginState, setLoginState] = useState({});
 
-  //// Function
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    control,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm({
+    mode: "onTouched",
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      birthday: null,
+      password: "",
+      passwordCheck: "",
+    },
+  });
 
-  const handleSubmit = async (e) => {
+  // Reset form after form submission
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({
+        name: "",
+        email: "",
+        phone: "",
+        birthday: null,
+        password: "",
+        passwordCheck: "",
+      });
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  const onSubmit = async (data) => {
     try {
-      const res = await axios.post("/v2/admin/signin", data);
-      const { token, expired } = res.data;
-      console.log(res.data);
-      // Set token
-      document.cookie = `morchocoToken=${token}; expires=${new Date(expired)}`;
-
-      if (res.data.success) {
-        navigate("/admin/products");
-      }
+      setLoginState({
+        success: true,
+        message: "【輸入成功】會員頁面功能不在此專案計畫內",
+      });
     } catch (error) {
       console.log(error);
-      setLoginState(error.response.data);
+      setLoginState({
+        success: false,
+        message: "登入錯誤",
+      });
     }
   };
 
@@ -51,93 +71,145 @@ const CreateAccount = () => {
           </ol>
         </nav>
       </section>
-      <div className="container pt-4 pb-5">
+      <section className="container pt-4 pb-5">
         <div className="row justify-content-center mb-5">
           <div className="col-md-8">
             <h2 className="h3 my-4 text-center text-dark">註冊新帳號</h2>
-            <div className="bg-light border">
+            {loginState.message && (
+              <div
+                className={`alert rounded-0 ${
+                  loginState.success ? "alert-success" : "alert-danger"
+                }`}
+                role="alert"
+              >
+                {loginState.message}
+              </div>
+            )}
+            <form className="bg-light border" onSubmit={handleSubmit(onSubmit)}>
               <div className="col-9 mx-auto p-5">
                 <div className="mb-4">
-                  <label htmlFor="name" className="form-label w-100">
-                    姓名
-                  </label>
-                  <input
+                  <Input
                     id="name"
-                    className="form-control"
-                    name="name"
                     type="text"
+                    errors={errors}
+                    labelText="姓名"
                     placeholder="請輸入姓名"
-                    onChange={handleChange}
+                    required={true}
+                    register={register}
+                    rules={{
+                      required: "姓名為必填",
+                      maxLength: {
+                        value: 10,
+                        message: "姓名長度不超過 10",
+                      },
+                    }}
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="email" className="form-label w-100">
-                    Email
-                  </label>
-                  <input
+                  <Input
                     id="email"
-                    className="form-control"
-                    name="email"
+                    labelText="Email"
                     type="email"
-                    placeholder="請輸入 Email"
-                    onChange={handleChange}
+                    placeholder="請輸入 email"
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "Email 為必填",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Email 格式不正確",
+                      },
+                    }}
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="phone" className="form-label w-100">
-                    聯絡電話
-                  </label>
-                  <input
-                    id="phone"
-                    className="form-control"
-                    name="phone"
-                    type="phone"
+                  <Input
+                    id="tel"
+                    labelText="電話"
+                    type="tel"
                     placeholder="請輸入電話號碼"
-                    onChange={handleChange}
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "電話為必填",
+                      minLength: {
+                        value: 6,
+                        message: "電話不少於 6 碼",
+                      },
+                      maxLength: {
+                        value: 12,
+                        message: "電話不超過 12 碼",
+                      },
+                    }}
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="birthday" className="form-label w-100">
-                    生日
-                  </label>
-                  <input
+                  <Input
                     id="birthday"
-                    className="form-control"
-                    name="birthday"
                     type="date"
-                    onChange={handleChange}
+                    labelText="生日"
+                    required={true}
+                    register={register}
+                    errors={errors}
+                    rules={{
+                      required: "生日為必填",
+                    }}
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="password" className="form-label w-100">
-                    密碼
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
+                  <Input
                     id="password"
+                    labelText="密碼"
+                    type="password"
                     placeholder="請輸入密碼"
-                    onChange={handleChange}
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "密碼為必填",
+                      minLength: {
+                        value: 6,
+                        message: "密碼不少於 6 碼",
+                      },
+                      maxLength: {
+                        value: 12,
+                        message: "密碼不超過 12 碼",
+                      },
+                    }}
                   />
                 </div>
                 <div className=" mb-4">
-                  <label htmlFor="passwordCheck" className="form-label w-100">
-                    密碼確認
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="passwordCheck"
+                  <Input
                     id="passwordCheck"
+                    labelText="密碼確認"
+                    type="password"
                     placeholder="請再次輸入密碼"
-                    onChange={handleChange}
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "密碼為必填",
+                      minLength: {
+                        value: 6,
+                        message: "密碼不少於 6 碼",
+                      },
+                      maxLength: {
+                        value: 12,
+                        message: "密碼不超過 12 碼",
+                      },
+                      validate: (val) => {
+                        if (watch("password") !== val) {
+                          return "密碼不一致";
+                        }
+                      },
+                    }}
                   />
                 </div>
                 <button
-                  type="button"
+                  type="submit"
                   className="btn btn-primary d-block mt-5 mb-4 py-2 w-100"
-                  onClick={handleSubmit}
                 >
                   加入會員
                 </button>
@@ -150,10 +222,10 @@ const CreateAccount = () => {
                   已經是會員了
                 </Link>
               </div>
-            </div>
+            </form>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };

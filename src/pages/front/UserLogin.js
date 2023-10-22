@@ -1,36 +1,49 @@
-import { useState } from "react";
-import { useNavigate, Link, NavLink } from "react-router-dom";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Input } from "../../components/FormElements";
 
 const UserLogin = () => {
-  const navigate = useNavigate();
-
-  const [data, setData] = useState({
-    username: "",
-    password: "",
-  });
-
   const [loginState, setLoginState] = useState({});
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    control,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm({
+    mode: "onTouched",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  const handleSubmit = async (e) => {
+  // Reset form after form submission
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({
+        email: "",
+        password: "",
+      });
+    }
+  }, [isSubmitSuccessful, reset]);
+
+  const onSubmit = async (data) => {
     try {
-      const res = await axios.post("/v2/admin/signin", data);
-      const { token, expired } = res.data;
-      console.log(res.data);
-      // Set token
-      document.cookie = `morchocoToken=${token}; expires=${new Date(expired)}`;
-
-      if (res.data.success) {
-        navigate("/admin/products");
-      }
+      setLoginState({
+        success: true,
+        message: "【輸入成功】會員頁面功能不在此專案計畫內",
+      });
     } catch (error) {
       console.log(error);
-      setLoginState(error.response.data);
+      setLoginState({
+        success: false,
+        message: "登入錯誤",
+      });
     }
   };
 
@@ -50,50 +63,65 @@ const UserLogin = () => {
           </ol>
         </nav>
       </section>
-      <div className="container pt-4 pb-5">
+      <section className="container pt-4 pb-5">
         <div className="row justify-content-center mb-5">
           <div className="col-md-8">
             <h2 className="h3 my-4 text-center text-dark">登入帳號</h2>
-            <div
-              className={`alert alert-danger ${
-                loginState.message ? "d-block" : "d-none"
-              }`}
-              role="alert"
-            >
-              {loginState.message}
-            </div>
-            <div className="bg-light border">
+            {loginState.message && (
+              <div
+                className={`alert rounded-0 ${
+                  loginState.success ? "alert-success" : "alert-danger"
+                }`}
+                role="alert"
+              >
+                {loginState.message}
+              </div>
+            )}
+            <form className="bg-light border" onSubmit={handleSubmit(onSubmit)}>
               <div className="col-9 mx-auto p-5">
                 <div className="mb-4">
-                  <label htmlFor="email" className="form-label w-100">
-                    Email
-                  </label>
-                  <input
+                  <Input
                     id="email"
-                    className="form-control"
-                    name="email"
+                    labelText="Email"
                     type="email"
-                    placeholder="請輸入 Email"
-                    onChange={handleChange}
+                    placeholder="請輸入 email"
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "Email 為必填",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Email 格式不正確",
+                      },
+                    }}
                   />
                 </div>
                 <div className=" mb-4">
-                  <label htmlFor="password" className="form-label w-100">
-                    密碼
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
+                  <Input
                     id="password"
+                    labelText="密碼"
+                    type="password"
                     placeholder="請輸入密碼"
-                    onChange={handleChange}
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "密碼為必填",
+                      minLength: {
+                        value: 6,
+                        message: "密碼不少於 6 碼",
+                      },
+                      maxLength: {
+                        value: 12,
+                        message: "密碼不超過 12 碼",
+                      },
+                    }}
                   />
                 </div>
                 <button
-                  type="button"
+                  type="submit"
                   className="btn btn-primary d-block mt-5 mb-4 py-2 w-100"
-                  onClick={handleSubmit}
                 >
                   登入
                 </button>
@@ -112,10 +140,10 @@ const UserLogin = () => {
                   註冊新會員
                 </Link>
               </div>
-            </div>
+            </form>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };

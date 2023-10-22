@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, NavLink } from "react-router-dom";
+import { useParams, NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
@@ -7,6 +7,7 @@ import ProductCard from "../../components/ProductCard";
 
 const Products = () => {
   const { category } = useParams();
+  const navigate = useNavigate();
 
   const [productList, setProductList] = useState([]);
   const [currentCategory, setCurrentCategory] = useState(
@@ -86,6 +87,10 @@ const Products = () => {
     setIsLoading(false);
   };
 
+  const handleChangeCategory = (e) => {
+    navigate(`/products/${e.target.value}`);
+  };
+
   // const handleProductOrder = (e) => {
   // setProductOrder(e.target.value);
 
@@ -136,7 +141,7 @@ const Products = () => {
       <section className="container pt-3 pt-md-4 pb-5">
         <div className="row flex-column flex-md-row align-items-center align-items-md-start gx-5 my-4">
           <div className="col-9 col-md-3 mb-5 mb-md-0">
-            <ul className="list-group list-group-flush">
+            <ul className="d-none d-md-block list-group list-group-flush">
               {categories.map((category) => {
                 return (
                   <NavLink
@@ -152,13 +157,27 @@ const Products = () => {
                 );
               })}
             </ul>
+            <select
+              className="d-block d-md-none form-select"
+              aria-label="Product menu"
+              value={currentCategory}
+              onChange={handleChangeCategory}
+            >
+              {categories.map((category) => {
+                return (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                );
+              })}
+            </select>
           </div>
           <div className="col-12 col-md-9">
-            <div className="d-flex align-items-center mb-5">
-              <h2 className="h3 mb-0 text-center text-sm-start text-dark">
+            <div className="d-flex flex-column flex-md-row align-items-center mb-5">
+              <h2 className="h3 mb-2 mb-md-0 text-center text-sm-start text-dark">
                 {currentCategory}
               </h2>
-              <div className="d-flex align-items-center ms-auto">
+              <div className="d-flex align-items-center ms-md-auto">
                 {/* <select
                   className="form-select ms-auto"
                   aria-label="product-filter"
@@ -169,7 +188,7 @@ const Products = () => {
                   <option value="ascPrice">價格由低到高</option>
                   <option value="dscPrice">價格由高到低</option>
                 </select> */}
-                <p className="ms-3 mb-0 w-100 text-muted">
+                <p className="ms-md-3 mb-0 w-100 text-muted">
                   共{" "}
                   {productTotal[currentCategory]
                     ? productTotal[currentCategory].toLocaleString()

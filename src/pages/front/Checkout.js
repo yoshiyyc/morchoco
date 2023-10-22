@@ -208,7 +208,7 @@ const Checkout = () => {
                         message: "姓名長度不超過 10",
                       },
                     }}
-                  ></Input>
+                  />
                 </div>
                 <div className="mb-3">
                   <Input
@@ -226,7 +226,7 @@ const Checkout = () => {
                         message: "Email 格式不正確",
                       },
                     }}
-                  ></Input>
+                  />
                 </div>
                 <div className="mb-3">
                   <Input
@@ -248,7 +248,7 @@ const Checkout = () => {
                         message: "電話不超過 12 碼",
                       },
                     }}
-                  ></Input>
+                  />
                 </div>
                 <div className="mb-3">
                   <Input
@@ -262,7 +262,7 @@ const Checkout = () => {
                     rules={{
                       required: "地址為必填",
                     }}
-                  ></Input>
+                  />
                 </div>
                 <div className="mb-3">
                   <Textarea
@@ -272,7 +272,7 @@ const Checkout = () => {
                     rows="5"
                     errors={errors}
                     register={register}
-                  ></Textarea>
+                  />
                 </div>
               </div>
             </div>

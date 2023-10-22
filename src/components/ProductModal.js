@@ -337,14 +337,14 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                         }}
                         errors={errors}
                       >
-                        <option value="" selected disabled>
+                        <option value="" disabled>
                           請選擇商品分類
                         </option>
                         <option value="六吋蛋糕">六吋蛋糕</option>
                         <option value="小蛋糕">小蛋糕</option>
                         <option value="手工小點">手工小點</option>
                         <option value="冰品">冰品</option>
-                        <option value="冰品">純巧克力</option>
+                        <option value="純巧克力">純巧克力</option>
                       </Select>
                     </div>
                     <div className="form-group mb-2 col-md-6">
