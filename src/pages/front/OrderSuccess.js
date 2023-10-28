@@ -90,7 +90,10 @@ const OrderSuccess = () => {
             </Link>
           </div>
           <div className="col-md-5 px-5 pt-5 pt-md-4 pb-5 bg-light">
-            <h3 className="h5 my-4 fw-bold text-dark">訂單明細</h3>
+            <div className="my-4">
+              <h3 className="h5 fw-bold text-dark">訂單明細</h3>
+              <small className="text-muted">訂單編號：{orderData.id}</small>
+            </div>
             <div className="mb-5">
               {Object.values(orderData?.products || {}).map((item) => {
                 return (

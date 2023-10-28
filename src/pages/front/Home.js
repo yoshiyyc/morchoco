@@ -2,10 +2,12 @@ import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Grid } from "swiper/modules";
+import { Autoplay, Pagination, Navigation, Grid } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "swiper/css/grid";
+import "swiper/css/effect-fade";
 import Loading from "../../components/Loading";
 import flour from "../../img/flour.png";
 import baker from "../../img/baker.png";
@@ -61,18 +63,47 @@ const Home = () => {
     <>
       <section className="d-block container mb-5">
         <Loading isLoading={isLoading} />
-        <div
-          className="d-flex align-items-center px-4"
-          style={{
-            minHeight: "400px",
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1536614984430-64652c3ad956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)",
-            backgroundPosition: "center center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-          }}
-        >
-          <h2 className="display-6 text-white">
+        <div className="banner position-relative">
+          <Swiper
+            className="mySwiper h-100"
+            centeredSlides={true}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+            }}
+            effect={"fade"}
+            loop={true}
+            pagination={{
+              clickable: true,
+            }}
+            modules={[Autoplay, Pagination, Navigation]}
+          >
+            <SwiperSlide>
+              <div className="img-container">
+                <img
+                  src="https://images.unsplash.com/photo-1536614984430-64652c3ad956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                  alt="Morchoco banner 1"
+                />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="img-container">
+                <img
+                  src="https://images.unsplash.com/photo-1575613083252-04d4cff9cf2a?auto=format&fit=crop&q=80&w=2670&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Morchoco banner 2"
+                />
+              </div>
+            </SwiperSlide>
+            <SwiperSlide>
+              <div className="img-container">
+                <img
+                  src="https://images.unsplash.com/photo-1694349494626-67b63e2c027b?auto=format&fit=crop&q=80&w=2726&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Morchoco banner 3"
+                />
+              </div>
+            </SwiperSlide>
+          </Swiper>
+          <h2 className="banner__title p-4 position-absolute top-50 translate-middle-y display-6 text-white">
             Morchoco
             <br />
             <span>巧克力愛好者的天堂</span>

@@ -177,7 +177,7 @@ function CouponModal({ closeCouponModal, getCoupons, type, tempCoupon }) {
                   />
                 </div>
               </div>
-              <div className="form-group mb-2">
+              <div className="form-group mt-5 mb-2">
                 <CheckboxRadio
                   id="is_enabled"
                   name="is_enabled"

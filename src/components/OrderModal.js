@@ -170,7 +170,7 @@ function OrderModal({ closeOrderModal, getOrders, tempOrder }) {
 
               <div>
                 <h5 className="mt-4">修改訂單狀態</h5>
-                <div className="form-group mb-2">
+                <div className="form-group mb-4">
                   <CheckboxRadio
                     id="is_paid"
                     name="is_paid"

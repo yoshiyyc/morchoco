@@ -36,7 +36,7 @@ function AdminCoupons() {
     const couponRes = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupons?page=${page}`
     );
-    console.log(couponRes);
+
     setCoupons(couponRes.data.coupons);
     setPagination(couponRes.data.pagination);
     setIsLoading(false);

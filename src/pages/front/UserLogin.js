@@ -108,14 +108,6 @@ const UserLogin = () => {
                     register={register}
                     rules={{
                       required: "密碼為必填",
-                      minLength: {
-                        value: 6,
-                        message: "密碼不少於 6 碼",
-                      },
-                      maxLength: {
-                        value: 12,
-                        message: "密碼不超過 12 碼",
-                      },
                     }}
                   />
                 </div>

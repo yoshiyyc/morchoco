@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/morchoco/static/css/main.086643c8.css",
-    "main.js": "/morchoco/static/js/main.97f75d96.js",
+    "main.js": "/morchoco/static/js/main.337a0dcd.js",
     "static/media/bootstrap-icons.woff?": "/morchoco/static/media/bootstrap-icons.4753c5ba57962b4d7bf8.woff",
     "static/media/bootstrap-icons.woff2?": "/morchoco/static/media/bootstrap-icons.6d63d0501e5ed7b79dab.woff2",
     "static/media/logo-long-dark.png": "/morchoco/static/media/logo-long-dark.6727ee27da6b7e481bd0.png",
@@ -12,10 +12,10 @@
     "static/media/take-away.png": "/morchoco/static/media/take-away.974b4f032f4edf434ce7.png",
     "index.html": "/morchoco/index.html",
     "main.086643c8.css.map": "/morchoco/static/css/main.086643c8.css.map",
-    "main.97f75d96.js.map": "/morchoco/static/js/main.97f75d96.js.map"
+    "main.337a0dcd.js.map": "/morchoco/static/js/main.337a0dcd.js.map"
   },
   "entrypoints": [
     "static/css/main.086643c8.css",
-    "static/js/main.97f75d96.js"
+    "static/js/main.337a0dcd.js"
   ]
 }

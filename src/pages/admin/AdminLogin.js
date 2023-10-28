@@ -1,27 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+import { Input } from "../../components/FormElements";
 
 function AdminLogin() {
   const navigate = useNavigate();
 
-  const [data, setData] = useState({
-    username: "",
-    password: "",
+  const [loginState, setLoginState] = useState({});
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    control,
+    reset,
+    formState: { errors, isSubmitSuccessful },
+  } = useForm({
+    mode: "onTouched",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const [loginState, setLoginState] = useState({});
+  // Reset form after form submission
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({
+        email: "",
+        password: "",
+      });
+    }
+  }, [isSubmitSuccessful, reset]);
 
   const handleExit = () => {
     navigate("/");
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value });
-  };
-
-  const handleSubmit = async (e) => {
+  const onSubmit = async (data) => {
     try {
       const res = await axios.post("/v2/admin/signin", {
         username: data.email,
@@ -80,17 +98,17 @@ function AdminLogin() {
           <div className="col-md-8">
             <h3 className="my-4 text-center">登入帳號</h3>
             <div
-              className={`alert alert-danger ${
+              className={`alert alert-danger rounded-0 ${
                 loginState.message ? "d-block" : "d-none"
               }`}
               role="alert"
             >
               {loginState.message}
             </div>
-            <div className="bg-light border">
+            <form className="bg-light border" onSubmit={handleSubmit(onSubmit)}>
               <div className="col-9 mx-auto p-5">
                 <div className="mb-4">
-                  <label htmlFor="email" className="form-label w-100">
+                  {/* <label htmlFor="email" className="form-label w-100">
                     Email
                   </label>
                   <input
@@ -100,10 +118,26 @@ function AdminLogin() {
                     type="email"
                     placeholder="請輸入 Email"
                     onChange={handleChange}
+                  /> */}
+                  <Input
+                    id="email"
+                    labelText="Email"
+                    type="email"
+                    placeholder="請輸入 email"
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "Email 為必填",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Email 格式不正確",
+                      },
+                    }}
                   />
                 </div>
                 <div className=" mb-4">
-                  <label htmlFor="password" className="form-label w-100">
+                  {/* <label htmlFor="password" className="form-label w-100">
                     密碼
                   </label>
                   <input
@@ -113,17 +147,29 @@ function AdminLogin() {
                     id="password"
                     placeholder="請輸入密碼"
                     onChange={handleChange}
+                  /> */}
+                  <Input
+                    id="password"
+                    labelText="密碼"
+                    type="password"
+                    placeholder="請輸入密碼"
+                    required={true}
+                    errors={errors}
+                    register={register}
+                    rules={{
+                      required: "密碼為必填",
+                    }}
                   />
                 </div>
                 <button
-                  type="button"
+                  type="submit"
                   className="btn btn-primary d-block mt-5 mb-4 py-2 w-100"
                   onClick={handleSubmit}
                 >
                   登入
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
