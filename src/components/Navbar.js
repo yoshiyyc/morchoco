@@ -6,13 +6,13 @@ function Navbar({ cartData }) {
   return (
     <header className="bg-white sticky-top">
       <div className="container">
-        <nav className="navbar p-0 navbar-expand-md navbar-light d-flex flex-column justify-content-between">
+        <nav className="navbar navbar-expand-md navbar-light d-flex flex-column justify-content-between my-2 my-md-0 p-0">
           <div className="d-flex position-relative w-100">
             <NavLink className="logo navbar-brand mx-auto link-dark" to="/">
               <h2 className="h1">Morchoco</h2>
             </NavLink>
             <button
-              className="navbar-toggler"
+              className="navbar-toggler position-absolute top-50 end-0 translate-middle-y border-0"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#navbarNav"
@@ -22,22 +22,15 @@ function Navbar({ cartData }) {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <div
-              className="d-none d-md-flex align-items-center position-absolute ms-auto"
-              style={{
-                right: "0%",
-                top: "50%",
-                transform: "translate(0%, -50%)",
-              }}
-            >
+            <div className="d-none d-md-flex align-items-center position-absolute top-50 end-0 translate-middle-y">
               <NavLink to="/cart" className="nav-link position-relative mx-3">
-                <i className="bi bi-cart2 fs-4"></i>
+                <i className="bi bi-cart2 fs-4" />
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                   {cartData.carts?.length}
                 </span>
               </NavLink>
               <NavLink to="/login" className="nav-link mx-3">
-                <i className="bi bi-person-circle fs-4"></i>
+                <i className="bi bi-person-circle fs-4" />
               </NavLink>
             </div>
           </div>
@@ -48,7 +41,7 @@ function Navbar({ cartData }) {
             <ul className="navbar-nav d-flex justify-content-center w-100 border-top border-bottom">
               <li className="nav-item dropdown">
                 <NavLink
-                  className="nav-link dropdown-toggle btn btn-outline-secondary border-0 rounded-0 px-4"
+                  className="nav-link dropdown-toggle btn btn-outline-secondary border-0 px-4 rounded-0"
                   to="/products"
                   role="button"
                   data-bs-toggle="dropdown"
@@ -56,7 +49,7 @@ function Navbar({ cartData }) {
                 >
                   Morchoco 甜點
                 </NavLink>
-                <ul className="dropdown-menu p-0 w-100 rounded-0">
+                <ul className="dropdown-menu p-0 w-100 text-center text-md-start rounded-0">
                   <li>
                     <Link className="dropdown-item" to={`/products`}>
                       所有甜點
@@ -91,7 +84,7 @@ function Navbar({ cartData }) {
               </li>
               <li className="nav-item">
                 <NavLink
-                  className="nav-link btn btn-outline-secondary border-0 rounded-0 px-4"
+                  className="nav-link btn btn-outline-secondary px-4 border-0 rounded-0"
                   to="/about"
                 >
                   關於我們
@@ -99,7 +92,7 @@ function Navbar({ cartData }) {
               </li>
               <li className="nav-item">
                 <NavLink
-                  className="nav-link btn btn-outline-secondary border-0 rounded-0 px-4"
+                  className="nav-link btn btn-outline-secondary  px-4 border-0 rounded-0"
                   to="/delivery"
                 >
                   宅配須知
@@ -107,7 +100,7 @@ function Navbar({ cartData }) {
               </li>
               <li className="nav-item">
                 <NavLink
-                  className={`nav-link btn btn-outline-secondary border-0 rounded-0 px-4 ${
+                  className={`nav-link btn btn-outline-secondary px-4 border-0 rounded-0 ${
                     (location.pathname === "/createaccount" ||
                       location.pathname === "/forgotpassword") &&
                     "active"
@@ -118,18 +111,16 @@ function Navbar({ cartData }) {
                 </NavLink>
               </li>
               <li className="nav-item d-flex d-md-none">
-                <NavLink to="/cart" className="nav-link px-4">
+                <NavLink
+                  className="nav-link d-flex justify-content-center align-items-center px-4 w-100"
+                  to="/cart"
+                >
                   <div className="position-relative">
-                    <i className="bi bi-cart2 fs-4 m-0"></i>
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    購物車
+                    <span className="ms-1 position-absolute top-50 top-md-0 start-100 translate-middle-y translate-md-middle badge rounded-pill bg-danger">
                       {cartData.carts?.length}
                     </span>
                   </div>
-                </NavLink>
-              </li>
-              <li className="nav-item d-md-none">
-                <NavLink to="" className="nav-link px-4" disabled>
-                  <i className="bi bi-person-circle fs-4"></i>
                 </NavLink>
               </li>
             </ul>
