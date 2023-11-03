@@ -8,7 +8,10 @@ function Navbar({ cartData }) {
       <div className="container">
         <nav className="navbar navbar-expand-md navbar-light d-flex flex-column justify-content-between my-2 my-md-0 p-0">
           <div className="d-flex position-relative w-100">
-            <NavLink className="logo navbar-brand mx-auto link-dark" to="/">
+            <NavLink
+              className="navbar__logo logo navbar-brand mx-auto link-dark"
+              to="/"
+            >
               <h2 className="h1">Morchoco</h2>
             </NavLink>
             <button

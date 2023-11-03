@@ -1,11 +1,15 @@
-footer .logo {
-  background-image: url(../../img/logo-long-dark.png);
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: left center;
-  display: block;
-  height: 60px;
-  text-indent: 101%;
-  overflow: hidden;
-  white-space: nowrap;
+.footer {
+  &__logo {
+    background-image: url(../../img/logo-long-dark.png);
+    background-position: left center;
+    height: 60px;
+  }
+
+  &__navlink {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

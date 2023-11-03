@@ -2,19 +2,19 @@ import { NavLink } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="bg-dark">
+    <footer className="footer bg-dark">
       <div className="container py-4 text-light">
         <div className="row">
           <div className="col-md-3">
-            <h2 className="my-2 logo">Morchoco</h2>
-            <ul className="list-unstyled d-flex my-3 px-2">
+            <h2 className="footer__logo logo my-2">Morchoco</h2>
+            <ul className="list-unstyled d-flex mt-3 mb-4 px-2">
               <li className="me-3">
                 <a
                   className="text-decoration-none link-light"
                   href="#"
                   target="_blank"
                 >
-                  <i className="d-block bi bi-facebook fs-4"></i>
+                  <i className="d-block bi bi-facebook fs-4" />
                 </a>
               </li>
               <li className="mx-3">
@@ -23,7 +23,7 @@ function Footer() {
                   href="#"
                   target="_blank"
                 >
-                  <i className="d-block bi bi-twitter fs-4"></i>
+                  <i className="d-block bi bi-twitter fs-4" />
                 </a>
               </li>
               <li className="mx-3">
@@ -32,7 +32,7 @@ function Footer() {
                   href="#"
                   target="_blank"
                 >
-                  <i className="d-block bi bi-instagram fs-4"></i>
+                  <i className="d-block bi bi-instagram fs-4" />
                 </a>
               </li>
             </ul>
@@ -42,19 +42,19 @@ function Footer() {
               <h5>關於我們</h5>
               <ul className="list-unstyled">
                 <li className="my-2">
-                  <i className="me-2 bi bi-house-door-fill"></i>
+                  <i className="me-2 bi bi-house-door-fill" />
                   高雄市可可區貝克一街600號1樓
                 </li>
                 <li className="my-2">
-                  <i className="me-2 bi bi-telephone-fill"></i>
+                  <i className="me-2 bi bi-telephone-fill" />
                   (07)777-7777
                 </li>
                 <li className="my-2">
-                  <i className="me-2 bi bi-envelope-fill"></i>
+                  <i className="me-2 bi bi-envelope-fill" />
                   hello@morchoco.com
                 </li>
                 <li className="my-2">
-                  <i className="me-2 bi bi-clock-fill"></i>
+                  <i className="me-2 bi bi-clock-fill" />
                   10:00 ~ 19:00
                 </li>
               </ul>
@@ -64,7 +64,7 @@ function Footer() {
               <ul className="list-unstyled">
                 <li className="my-2">
                   <NavLink
-                    className="text-decoration-none link-light"
+                    className="footer__navlink nav-link link-light"
                     to={`/products/六吋蛋糕`}
                   >
                     六吋蛋糕
@@ -72,7 +72,7 @@ function Footer() {
                 </li>
                 <li className="my-2">
                   <NavLink
-                    className="text-decoration-none link-light"
+                    className="footer__navlink nav-link link-light"
                     to={`/products/小蛋糕`}
                   >
                     小蛋糕
@@ -80,7 +80,7 @@ function Footer() {
                 </li>
                 <li className="my-2">
                   <NavLink
-                    className="text-decoration-none link-light"
+                    className="footer__navlink nav-link link-light"
                     to={`/products/手工小點`}
                   >
                     手工小點
@@ -88,7 +88,7 @@ function Footer() {
                 </li>
                 <li className="my-2">
                   <NavLink
-                    className="text-decoration-none link-light"
+                    className="footer__navlink nav-link link-light"
                     to={`/products/冰品`}
                   >
                     冰品
@@ -96,7 +96,7 @@ function Footer() {
                 </li>
                 <li className="my-2">
                   <NavLink
-                    className="text-decoration-none link-light"
+                    className="footer__navlink nav-link link-light"
                     to={`/products/純巧克力`}
                   >
                     純巧克力
@@ -109,7 +109,7 @@ function Footer() {
               <ul className="list-unstyled">
                 <li className="my-2">
                   <NavLink
-                    className="text-decoration-none link-light"
+                    className="footer__navlink nav-link link-light"
                     to="/login"
                   >
                     會員專區
@@ -117,14 +117,17 @@ function Footer() {
                 </li>
                 <li className="my-2">
                   <NavLink
-                    className="text-decoration-none link-light"
+                    className="footer__navlink nav-link link-light"
                     to="/delivery"
                   >
                     宅配須知
                   </NavLink>
                 </li>
                 <li className="my-2">
-                  <NavLink to="/credits" className="nav-link link-warning">
+                  <NavLink
+                    to="/credits"
+                    className="footer__navlink nav-link link-warning"
+                  >
                     Credits
                   </NavLink>
                 </li>
