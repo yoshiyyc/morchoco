@@ -38,7 +38,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product-card card border-0">
+    <div className="product-card card border-0 rounded-0">
       <div className="card-body position-relative p-0">
         <img
           src={product.imageUrl}
@@ -60,11 +60,11 @@ const ProductCard = ({ product }) => {
             </p>
           </div>
         ) : (
-          <div className="d-flex justify-content-center">
-            <p className="text-danger mt-1 mb-0">
+          <div className="d-flex justify-content-center flex-wrap">
+            <p className="text-danger mt-1 mb-0 mx-1">
               NT$ {formatCurrency(product.price)}
             </p>
-            <p className="text-decoration-line-through text-muted mt-1 ms-2 mb-0">
+            <p className="text-decoration-line-through text-muted mt-1 mb-0 mx-1">
               NT$ {formatCurrency(product.origin_price)}
             </p>
           </div>

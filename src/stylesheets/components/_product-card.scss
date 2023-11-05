@@ -1,5 +1,5 @@
 .product-card {
-  height: 340px;
+  height: 350px;
   transition: all 0.2s linear;
 
   .card-body {
@@ -16,7 +16,7 @@
 
 @include media-breakpoint-up(md) {
   .product-card {
-    height: 285px;
+    height: 310px;
     transition: all 0.2s linear;
 
     .card-footer {
@@ -26,11 +26,9 @@
   }
 
   .product-card:hover {
-    & .product-card {
-      &__img {
-        height: 170px;
-        transition: all 0.2s linear;
-      }
+    .product-card__img {
+      height: 170px;
+      transition: all 0.2s linear;
     }
 
     .card-footer {

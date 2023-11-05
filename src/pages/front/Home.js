@@ -25,11 +25,17 @@ const Home = () => {
 
   const getProducts = async (page = 1) => {
     setIsLoading(true);
-    const productRes = await axios.get(
-      `/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`
-    );
 
-    setProducts(productRes.data.products);
+    try {
+      const productRes = await axios.get(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/products?page=${page}`
+      );
+
+      setProducts(productRes.data.products);
+    } catch (error) {
+      console.log(error);
+    }
+
     setIsLoading(false);
   };
 
@@ -43,7 +49,7 @@ const Home = () => {
         className="btn btn-sm btn-outline-primary"
         onClick={() => swiperRef.current.slidePrev()}
       >
-        <i className="bi bi-chevron-left"></i>
+        <i className="bi bi-chevron-left" />
       </button>
     );
   };
@@ -54,7 +60,7 @@ const Home = () => {
         className="btn btn-sm btn-outline-primary"
         onClick={() => swiperRef.current.slideNext()}
       >
-        <i className="bi bi-chevron-right"></i>
+        <i className="bi bi-chevron-right" />
       </button>
     );
   };
@@ -110,7 +116,7 @@ const Home = () => {
           </h2>
         </div>
       </section>
-      <section className="container py-5">
+      <section className="container py-5 py-md-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <SlidePrevButton swiperRef={swiperEventRef} />
           <h4 className="text-center text-dark">活動專區</h4>
@@ -148,7 +154,7 @@ const Home = () => {
                 );
               })}
             <SwiperSlide>
-              <div className="card mb-4 bg-light border-0 rounded-0">
+              <div className="card mb-4 mb-sm-0 bg-light border-0 rounded-0">
                 <Link
                   className="stretched-link text-decoration-none"
                   to={`/products`}
@@ -166,7 +172,7 @@ const Home = () => {
           </Swiper>
         </div>
       </section>
-      <section className="container py-5">
+      <section className="container py-5 py-md-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <SlidePrevButton swiperRef={swiperPopularRef} />
           <h4 className="text-center text-dark">人氣甜點</h4>
@@ -207,7 +213,7 @@ const Home = () => {
               );
             })}
             <SwiperSlide>
-              <div className="card mb-4 bg-light border-0 rounded-0">
+              <div className="card mb-4 mb-sm-0 bg-light border-0 rounded-0">
                 <Link
                   className="stretched-link text-decoration-none"
                   to={`/products`}
@@ -225,46 +231,49 @@ const Home = () => {
           </Swiper>
         </div>
       </section>
-      <section className="container py-5">
+      <section className="container py-5 py-md-4">
         <h4 className="mb-4 text-center text-dark">更多品項</h4>
-        <div className="row g-4">
-          <div className="col-4 d-flex flex-column">
-            <div className="row g-3 flex-column flex-fill">
-              <Link
-                className="col category p-0 text-decoration-none"
-                style={{
-                  backgroundImage:
-                    "url(https://images.unsplash.com/photo-1637646681555-e866bfb1780f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80)",
-                }}
-                to={`/products/手工小點`}
-              >
-                <p className="d-flex w-100 h-100 text-light">
-                  <span className="d-block mb-auto px-4 py-3 bg-dark">
-                    手工小點
-                  </span>
-                </p>
-              </Link>
-              <Link
-                className="col category p-0 text-decoration-none"
-                style={{
-                  backgroundImage:
-                    "url(https://images.unsplash.com/photo-1575473589907-6451b9f4e478?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2672&q=80)",
-                }}
-                to={`/products/飲品`}
-              >
-                <p className="d-flex w-100 text-light">
-                  <span className="d-block mb-auto px-4 py-3 bg-dark">
-                    冰品
-                  </span>
-                </p>
-              </Link>
+        <div className="row flex-column flex-sm-row g-3">
+          <div className="col col-sm-4 d-flex flex-column">
+            <div className="row gx-0 gy-4 gy-sm-3 flex-column flex-fill">
+              <div className="col">
+                <Link
+                  className="col category category--half-col d-block p-0 text-decoration-none"
+                  style={{
+                    backgroundImage:
+                      "url(https://images.unsplash.com/photo-1637646681555-e866bfb1780f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80)",
+                  }}
+                  to={`/products/手工小點`}
+                >
+                  <p className="d-flex w-100 h-100 text-light">
+                    <span className="d-block mb-auto px-4 py-3 bg-dark">
+                      手工小點
+                    </span>
+                  </p>
+                </Link>
+              </div>
+              <div className="col">
+                <Link
+                  className="col category category--half-col d-block p-0 text-decoration-none"
+                  style={{
+                    backgroundImage:
+                      "url(https://images.unsplash.com/photo-1575473589907-6451b9f4e478?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2672&q=80)",
+                  }}
+                  to={`/products/飲品`}
+                >
+                  <p className="d-flex w-100 text-light">
+                    <span className="d-block mb-auto px-4 py-3 bg-dark">
+                      冰品
+                    </span>
+                  </p>
+                </Link>
+              </div>
             </div>
           </div>
           <div className="col">
             <Link
-              className="d-block category p-0 text-decoration-none"
+              className="category category--full-col d-block p-0 text-decoration-none"
               style={{
-                height: 300,
                 backgroundImage:
                   "url(https://images.unsplash.com/photo-1567009349827-ab242f2c96e6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2638&q=80)",
               }}
@@ -277,36 +286,40 @@ const Home = () => {
               </p>
             </Link>
           </div>
-          <div className="col-4 d-flex flex-column">
-            <div className="row g-3 flex-column flex-fill">
-              <Link
-                className="col category p-0 text-decoration-none"
-                style={{
-                  backgroundImage:
-                    "url(https://images.unsplash.com/photo-1624001934657-640af7e2c599?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
-                }}
-                to={`/products/小蛋糕`}
-              >
-                <p className="d-flex w-100 text-light">
-                  <span className="d-block mb-auto px-4 py-3 bg-dark">
-                    小蛋糕
-                  </span>
-                </p>
-              </Link>
-              <Link
-                className="col category p-0 text-decoration-none"
-                style={{
-                  backgroundImage:
-                    "url(https://images.unsplash.com/photo-1526081715791-7c538f86060e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80)",
-                }}
-                to={`/products/純巧克力`}
-              >
-                <p className="d-flex w-100 text-light">
-                  <span className="d-block mb-auto px-4 py-3 bg-dark">
-                    純巧克力
-                  </span>
-                </p>
-              </Link>
+          <div className="col col-sm-4 d-flex flex-column">
+            <div className="row gx-0 gy-4 gy-sm-3 flex-column flex-fill">
+              <div className="col">
+                <Link
+                  className="col category category--half-col d-block p-0 text-decoration-none"
+                  style={{
+                    backgroundImage:
+                      "url(https://images.unsplash.com/photo-1624001934657-640af7e2c599?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80)",
+                  }}
+                  to={`/products/小蛋糕`}
+                >
+                  <p className="d-flex w-100 h-100 text-light">
+                    <span className="d-block mb-auto px-4 py-3 bg-dark">
+                      小蛋糕
+                    </span>
+                  </p>
+                </Link>
+              </div>
+              <div className="col">
+                <Link
+                  className="col category category--half-col d-block p-0 text-decoration-none"
+                  style={{
+                    backgroundImage:
+                      "url(https://images.unsplash.com/photo-1526081715791-7c538f86060e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2670&q=80)",
+                  }}
+                  to={`/products/純巧克力`}
+                >
+                  <p className="d-flex w-100 text-light">
+                    <span className="d-block mb-auto px-4 py-3 bg-dark">
+                      純巧克力
+                    </span>
+                  </p>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
