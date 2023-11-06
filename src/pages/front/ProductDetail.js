@@ -31,28 +31,39 @@ const ProductDetail = () => {
 
   const getProduct = async (id) => {
     setIsLoading(true);
-    const productRes = await axios.get(
-      `/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`
-    );
 
-    setProduct(productRes.data.product);
+    try {
+      const productRes = await axios.get(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/product/${id}`
+      );
 
-    // Set number of preview images
-    const tempProductImages = productRes.data.product.imagesUrl.filter(
-      (i) => i
-    );
-    setProductImages(tempProductImages);
+      setProduct(productRes.data.product);
+
+      // Set number of preview images
+      const tempProductImages = productRes.data.product.imagesUrl.filter(
+        (i) => i
+      );
+      setProductImages(tempProductImages);
+    } catch (error) {
+      console.log(error);
+    }
 
     setIsLoading(false);
   };
 
   const getProducts = async () => {
     setIsLoading(true);
-    const productRes = await axios.get(
-      `/v2/api/${process.env.REACT_APP_API_PATH}/products/all`
-    );
 
-    setProducts(productRes.data.products);
+    try {
+      const productRes = await axios.get(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/products/all`
+      );
+
+      setProducts(productRes.data.products);
+    } catch (error) {
+      console.log(error);
+    }
+
     setIsLoading(false);
   };
 
@@ -108,7 +119,7 @@ const ProductDetail = () => {
         className="btn btn-sm btn-outline-primary"
         onClick={() => swiperRef.current.slidePrev()}
       >
-        <i className="bi bi-chevron-left"></i>
+        <i className="bi bi-chevron-left" />
       </button>
     );
   };
@@ -119,7 +130,7 @@ const ProductDetail = () => {
         className="btn btn-sm btn-outline-primary"
         onClick={() => swiperRef.current.slideNext()}
       >
-        <i className="bi bi-chevron-right"></i>
+        <i className="bi bi-chevron-right" />
       </button>
     );
   };
@@ -151,10 +162,7 @@ const ProductDetail = () => {
       </section>
       <div className="container pt-2 pb-5">
         <section className="row justify-content-between gx-5 mt-4 mb-7">
-          <div
-            className="product-preview col-md-6"
-            style={{ maxHeight: "400px" }}
-          >
+          <div className="product-preview col-md-6 mb-4 mb-md-0">
             {productImages && productImages.length && (
               <>
                 <Swiper
@@ -208,10 +216,10 @@ const ProductDetail = () => {
             <p className="json-new-line my-4 lh-md text-muted">
               {product.description}
             </p>
-            <div className="d-flex justify-content-between align-items-center mt-4">
+            <div className="d-flex justify-content-between align-items-center mt-4 mb-4 mb-md-0">
               <div className="mb-0 h4">
                 {product.price === product.origin_price ? (
-                  <p className="mb-0 text-muted">
+                  <p className="mb-0 text-muted mb-0">
                     NT$ {formatCurrency(product.price)}
                   </p>
                 ) : (
@@ -323,65 +331,60 @@ const ProductDetail = () => {
               其他商品
             </h3>
           </div>
-          <div className="d-flex justify-content-between align-items-center">
+          <div className="d-flex jusctify-content-betweeen align-items-center">
             <SlidePrevButton swiperRef={swiperRef} />
-            <div className="w-100">
-              <Swiper
-                className="mx-4 mt-2"
-                onSwiper={(swiper) => {
-                  swiperRef.current = swiper;
-                }}
-                modules={[Navigation]}
-                slidesPerView={1}
-                spaceBetween={24}
-                breakpoints={{
-                  992: {
-                    slidesPerView: 5,
-                  },
-                  768: {
-                    slidesPerView: 4,
-                  },
-                  350: {
-                    slidesPerView: 2,
-                  },
-                }}
-              >
-                {prioritizeCategoryMenu(products)
-                  .filter((i) => {
-                    return i.id !== product.id;
-                  })
-                  .filter((i, index) => {
-                    return index < 10;
-                  })
-                  .map((product) => {
-                    return (
-                      <SwiperSlide key={product.id}>
-                        <ProductCard
-                          className="mb-4 mb-sm-0"
-                          product={product}
-                        />
-                      </SwiperSlide>
-                    );
-                  })}
-                {}
-                <SwiperSlide>
-                  <div className="card mb-4 bg-light border-0 rounded-0">
-                    <Link
-                      className="stretched-link text-decoration-none"
-                      to={`/products`}
+            <Swiper
+              className="mx-4"
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              modules={[Navigation]}
+              slidesPerView={1}
+              spaceBetween={24}
+              breakpoints={{
+                992: {
+                  slidesPerView: 5,
+                },
+                768: {
+                  slidesPerView: 4,
+                },
+                400: {
+                  slidesPerView: 2,
+                },
+              }}
+            >
+              {prioritizeCategoryMenu(products)
+                .filter((i) => {
+                  return i.id !== product.id;
+                })
+                .filter((i, index) => {
+                  return index < 10;
+                })
+                .map((product) => {
+                  return (
+                    <SwiperSlide key={product.id}>
+                      <ProductCard className="mb-4 mb-sm-0" product={product} />
+                    </SwiperSlide>
+                  );
+                })}
+              {}
+              <SwiperSlide>
+                <div className="card mb-4 bg-light border-0 rounded-0">
+                  <Link
+                    className="stretched-link text-decoration-none"
+                    to={`/products`}
+                  >
+                    <div
+                      className="d-flex justify-content-center align-items-center text-center text-primary rounded-0 "
+                      style={{ height: "225px" }}
                     >
-                      <div
-                        className="d-flex justify-content-center align-items-center text-center text-primary rounded-0 "
-                        style={{ height: "225px" }}
-                      >
-                        <h6 className="mb-0">查看更多商品</h6>
-                        <i className="d-block bi bi-arrow-right ms-2" />
-                      </div>
-                    </Link>
-                  </div>
-                </SwiperSlide>
-              </Swiper>
-            </div>
+                      <h6 className="mb-0">查看更多商品</h6>
+                      <i className="d-block bi bi-arrow-right ms-2" />
+                    </div>
+                  </Link>
+                </div>
+              </SwiperSlide>
+            </Swiper>
             <SlideNextButton swiperRef={swiperRef} />
           </div>
         </section>

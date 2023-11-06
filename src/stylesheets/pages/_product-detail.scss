@@ -1,4 +1,6 @@
 .product-preview {
+  max-height: 400px;
+
   .swiper {
     --swiper-navigation-color: #{$gray-400};
     --swiper-pagination-color: #ffffff;

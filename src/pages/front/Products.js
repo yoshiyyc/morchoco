@@ -129,7 +129,7 @@ const Products = () => {
           <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
             <li className="breadcrumb-item">
               <NavLink className="text-decoration-none link-dark" to="/">
-                <i className="bi bi-house-fill"></i>
+                <i className="bi bi-house-fill" />
               </NavLink>
             </li>
             <li className="breadcrumb-item active" aria-current="page">

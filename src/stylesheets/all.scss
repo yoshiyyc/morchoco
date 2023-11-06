@@ -17,11 +17,11 @@ $utilities: map-merge(
             map-merge(
               map-get(map-get($utilities, "line-height"), "values"),
               (
-                md: $line-height-md
+                md: $line-height-md,
               )
-            )
+            ),
         )
-      )
+      ),
   )
 );
 
@@ -38,4 +38,5 @@ $utilities: map-merge(
 // pages
 @import "./pages/home";
 @import "./pages/product-detail";
+@import "./pages/about";
 @import "./pages/delivery";
