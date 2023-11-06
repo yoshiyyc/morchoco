@@ -10,8 +10,6 @@ const CreateAccount = () => {
     register,
     handleSubmit,
     watch,
-    getValues,
-    control,
     reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm({
@@ -62,7 +60,7 @@ const CreateAccount = () => {
           <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
             <li className="breadcrumb-item">
               <NavLink className="text-decoration-none link-dark" to="/">
-                <i className="bi bi-house-fill"></i>
+                <i className="bi bi-house-fill" />
               </NavLink>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
@@ -86,7 +84,7 @@ const CreateAccount = () => {
               </div>
             )}
             <form className="bg-light border" onSubmit={handleSubmit(onSubmit)}>
-              <div className="col-9 mx-auto p-5">
+              <div className="col-9 mx-auto px-0 px-sm-5 py-5">
                 <div className="mb-4">
                   <Input
                     id="name"

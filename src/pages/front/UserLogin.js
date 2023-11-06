@@ -9,9 +9,6 @@ const UserLogin = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    getValues,
-    control,
     reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm({
@@ -54,7 +51,7 @@ const UserLogin = () => {
           <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
             <li className="breadcrumb-item">
               <NavLink className="text-decoration-none link-dark" to="/">
-                <i className="bi bi-house-fill"></i>
+                <i className="bi bi-house-fill" />
               </NavLink>
             </li>
             <li className="breadcrumb-item active" aria-current="page">
@@ -78,7 +75,7 @@ const UserLogin = () => {
               </div>
             )}
             <form className="bg-light border" onSubmit={handleSubmit(onSubmit)}>
-              <div className="col-9 mx-auto p-5">
+              <div className="col-9 mx-auto px-0 px-sm-5 py-5">
                 <div className="mb-4">
                   <Input
                     id="email"
@@ -118,15 +115,15 @@ const UserLogin = () => {
                   登入
                 </button>
               </div>
-              <div className="mx-auto  border-top">
+              <div className="d-flex flex-column flex-sm-row mx-auto border-top">
                 <Link
-                  className="col-6 btn btn-outline-secondary py-3 border-0 rounded-0"
+                  className="col col-sm-6 btn btn-outline-secondary py-3 border-0 rounded-0"
                   to="/forgotpassword"
                 >
                   忘記密碼？
                 </Link>
                 <Link
-                  className="col-6 btn btn-outline-secondary py-3 border-0 rounded-0"
+                  className="col col-sm-6 btn btn-outline-secondary py-3 border-0 rounded-0"
                   to="/createaccount"
                 >
                   註冊新會員
