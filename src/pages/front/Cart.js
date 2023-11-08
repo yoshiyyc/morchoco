@@ -75,13 +75,9 @@ const Cart = () => {
               to={`/product/${item.product.id}`}
             >
               <img
+                className="cart__thumbnail me-2"
                 src={item.product.imageUrl}
                 alt={item.product.title}
-                className="me-2"
-                style={{
-                  width: "80px",
-                  height: "80px",
-                }}
               />
               {item.product.title}
             </Link>
@@ -90,11 +86,11 @@ const Cart = () => {
             NT${formatCurrency(item.product.price)}
           </td>
           <td className="col-2 text-center">
-            <div className="input-group mx-auto w-75 align-items-center">
+            <div className="input-group align-items-center mx-auto w-75">
               <select
+                id="quantity"
                 name="quantity"
                 className="form-select"
-                id="quantity"
                 value={item.qty}
                 onChange={(e) => {
                   updateCartItem(item, e.target.value * 1);
@@ -118,7 +114,7 @@ const Cart = () => {
               className="btn btn-sm btn-outline-danger rounded-circle"
               onClick={() => removeCartItem(item.id)}
             >
-              <i className="bi bi-x-lg"></i>
+              <i className="bi bi-x-lg" />
             </button>
           </td>
         </tr>
@@ -144,7 +140,7 @@ const Cart = () => {
           <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
             <li className="breadcrumb-item">
               <NavLink className="text-decoration-none link-dark" to="/">
-                <i className="bi bi-house-fill"></i>
+                <i className="bi bi-house-fill" />
               </NavLink>
             </li>
             <li className="breadcrumb-item active" aria-current="page">

@@ -14,8 +14,6 @@ const Checkout = () => {
     register,
     handleSubmit,
     watch,
-    getValues,
-    control,
     reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm({
@@ -169,7 +167,7 @@ const Checkout = () => {
           <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
             <li className="breadcrumb-item">
               <NavLink className="text-decoration-none link-dark" to="/">
-                <i className="bi bi-house-fill"></i>
+                <i className="bi bi-house-fill" />
               </NavLink>
             </li>
             <li className="breadcrumb-item">
@@ -459,13 +457,9 @@ const Checkout = () => {
                   <div className="d-flex align-items-center mb-3" key={item.id}>
                     <div className="position-relative me-3 border">
                       <img
+                        className="checkout-cart__thumbnail"
                         src={item.product.imageUrl}
                         alt={item.product.title}
-                        style={{
-                          width: "65px",
-                          height: "65px",
-                          objectFit: "cover",
-                        }}
                       />
                       <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
                         {item.qty}

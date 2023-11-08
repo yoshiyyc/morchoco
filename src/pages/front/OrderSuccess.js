@@ -29,7 +29,6 @@ const OrderSuccess = () => {
     const res = await axios.get(
       `/v2/api/${process.env.REACT_APP_API_PATH}/order/${orderId}`
     );
-    console.log(res);
     setOrderData(res.data.order);
 
     const productList = Object.values(res.data.order.products);
@@ -57,7 +56,7 @@ const OrderSuccess = () => {
           <ol className="breadcrumb m-0 py-2 lh-md border-bottom">
             <li className="breadcrumb-item">
               <NavLink className="text-decoration-none link-dark" to="/">
-                <i className="bi bi-house-fill"></i>
+                <i className="bi bi-house-fill" />
               </NavLink>
             </li>
             <li className="breadcrumb-item">
@@ -73,7 +72,7 @@ const OrderSuccess = () => {
       </section>
       <div className="container">
         <div className="row g-0">
-          <div className="col-md-7 px-5 pt-5 pt-md-4 pb-5">
+          <div className="col col-md-7 px-5 pt-5 pt-md-4 pb-5">
             <h2 className="h4 mb-4 text-dark">訂單完成</h2>
             <p className="text-muted">
               感謝您的購買！我們非常感謝您選擇了 Morchoco
@@ -82,12 +81,14 @@ const OrderSuccess = () => {
             <p className="text-muted">
               如果您有任何問題或特殊需求，請隨時與我們聯繫。我們期待能再次為您提供最美味的甜點體驗！
             </p>
-            <Link
-              className="col col-sm-4 col-md-3 btn btn-outline-dark mt-4 py-3 rounded-0"
-              to="/"
-            >
-              返回首頁
-            </Link>
+            <div className="row">
+              <Link
+                className="col col-sm-4 col-md-5 col-lg-4 btn btn-outline-dark mt-4 py-3 rounded-0"
+                to="/"
+              >
+                返回首頁
+              </Link>
+            </div>
           </div>
           <div className="col-md-5 px-5 pt-5 pt-md-4 pb-5 bg-light">
             <div className="my-4">
@@ -100,13 +101,9 @@ const OrderSuccess = () => {
                   <div className="d-flex align-items-center mb-3" key={item.id}>
                     <div className="position-relative me-3 border">
                       <img
+                        className="order-success-cart__thumbnail"
                         src={item.product.imageUrl}
                         alt={item.product.title}
-                        style={{
-                          width: "65px",
-                          height: "65px",
-                          objectFit: "cover",
-                        }}
                       />
                     </div>
                     <div className="d-flex flex-column justify-content-center flex-grow-1">
@@ -114,7 +111,6 @@ const OrderSuccess = () => {
                         <p className="mb-0">
                           <small>{item.product.title}</small>
                         </p>
-
                         <p className="mb-0">
                           <small>NT$ {formatCurrency(item.total)}</small>
                         </p>
