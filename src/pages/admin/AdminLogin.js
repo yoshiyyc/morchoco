@@ -12,9 +12,6 @@ function AdminLogin() {
   const {
     register,
     handleSubmit,
-    watch,
-    getValues,
-    control,
     reset,
     formState: { errors, isSubmitSuccessful },
   } = useForm({
@@ -61,8 +58,8 @@ function AdminLogin() {
 
   return (
     <>
-      <nav className="navbar navbar-dark navbar-expand-lg bg-dark">
-        <div className="container-fluid">
+      <nav className="navbar navbar-dark navbar-expand-sm bg-dark">
+        <div className="container-fluid d-flex align-items-center">
           <p className="text-white mb-0">Morchoco 後台管理系統</p>
           <button
             className="navbar-toggler"
@@ -76,14 +73,14 @@ function AdminLogin() {
             <span className="navbar-toggler-icon" />
           </button>
           <div
-            className="collapse navbar-collapse justify-content-end"
+            className="collapse navbar-collapse justify-content-end align-items-center mt-3 mt-sm-0"
             id="navbarNav"
           >
             <ul className="navbar-nav">
-              <li className="nav-item">
+              <li className="nav-item d-flex align-items-center">
                 <button
                   type="button"
-                  className="btn btn-sm btn-light"
+                  className="d-block btn py-1 mb-0 w-100 link-light bg-danger rounded-0 rounded-sm-2"
                   onClick={handleExit}
                 >
                   返回使用者頁面
@@ -96,7 +93,7 @@ function AdminLogin() {
       <div className="container py-5">
         <div className="row justify-content-center mb-5">
           <div className="col-md-8">
-            <h3 className="my-4 text-center">登入帳號</h3>
+            <h2 className="h3 my-4 text-center">登入帳號</h2>
             <div
               className={`alert alert-danger rounded-0 ${
                 loginState.message ? "d-block" : "d-none"
@@ -106,19 +103,8 @@ function AdminLogin() {
               {loginState.message}
             </div>
             <form className="bg-light border" onSubmit={handleSubmit(onSubmit)}>
-              <div className="col-9 mx-auto p-5">
+              <div className="col-9 mx-auto px-0 px-sm-5 py-5">
                 <div className="mb-4">
-                  {/* <label htmlFor="email" className="form-label w-100">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    className="form-control"
-                    name="email"
-                    type="email"
-                    placeholder="請輸入 Email"
-                    onChange={handleChange}
-                  /> */}
                   <Input
                     id="email"
                     labelText="Email"
@@ -136,18 +122,7 @@ function AdminLogin() {
                     }}
                   />
                 </div>
-                <div className=" mb-4">
-                  {/* <label htmlFor="password" className="form-label w-100">
-                    密碼
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    id="password"
-                    placeholder="請輸入密碼"
-                    onChange={handleChange}
-                  /> */}
+                <div className="mb-4">
                   <Input
                     id="password"
                     labelText="密碼"
