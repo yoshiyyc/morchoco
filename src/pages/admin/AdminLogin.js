@@ -58,8 +58,8 @@ function AdminLogin() {
 
   return (
     <>
-      <nav className="navbar navbar-dark navbar-expand-sm bg-dark">
-        <div className="container-fluid d-flex align-items-center">
+      <nav className="navbar navbar-dark navbar-expand-sm sticky-top bg-dark">
+        <div className="container-fluid">
           <p className="text-white mb-0">Morchoco 後台管理系統</p>
           <button
             className="navbar-toggler"
@@ -80,7 +80,7 @@ function AdminLogin() {
               <li className="nav-item d-flex align-items-center">
                 <button
                   type="button"
-                  className="d-block btn py-1 mb-0 w-100 link-light bg-danger rounded-0 rounded-sm-2"
+                  className="d-block btn btn-sm py-1 mb-0 w-100 link-light bg-danger rounded-0 rounded-sm-2"
                   onClick={handleExit}
                 >
                   返回使用者頁面

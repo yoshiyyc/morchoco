@@ -7,6 +7,7 @@ import {
   handleErrorMessage,
 } from "../store/messageStore";
 import { Input, Textarea, CheckboxRadio, Select } from "./FormElements";
+import questionMark from "../img/question-mark.jpeg";
 
 function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   const {
@@ -72,8 +73,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
   }, [type, tempProduct]);
 
   const handleImageError = (e) => {
-    e.target.src =
-      "https://images.unsplash.com/photo-1663465374413-83cba00bff6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2680&q=80";
+    e.target.src = questionMark;
   };
 
   const handleCloseModal = () => {
@@ -164,153 +164,9 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
             <div className="modal-body">
               <div className="row flex-column">
                 <div className="col mb-4">
-                  <div className="row gx-5">
-                    <div className="col-sm-4 mb-3 mb-sm-0">
-                      <h6 className="h5 mb-2">主圖片</h6>
-                      <div className="form-group mb-3">
-                        <Input
-                          id="image"
-                          type="text"
-                          labelText="輸入圖片網址"
-                          placeholder="請輸入圖片連結"
-                          register={register}
-                          required={true}
-                          errors={errors}
-                          rules={{
-                            required: "主圖片網址為必填",
-                          }}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <img
-                          src={watchImageUrl}
-                          alt="預覽圖片"
-                          className="img-fluid"
-                          onError={handleImageError}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-sm-8">
-                      <div className="d-flex align-items-end mb-2">
-                        <h6 className="h5 me-2 mb-0">商品預覽圖</h6>
-                        <small className="text-muted">
-                          （圖片一建議與主圖片相同）
-                        </small>
-                      </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img1"
-                            type="text"
-                            labelText="圖片一"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            required={true}
-                            errors={errors}
-                            rules={{
-                              required: "圖片一網址為必填",
-                            }}
-                          />
-                        </div>
-                        <div className="col d-flex ms-auto form-group">
-                          <img
-                            src={watchImg1Url}
-                            alt="預覽圖片"
-                            className="img-fluid mx-auto"
-                            style={{ maxHeight: "100px" }}
-                            onError={handleImageError}
-                          />
-                        </div>
-                      </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img2"
-                            type="text"
-                            labelText="圖片二"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex ms-auto form-group">
-                          <img
-                            src={watchImg2Url}
-                            alt="預覽圖片"
-                            className="img-fluid mx-auto"
-                            style={{ maxHeight: "100px" }}
-                            onError={handleImageError}
-                          />
-                        </div>
-                      </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img3"
-                            type="text"
-                            labelText="圖片三"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex ms-auto form-group">
-                          <img
-                            src={watchImg3Url}
-                            alt="預覽圖片"
-                            className="img-fluid mx-auto"
-                            style={{ maxHeight: "100px" }}
-                            onError={handleImageError}
-                          />
-                        </div>
-                      </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img4"
-                            type="text"
-                            labelText="圖片四"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex ms-auto form-group">
-                          <img
-                            src={watchImg4Url}
-                            alt="預覽圖片"
-                            className="img-fluid mx-auto"
-                            style={{ maxHeight: "100px" }}
-                            onError={handleImageError}
-                          />
-                        </div>
-                      </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img5"
-                            type="text"
-                            labelText="圖片五"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex ms-auto form-group">
-                          <img
-                            src={watchImg5Url}
-                            alt="預覽圖片"
-                            className="img-fluid mx-auto"
-                            style={{ maxHeight: "100px" }}
-                            onError={handleImageError}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <small className="text-muted">ID: {tempProduct?.id}</small>
                 </div>
-                <hr />
-                <div className="col">
+                <div className="col mb-4">
                   <div className="form-group mb-2">
                     <Input
                       id="title"
@@ -420,34 +276,174 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
                       register={register}
                     />
                   </div>
-                  <div className="form-group mt-5 mb-2">
-                    <CheckboxRadio
-                      id="is_enabled"
-                      name="is_enabled"
-                      type="checkbox"
-                      labelText="是否啟用"
-                      register={register}
-                      errors={errors}
-                    />
+                </div>
+                <hr />
+                <div className="col mt-2 mb-4 container">
+                  <div className="row gx-5">
+                    <div className="col-sm-4 mb-3 mb-sm-0">
+                      <h6 className="h5 mb-2">主圖片</h6>
+                      <div className="form-group mb-3">
+                        <Input
+                          id="image"
+                          type="text"
+                          labelText="輸入圖片網址"
+                          placeholder="請輸入圖片連結"
+                          register={register}
+                          required={true}
+                          errors={errors}
+                          rules={{
+                            required: "主圖片網址為必填",
+                          }}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <img
+                          src={watchImageUrl}
+                          alt="預覽圖片"
+                          className="img-fluid"
+                          onError={handleImageError}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-sm-8">
+                      <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-end mb-2">
+                        <h6 className="h5 me-2 mb-0">商品預覽圖</h6>
+                        <small className="text-muted">
+                          （圖片一建議與主圖片相同）
+                        </small>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img1"
+                            type="text"
+                            labelText="圖片一"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex justify-content-center ms-auto form-group">
+                          <img
+                            className="product-modal__thumbnail mw-100"
+                            src={watchImg1Url}
+                            alt="預覽圖片"
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img2"
+                            type="text"
+                            labelText="圖片二"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex justify-content-center ms-auto form-group">
+                          <img
+                            className="product-modal__thumbnail mw-100"
+                            src={watchImg2Url}
+                            alt="預覽圖片"
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img3"
+                            type="text"
+                            labelText="圖片三"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex justify-content-center ms-auto form-group">
+                          <img
+                            className="product-modal__thumbnail mw-100"
+                            src={watchImg3Url}
+                            alt="預覽圖片"
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img4"
+                            type="text"
+                            labelText="圖片四"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex justify-content-center ms-auto form-group">
+                          <img
+                            className="product-modal__thumbnail mw-100"
+                            src={watchImg4Url}
+                            alt="預覽圖片"
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                      <div className="row justify-content-between mb-2">
+                        <div className="col-8 form-group">
+                          <Input
+                            id="img5"
+                            type="text"
+                            labelText="圖片五"
+                            placeholder="請輸入圖片連結"
+                            register={register}
+                            errors={errors}
+                          />
+                        </div>
+                        <div className="col d-flex justify-content-center ms-auto form-group">
+                          <img
+                            className="product-modal__thumbnail mw-100"
+                            src={watchImg5Url}
+                            alt="預覽圖片"
+                            onError={handleImageError}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleCloseModal}
-              >
-                關閉
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={handleSubmit}
-              >
-                儲存
-              </button>
+            <div className="modal-footer justify-content-between">
+              <div className="form-group">
+                <CheckboxRadio
+                  id="is_enabled"
+                  name="is_enabled"
+                  type="checkbox"
+                  labelText="是否啟用"
+                  register={register}
+                  errors={errors}
+                />
+              </div>
+              <div>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleCloseModal}
+                >
+                  關閉
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary ms-2"
+                  onClick={handleSubmit}
+                >
+                  儲存
+                </button>
+              </div>
             </div>
           </form>
         </div>

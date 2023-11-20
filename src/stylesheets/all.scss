@@ -50,6 +50,7 @@ $utilities: map-merge(
 @import "./components/navbar";
 @import "./components/product-card";
 @import "./components/footer";
+@import "./components/product-modal";
 
 // pages
 @import "./pages/home";
@@ -59,3 +60,4 @@ $utilities: map-merge(
 @import "./pages/cart";
 @import "./pages/checkout";
 @import "./pages/order-success";
+@import "./pages/dashboard";
