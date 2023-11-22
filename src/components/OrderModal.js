@@ -72,18 +72,15 @@ function OrderModal({ closeOrderModal, getOrders, tempOrder }) {
       className="modal fade"
       tabIndex="-1"
       id="orderModal"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="orderModalLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="modal-header bg-primary">
-              <h1
-                className="modal-title fs-5 text-light"
-                id="exampleModalLabel"
-              >
-                {`編輯 ${tempOrder.id}`}
+              <h1 className="modal-title fs-5 text-light" id="orderModalLabel">
+                {`編輯 ${tempOrder?.user?.name} 的訂單`}
               </h1>
               <button
                 type="button"
@@ -93,52 +90,72 @@ function OrderModal({ closeOrderModal, getOrders, tempOrder }) {
               />
             </div>
             <div className="modal-body">
-              <div className="mb-3 row">
-                <span className="col-sm-2 col-form-label">Email</span>
-                <div className="col-sm-10">
-                  <input
-                    type="email"
-                    readOnly
-                    className="form-control-plaintext"
-                    id="staticEmail"
-                    defaultValue={tempOrder?.user?.email}
-                  />
+              <div>
+                <div className="mb-3 row">
+                  <span className="col-sm-2 col-form-label fw-bold">
+                    訂單 ID
+                  </span>
+                  <div className="col-sm-10">
+                    <input
+                      type="text"
+                      readOnly
+                      className="form-control-plaintext"
+                      id="staticID"
+                      defaultValue={tempOrder?.id}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="mb-3 row">
-                <span className="col-sm-2 col-form-label">訂購者</span>
-                <div className="col-sm-10">
-                  <input
-                    type="text"
-                    readOnly
-                    className="form-control-plaintext"
-                    id="staticBuyer"
-                    defaultValue={tempOrder?.user?.name}
-                  />
+                <div className="mb-3 row">
+                  <span className="col-sm-2 col-form-label fw-bold">
+                    訂購者
+                  </span>
+                  <div className="col-sm-10">
+                    <input
+                      type="text"
+                      readOnly
+                      className="form-control-plaintext"
+                      id="staticBuyer"
+                      defaultValue={tempOrder?.user?.name}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="mb-3 row">
-                <span className="col-sm-2 col-form-label">外送地址</span>
-                <div className="col-sm-10">
-                  <input
-                    type="text"
-                    readOnly
-                    className="form-control-plaintext"
-                    defaultValue={tempOrder?.user?.address}
-                  />
+                <div className="mb-3 row">
+                  <span className="col-sm-2 col-form-label fw-bold">Email</span>
+                  <div className="col-sm-10">
+                    <input
+                      type="email"
+                      readOnly
+                      className="form-control-plaintext"
+                      id="staticEmail"
+                      defaultValue={tempOrder?.user?.email}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="mb-3 row">
-                <span className="col-sm-2 col-form-label">留言</span>
-                <div className="col-sm-10">
-                  <textarea
-                    name="
+                <div className="mb-3 row">
+                  <span className="col-sm-2 col-form-label fw-bold">
+                    外送地址
+                  </span>
+                  <div className="col-sm-10">
+                    <input
+                      type="text"
+                      readOnly
+                      className="form-control-plaintext"
+                      defaultValue={tempOrder?.user?.address}
+                    />
+                  </div>
+                </div>
+                <div className="mb-3 row">
+                  <span className="col-sm-2 col-form-label fw-bold">留言</span>
+                  <div className="col-sm-10">
+                    <textarea
+                      name="
                   id="
-                    cols="30"
-                    readOnly
-                    className="form-control-plaintext"
-                    defaultValue={tempOrder.message}
-                  />
+                      cols="30"
+                      readOnly
+                      className="form-control-plaintext"
+                      defaultValue={tempOrder.message}
+                    />
+                  </div>
                 </div>
               </div>
               {tempOrder.products && (
@@ -167,7 +184,6 @@ function OrderModal({ closeOrderModal, getOrders, tempOrder }) {
                   </tfoot>
                 </table>
               )}
-
               <div>
                 <h5 className="mt-4">修改訂單狀態</h5>
                 <div className="form-group mb-4">

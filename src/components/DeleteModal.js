@@ -4,13 +4,13 @@ function DeleteModal({ close, text, handleDelete, id }) {
       className="modal fade"
       tabIndex="-1"
       id="deleteModal"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="deleteModalLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header bg-danger">
-            <h1 className="modal-title text-white fs-5" id="exampleModalLabel">
+            <h1 className="modal-title text-white fs-5" id="deleteModalLabel">
               刪除確認
             </h1>
             <button
@@ -20,8 +20,8 @@ function DeleteModal({ close, text, handleDelete, id }) {
               onClick={close}
             />
           </div>
-          <div className="modal-body">
-            刪除 {text}
+          <div className="modal-body py-4">
+            <p className="mb-0">確定要刪除 {text} 嗎？</p>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" onClick={close}>

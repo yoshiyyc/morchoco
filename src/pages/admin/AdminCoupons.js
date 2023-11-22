@@ -90,62 +90,64 @@ function AdminCoupons() {
       />
       <DeleteModal
         close={closeDeleteModal}
-        text={tempCoupon.title}
+        text={`【${tempCoupon.title}】優惠券`}
         handleDelete={deleteCoupon}
         id={tempCoupon.id}
       />
-      <h3>優惠券列表</h3>
-      <hr />
-      <div className="text-end">
+      <div className="d-flex justify-content-between align-items-center">
+        <h3 className="mb-0">優惠券列表</h3>
         <button
           type="button"
-          className="btn btn-primary btn-sm"
+          className="btn btn-primary"
           onClick={() => openCouponModal("create", {})}
         >
           建立新優惠券
         </button>
       </div>
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">標題</th>
-            <th scope="col">折扣 (%)</th>
-            <th scope="col">到期日</th>
-            <th scope="col">優惠碼</th>
-            <th scope="col">啟用狀態</th>
-            <th scope="col">編輯</th>
-          </tr>
-        </thead>
-        <tbody>
-          {coupons.map((coupon) => {
-            return (
-              <tr key={coupon.id}>
-                <td>{coupon.title}</td>
-                <td>{coupon.percent}</td>
-                <td>{formatDate(coupon.due_date)}</td>
-                <td>{coupon.code}</td>
-                <td>{coupon.is_enabled ? "啟用" : "未啟用"}</td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-sm"
-                    onClick={() => openCouponModal("edit", coupon)}
-                  >
-                    編輯
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger btn-sm ms-2"
-                    onClick={() => openDeleteModal(coupon)}
-                  >
-                    刪除
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <hr />
+      <div className="table-responsive mb-3">
+        <table className="table text-nowrap">
+          <thead>
+            <tr>
+              <th scope="col">標題</th>
+              <th scope="col">折扣 (%)</th>
+              <th scope="col">到期日</th>
+              <th scope="col">優惠碼</th>
+              <th scope="col">啟用狀態</th>
+              <th scope="col">編輯</th>
+            </tr>
+          </thead>
+          <tbody>
+            {coupons.map((coupon) => {
+              return (
+                <tr key={coupon.id}>
+                  <td>{coupon.title}</td>
+                  <td>{coupon.percent}</td>
+                  <td>{formatDate(coupon.due_date)}</td>
+                  <td>{coupon.code}</td>
+                  <td>{coupon.is_enabled ? "啟用" : "未啟用"}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-sm"
+                      onClick={() => openCouponModal("edit", coupon)}
+                    >
+                      編輯
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger btn-sm ms-2"
+                      onClick={() => openDeleteModal(coupon)}
+                    >
+                      刪除
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       <Pagination pagination={pagination} changePage={getCoupons} />
     </div>
   );

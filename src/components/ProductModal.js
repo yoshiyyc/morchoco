@@ -141,7 +141,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       className="modal fade"
       tabIndex="-1"
       id="productModal"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="productModalLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-lg">
@@ -150,7 +150,7 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
             <div className="modal-header bg-primary">
               <h1
                 className="modal-title fs-5 text-light"
-                id="exampleModalLabel"
+                id="productModalLabel"
               >
                 {type === "create" ? "建立新商品" : `編輯 ${watchTitle}`}
               </h1>
@@ -162,255 +162,253 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
               />
             </div>
             <div className="modal-body">
-              <div className="row flex-column">
-                <div className="col mb-4">
-                  <small className="text-muted">ID: {tempProduct?.id}</small>
+              <small className="d-block mb-3 text-muted">
+                ID: {tempProduct?.id}
+              </small>
+              <div className="mb-4">
+                <div className="form-group mb-2">
+                  <Input
+                    id="title"
+                    type="text"
+                    labelText="標題"
+                    placeholder="請輸入標題"
+                    required={true}
+                    register={register}
+                    errors={errors}
+                    rules={{
+                      required: "標題為必填",
+                    }}
+                  />
                 </div>
-                <div className="col mb-4">
-                  <div className="form-group mb-2">
+                <div className="row">
+                  <div className="form-group mb-2 col-md-6">
+                    <Select
+                      id="category"
+                      labelText="分類"
+                      register={register}
+                      required={true}
+                      rules={{
+                        required: "分類為必填",
+                      }}
+                      errors={errors}
+                    >
+                      <option value="" disabled>
+                        請選擇商品分類
+                      </option>
+                      <option value="六吋蛋糕">六吋蛋糕</option>
+                      <option value="小蛋糕">小蛋糕</option>
+                      <option value="手工小點">手工小點</option>
+                      <option value="冰品">冰品</option>
+                      <option value="純巧克力">純巧克力</option>
+                    </Select>
+                  </div>
+                  <div className="form-group mb-2 col-md-6">
                     <Input
-                      id="title"
+                      id="unit"
                       type="text"
-                      labelText="標題"
-                      placeholder="請輸入標題"
+                      errors={errors}
+                      labelText="單位"
+                      placeholder="請輸入單位"
                       required={true}
                       register={register}
-                      errors={errors}
                       rules={{
-                        required: "標題為必填",
+                        required: "單位為必填",
                       }}
                     />
                   </div>
-                  <div className="row">
-                    <div className="form-group mb-2 col-md-6">
-                      <Select
-                        id="category"
-                        labelText="分類"
-                        register={register}
-                        required={true}
-                        rules={{
-                          required: "分類為必填",
-                        }}
-                        errors={errors}
-                      >
-                        <option value="" disabled>
-                          請選擇商品分類
-                        </option>
-                        <option value="六吋蛋糕">六吋蛋糕</option>
-                        <option value="小蛋糕">小蛋糕</option>
-                        <option value="手工小點">手工小點</option>
-                        <option value="冰品">冰品</option>
-                        <option value="純巧克力">純巧克力</option>
-                      </Select>
-                    </div>
-                    <div className="form-group mb-2 col-md-6">
-                      <Input
-                        id="unit"
-                        type="text"
-                        errors={errors}
-                        labelText="單位"
-                        placeholder="請輸入單位"
-                        required={true}
-                        register={register}
-                        rules={{
-                          required: "單位為必填",
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="form-group mb-2 col-md-6">
-                      <Input
-                        id="origin_price"
-                        type="number"
-                        errors={errors}
-                        labelText="原價"
-                        placeholder="請輸入原價"
-                        required={true}
-                        register={register}
-                        rules={{
-                          required: "原價為必填",
-                          min: {
-                            value: 0,
-                            message: "請輸入 0 以上的數字",
-                          },
-                        }}
-                      />
-                    </div>
-                    <div className="form-group mb-2 col-md-6">
-                      <Input
-                        id="price"
-                        type="number"
-                        errors={errors}
-                        labelText="售價"
-                        placeholder="請輸入售價"
-                        required={true}
-                        register={register}
-                        rules={{
-                          required: "售價為必填",
-                          min: {
-                            value: 0,
-                            message: "請輸入 0 以上的數字",
-                          },
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="form-group mb-2">
-                    <Textarea
-                      id="description"
-                      labelText="產品描述"
-                      placeholder="請輸入產品描述"
-                      rows="2"
+                </div>
+                <div className="row">
+                  <div className="form-group mb-2 col-md-6">
+                    <Input
+                      id="origin_price"
+                      type="number"
                       errors={errors}
+                      labelText="原價"
+                      placeholder="請輸入原價"
+                      required={true}
                       register={register}
+                      rules={{
+                        required: "原價為必填",
+                        min: {
+                          value: 0,
+                          message: "請輸入 0 以上的數字",
+                        },
+                      }}
                     />
                   </div>
-                  <div className="form-group mb-2">
-                    <Textarea
-                      id="content"
-                      labelText="說明內容"
-                      placeholder="請輸入說明內容"
-                      rows="5"
+                  <div className="form-group mb-2 col-md-6">
+                    <Input
+                      id="price"
+                      type="number"
                       errors={errors}
+                      labelText="售價"
+                      placeholder="請輸入售價"
+                      required={true}
                       register={register}
+                      rules={{
+                        required: "售價為必填",
+                        min: {
+                          value: 0,
+                          message: "請輸入 0 以上的數字",
+                        },
+                      }}
                     />
                   </div>
                 </div>
-                <hr />
-                <div className="col mt-2 mb-4 container">
-                  <div className="row gx-5">
-                    <div className="col-sm-4 mb-3 mb-sm-0">
-                      <h6 className="h5 mb-2">主圖片</h6>
-                      <div className="form-group mb-3">
+                <div className="form-group mb-2">
+                  <Textarea
+                    id="description"
+                    labelText="產品描述"
+                    placeholder="請輸入產品描述"
+                    rows="2"
+                    errors={errors}
+                    register={register}
+                  />
+                </div>
+                <div className="form-group mb-2">
+                  <Textarea
+                    id="content"
+                    labelText="說明內容"
+                    placeholder="請輸入說明內容"
+                    rows="5"
+                    errors={errors}
+                    register={register}
+                  />
+                </div>
+              </div>
+              <hr />
+              <div className="mt-2 mb-4">
+                <div className="row gx-5">
+                  <div className="col col-sm-4 mb-3 mb-sm-0">
+                    <h6 className="h5 mb-2">主圖片</h6>
+                    <div className="form-group mb-3">
+                      <Input
+                        id="image"
+                        type="text"
+                        labelText="輸入圖片網址"
+                        placeholder="請輸入圖片連結"
+                        register={register}
+                        required={true}
+                        errors={errors}
+                        rules={{
+                          required: "主圖片網址為必填",
+                        }}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <img
+                        src={watchImageUrl}
+                        alt="預覽圖片"
+                        className="img-fluid"
+                        onError={handleImageError}
+                      />
+                    </div>
+                  </div>
+                  <div className="col col-sm-8">
+                    <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-end mb-2">
+                      <h6 className="h5 me-2 mb-0">商品預覽圖</h6>
+                      <small className="text-muted">
+                        （圖片一建議與主圖片相同）
+                      </small>
+                    </div>
+                    <div className="row justify-content-between mb-2">
+                      <div className="col-8 form-group">
                         <Input
-                          id="image"
+                          id="img1"
                           type="text"
-                          labelText="輸入圖片網址"
+                          labelText="圖片一"
                           placeholder="請輸入圖片連結"
                           register={register}
-                          required={true}
                           errors={errors}
-                          rules={{
-                            required: "主圖片網址為必填",
-                          }}
                         />
                       </div>
-                      <div className="form-group">
+                      <div className="col d-flex justify-content-center ms-auto form-group">
                         <img
-                          src={watchImageUrl}
+                          className="product-modal__thumbnail mw-100"
+                          src={watchImg1Url}
                           alt="預覽圖片"
-                          className="img-fluid"
                           onError={handleImageError}
                         />
                       </div>
                     </div>
-                    <div className="col-sm-8">
-                      <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-end mb-2">
-                        <h6 className="h5 me-2 mb-0">商品預覽圖</h6>
-                        <small className="text-muted">
-                          （圖片一建議與主圖片相同）
-                        </small>
+                    <div className="row justify-content-between mb-2">
+                      <div className="col-8 form-group">
+                        <Input
+                          id="img2"
+                          type="text"
+                          labelText="圖片二"
+                          placeholder="請輸入圖片連結"
+                          register={register}
+                          errors={errors}
+                        />
                       </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img1"
-                            type="text"
-                            labelText="圖片一"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex justify-content-center ms-auto form-group">
-                          <img
-                            className="product-modal__thumbnail mw-100"
-                            src={watchImg1Url}
-                            alt="預覽圖片"
-                            onError={handleImageError}
-                          />
-                        </div>
+                      <div className="col d-flex justify-content-center ms-auto form-group">
+                        <img
+                          className="product-modal__thumbnail mw-100"
+                          src={watchImg2Url}
+                          alt="預覽圖片"
+                          onError={handleImageError}
+                        />
                       </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img2"
-                            type="text"
-                            labelText="圖片二"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex justify-content-center ms-auto form-group">
-                          <img
-                            className="product-modal__thumbnail mw-100"
-                            src={watchImg2Url}
-                            alt="預覽圖片"
-                            onError={handleImageError}
-                          />
-                        </div>
+                    </div>
+                    <div className="row justify-content-between mb-2">
+                      <div className="col-8 form-group">
+                        <Input
+                          id="img3"
+                          type="text"
+                          labelText="圖片三"
+                          placeholder="請輸入圖片連結"
+                          register={register}
+                          errors={errors}
+                        />
                       </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img3"
-                            type="text"
-                            labelText="圖片三"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex justify-content-center ms-auto form-group">
-                          <img
-                            className="product-modal__thumbnail mw-100"
-                            src={watchImg3Url}
-                            alt="預覽圖片"
-                            onError={handleImageError}
-                          />
-                        </div>
+                      <div className="col d-flex justify-content-center ms-auto form-group">
+                        <img
+                          className="product-modal__thumbnail mw-100"
+                          src={watchImg3Url}
+                          alt="預覽圖片"
+                          onError={handleImageError}
+                        />
                       </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img4"
-                            type="text"
-                            labelText="圖片四"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex justify-content-center ms-auto form-group">
-                          <img
-                            className="product-modal__thumbnail mw-100"
-                            src={watchImg4Url}
-                            alt="預覽圖片"
-                            onError={handleImageError}
-                          />
-                        </div>
+                    </div>
+                    <div className="row justify-content-between mb-2">
+                      <div className="col-8 form-group">
+                        <Input
+                          id="img4"
+                          type="text"
+                          labelText="圖片四"
+                          placeholder="請輸入圖片連結"
+                          register={register}
+                          errors={errors}
+                        />
                       </div>
-                      <div className="row justify-content-between mb-2">
-                        <div className="col-8 form-group">
-                          <Input
-                            id="img5"
-                            type="text"
-                            labelText="圖片五"
-                            placeholder="請輸入圖片連結"
-                            register={register}
-                            errors={errors}
-                          />
-                        </div>
-                        <div className="col d-flex justify-content-center ms-auto form-group">
-                          <img
-                            className="product-modal__thumbnail mw-100"
-                            src={watchImg5Url}
-                            alt="預覽圖片"
-                            onError={handleImageError}
-                          />
-                        </div>
+                      <div className="col d-flex justify-content-center ms-auto form-group">
+                        <img
+                          className="product-modal__thumbnail mw-100"
+                          src={watchImg4Url}
+                          alt="預覽圖片"
+                          onError={handleImageError}
+                        />
+                      </div>
+                    </div>
+                    <div className="row justify-content-between mb-2">
+                      <div className="col-8 form-group">
+                        <Input
+                          id="img5"
+                          type="text"
+                          labelText="圖片五"
+                          placeholder="請輸入圖片連結"
+                          register={register}
+                          errors={errors}
+                        />
+                      </div>
+                      <div className="col d-flex justify-content-center ms-auto form-group">
+                        <img
+                          className="product-modal__thumbnail mw-100"
+                          src={watchImg5Url}
+                          alt="預覽圖片"
+                          onError={handleImageError}
+                        />
                       </div>
                     </div>
                   </div>

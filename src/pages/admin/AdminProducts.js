@@ -88,21 +88,19 @@ function AdminProducts() {
       />
       <DeleteModal
         close={closeDeleteModal}
-        text={tempProduct.title}
+        text={`【${tempProduct.title}】`}
         handleDelete={deleteProduct}
         id={tempProduct.id}
       />
       <div className="d-flex justify-content-between align-items-center">
         <h3 className="mb-0">產品列表</h3>
-        <div className="text-end">
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => openProductModal("create", {})}
-          >
-            建立新商品
-          </button>
-        </div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => openProductModal("create", {})}
+        >
+          建立新商品
+        </button>
       </div>
       <hr />
       <div className="table-responsive mb-3">

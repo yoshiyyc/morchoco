@@ -99,17 +99,14 @@ function CouponModal({ closeCouponModal, getCoupons, type, tempCoupon }) {
       className="modal fade"
       tabIndex="-1"
       id="couponModal"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="couponModalLabel"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-lg">
         <div className="modal-content">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="modal-header bg-primary">
-              <h1
-                className="modal-title fs-5 text-light"
-                id="exampleModalLabel"
-              >
+              <h1 className="modal-title fs-5 text-light" id="couponModalLabel">
                 {type === "create" ? "建立新優惠券" : `編輯 ${watchTitle}`}
               </h1>
               <button
@@ -120,64 +117,71 @@ function CouponModal({ closeCouponModal, getCoupons, type, tempCoupon }) {
               />
             </div>
             <div className="modal-body">
-              <div className="mb-2">
-                <Input
-                  id="title"
-                  type="text"
-                  labelText="標題"
-                  placeholder="請輸入標題"
-                  required={true}
-                  register={register}
-                  errors={errors}
-                  rules={{
-                    required: "標題為必填",
-                  }}
-                />
-              </div>
-              <div className="row">
-                <div className="col-md-6 mb-2">
+              <small className="d-block mb-3 text-muted">
+                ID: {tempCoupon?.id}
+              </small>
+              <div className="mb-4">
+                <div className="mb-2">
                   <Input
-                    id="percent"
-                    type="number"
-                    labelText="折扣 (%)"
-                    placeholder="請輸入折扣 (%)"
-                    required={true}
-                    register={register}
-                    errors={errors}
-                    rules={{
-                      required: "折扣為必填",
-                    }}
-                  />
-                </div>
-                <div className="col-md-6 mb-2">
-                  <Input
-                    id="due_date"
-                    type="date"
-                    labelText="到期日"
-                    required={true}
-                    register={register}
-                    errors={errors}
-                    rules={{
-                      required: "到期日為必填",
-                    }}
-                  />
-                </div>
-                <div className="col-md-6 mb-2">
-                  <Input
-                    id="code"
+                    id="title"
                     type="text"
-                    labelText="優惠碼"
-                    placeholder="請輸入優惠碼"
+                    labelText="標題"
+                    placeholder="請輸入標題"
                     required={true}
                     register={register}
                     errors={errors}
                     rules={{
-                      required: "優惠碼為必填",
+                      required: "標題為必填",
                     }}
                   />
                 </div>
+                <div className="row">
+                  <div className="col-md-6 mb-2">
+                    <Input
+                      id="percent"
+                      type="number"
+                      labelText="折扣 (%)"
+                      placeholder="請輸入折扣 (%)"
+                      required={true}
+                      register={register}
+                      errors={errors}
+                      rules={{
+                        required: "折扣為必填",
+                      }}
+                    />
+                  </div>
+                  <div className="col-md-6 mb-2">
+                    <Input
+                      id="due_date"
+                      type="date"
+                      labelText="到期日"
+                      required={true}
+                      register={register}
+                      errors={errors}
+                      rules={{
+                        required: "到期日為必填",
+                      }}
+                    />
+                  </div>
+                  <div className="col-md-6 mb-2">
+                    <Input
+                      id="code"
+                      type="text"
+                      labelText="優惠碼"
+                      placeholder="請輸入優惠碼"
+                      required={true}
+                      register={register}
+                      errors={errors}
+                      rules={{
+                        required: "優惠碼為必填",
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="form-group mt-5 mb-2">
+            </div>
+            <div className="modal-footer justify-content-between">
+              <div className="form-group">
                 <CheckboxRadio
                   id="is_enabled"
                   name="is_enabled"
@@ -187,22 +191,22 @@ function CouponModal({ closeCouponModal, getCoupons, type, tempCoupon }) {
                   errors={errors}
                 />
               </div>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleCloseModal}
-              >
-                關閉
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                onClick={handleSubmit}
-              >
-                儲存
-              </button>
+              <div>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={handleCloseModal}
+                >
+                  關閉
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary ms-2"
+                  onClick={handleSubmit}
+                >
+                  儲存
+                </button>
+              </div>
             </div>
           </form>
         </div>

@@ -93,67 +93,69 @@ function AdminOrders() {
       />
       <DeleteModal
         close={closeDeleteModal}
-        text={tempOrder.title}
+        text={`【${tempOrder.user?.name}（${tempOrder.id}）】的訂單`}
         handleDelete={deleteOrder}
         id={tempOrder.id}
       />
-      <h3>訂單列表</h3>
+      <h3 className="mb-0">訂單列表</h3>
       <hr />
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">訂單 id</th>
-            <th scope="col">購買用戶</th>
-            <th scope="col">訂單金額</th>
-            <th scope="col">付款狀態</th>
-            <th scope="col">付款日期</th>
-            <th scope="col">外送進度</th>
-            <th scope="col">留言訊息</th>
-            <th scope="col">編輯</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => {
-            return (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.user?.name}</td>
-                <td>NT$ {formatCurrency(order.total)}</td>
-                <td>
-                  {order.is_paid ? (
-                    <span className="text-success fw-bold">付款完成</span>
-                  ) : (
-                    "未付款"
-                  )}
-                </td>
-                <td>
-                  {order.paid_date ? formatDate(order.paid_date) : "未付款"}
-                </td>
-                <td>{order.status ? orderStatus[order.status] : "未確認"}</td>
-                <td>{order.message ? "有" : "無"}</td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-primary btn-sm"
-                    onClick={() => {
-                      openOrderModal(order);
-                    }}
-                  >
-                    編輯
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger btn-sm ms-2"
-                    onClick={() => openDeleteModal(order)}
-                  >
-                    刪除
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table-responsive mb-3">
+        <table className="table text-nowrap">
+          <thead>
+            <tr>
+              <th scope="col">訂單 ID</th>
+              <th scope="col">購買用戶</th>
+              <th scope="col">訂單金額</th>
+              <th scope="col">付款狀態</th>
+              <th scope="col">付款日期</th>
+              <th scope="col">外送進度</th>
+              <th scope="col">留言訊息</th>
+              <th scope="col">編輯</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => {
+              return (
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.user?.name}</td>
+                  <td>NT$ {formatCurrency(order.total)}</td>
+                  <td>
+                    {order.is_paid ? (
+                      <span className="text-success fw-bold">付款完成</span>
+                    ) : (
+                      "未付款"
+                    )}
+                  </td>
+                  <td>
+                    {order.paid_date ? formatDate(order.paid_date) : "未付款"}
+                  </td>
+                  <td>{order.status ? orderStatus[order.status] : "未確認"}</td>
+                  <td>{order.message ? "有" : "無"}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-primary btn-sm"
+                      onClick={() => {
+                        openOrderModal(order);
+                      }}
+                    >
+                      編輯
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger btn-sm ms-2"
+                      onClick={() => openDeleteModal(order)}
+                    >
+                      刪除
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       <Pagination pagination={pagination} changePage={getOrders} />
     </div>
   );
