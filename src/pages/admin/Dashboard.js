@@ -7,8 +7,9 @@ import {
   messageReducer,
   initState,
 } from "../../store/messageStore";
+import MessageToast from "../../components/MessageToast";
 
-function Dashboard() {
+const Dashboard = () => {
   const navigate = useNavigate();
   const reducer = useReducer(messageReducer, initState);
 
@@ -47,7 +48,7 @@ function Dashboard() {
 
   return (
     <MessageContext.Provider value={reducer}>
-      <Message />
+      <MessageToast />
       <div className="d-flex flex-column min-vh-100">
         <nav className="navbar navbar-dark navbar-expand-sm sticky-top bg-dark">
           <div className="container-fluid">
@@ -112,6 +113,6 @@ function Dashboard() {
       </div>
     </MessageContext.Provider>
   );
-}
+};
 
 export default Dashboard;

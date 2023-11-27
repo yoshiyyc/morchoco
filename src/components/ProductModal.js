@@ -9,7 +9,12 @@ import {
 import { Input, Textarea, CheckboxRadio, Select } from "./FormElements";
 import questionMark from "../img/question-mark.jpeg";
 
-function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
+const ProductModal = ({
+  closeProductModal,
+  getProducts,
+  type,
+  tempProduct,
+}) => {
   const {
     register,
     handleSubmit,
@@ -448,6 +453,6 @@ function ProductModal({ closeProductModal, getProducts, type, tempProduct }) {
       </div>
     </div>
   );
-}
+};
 
 export default ProductModal;

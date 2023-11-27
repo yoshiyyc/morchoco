@@ -4,7 +4,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/FormElements";
 
-function AdminLogin() {
+const AdminLogin = () => {
   const navigate = useNavigate();
 
   const [loginState, setLoginState] = useState({});
@@ -150,6 +150,6 @@ function AdminLogin() {
       </div>
     </>
   );
-}
+};
 
 export default AdminLogin;

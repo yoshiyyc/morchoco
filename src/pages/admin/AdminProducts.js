@@ -7,7 +7,7 @@ import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
 import { formatCurrency } from "../../utilities/utils";
 
-function AdminProducts() {
+const AdminProducts = () => {
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -147,6 +147,6 @@ function AdminProducts() {
       <Pagination pagination={pagination} changePage={getProducts} />
     </div>
   );
-}
+};
 
 export default AdminProducts;

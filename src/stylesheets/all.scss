@@ -51,6 +51,8 @@ $utilities: map-merge(
 @import "./components/product-card";
 @import "./components/footer";
 @import "./components/product-modal";
+@import "./components/loading";
+@import "./components/message-toast";
 
 // pages
 @import "./pages/home";

@@ -1,15 +1,12 @@
 import { useContext } from "react";
 import { MessageContext } from "../store/messageStore";
 
-function Message() {
+const Message = () => {
   const [message] = useContext(MessageContext);
 
   return (
     <>
-      <div
-        className="toast-container position-fixed"
-        style={{ top: "64px", right: "15px" }}
-      >
+      <div className="message-toast toast-container position-fixed">
         {message.title && (
           <div
             className="toast show"
@@ -32,6 +29,6 @@ function Message() {
       </div>
     </>
   );
-}
+};
 
 export default Message;

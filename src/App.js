@@ -18,7 +18,7 @@ import Checkout from "./pages/front/Checkout";
 import OrderSuccess from "./pages/front/OrderSuccess";
 import Credits from "./pages/front/Credits";
 
-function App() {
+const App = () => {
   return (
     <div>
       <Routes className="App">
@@ -46,6 +46,6 @@ function App() {
       </Routes>
     </div>
   );
-}
+};
 
 export default App;

@@ -1,4 +1,4 @@
-function DeleteModal({ close, text, handleDelete, id }) {
+const DeleteModal = ({ close, text, handleDelete, id }) => {
   return (
     <div
       className="modal fade"
@@ -39,6 +39,6 @@ function DeleteModal({ close, text, handleDelete, id }) {
       </div>
     </div>
   );
-}
+};
 
 export default DeleteModal;

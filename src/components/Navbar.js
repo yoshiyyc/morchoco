@@ -1,6 +1,6 @@
 import { NavLink, Link, useLocation } from "react-router-dom";
 
-function Navbar({ cartData }) {
+const Navbar = ({ cartData }) => {
   const location = useLocation();
 
   return (
@@ -132,6 +132,6 @@ function Navbar({ cartData }) {
       </div>
     </header>
   );
-}
+};
 
 export default Navbar;

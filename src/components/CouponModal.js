@@ -9,7 +9,7 @@ import {
 } from "../store/messageStore";
 import { Input, CheckboxRadio } from "./FormElements";
 
-function CouponModal({ closeCouponModal, getCoupons, type, tempCoupon }) {
+const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
   const {
     register,
     handleSubmit,
@@ -213,6 +213,6 @@ function CouponModal({ closeCouponModal, getCoupons, type, tempCoupon }) {
       </div>
     </div>
   );
-}
+};
 
 export default CouponModal;

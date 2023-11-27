@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-function Footer() {
+const Footer = () => {
   return (
     <footer className="footer bg-dark">
       <div className="container py-4 text-light">
@@ -145,6 +145,6 @@ function Footer() {
       </div>
     </footer>
   );
-}
+};
 
 export default Footer;

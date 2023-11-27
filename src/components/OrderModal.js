@@ -9,7 +9,7 @@ import {
 import { CheckboxRadio, Select } from "./FormElements";
 import { formatCurrency } from "../utilities/utils";
 
-function OrderModal({ closeOrderModal, getOrders, tempOrder }) {
+const OrderModal = ({ closeOrderModal, getOrders, tempOrder }) => {
   const {
     register,
     handleSubmit,
@@ -234,6 +234,6 @@ function OrderModal({ closeOrderModal, getOrders, tempOrder }) {
       </div>
     </div>
   );
-}
+};
 
 export default OrderModal;

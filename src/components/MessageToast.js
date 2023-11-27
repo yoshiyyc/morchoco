@@ -2,15 +2,12 @@
 // import { MessageContext } from "../store/messageStore";
 import { useSelector } from "react-redux";
 
-function Message() {
+const Message = () => {
   const messages = useSelector((state) => state.message);
 
   return (
     <>
-      <div
-        className="toast-container position-fixed"
-        style={{ top: "64px", right: "15px" }}
-      >
+      <div className="message-toast toast-container position-fixed">
         {messages?.map((msg) => {
           return (
             <div
@@ -36,6 +33,6 @@ function Message() {
       </div>
     </>
   );
-}
+};
 
 export default Message;

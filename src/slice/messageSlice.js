@@ -39,7 +39,7 @@ export const messageSlice = createSlice({
 
 export const createAsyncMessage = createAsyncThunk(
   "message/createAsyncMessage",
-  async function (payload, { dispatch, requestId }) {
+  async (payload, { dispatch, requestId }) => {
     dispatch(
       messageSlice.actions.createMessage({
         ...payload,

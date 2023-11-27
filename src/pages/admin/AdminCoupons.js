@@ -7,7 +7,7 @@ import DeleteModal from "../../components/DeleteModal";
 import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
 
-function AdminCoupons() {
+const AdminCoupons = () => {
   const [coupons, setCoupons] = useState([]);
   const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -151,6 +151,6 @@ function AdminCoupons() {
       <Pagination pagination={pagination} changePage={getCoupons} />
     </div>
   );
-}
+};
 
 export default AdminCoupons;

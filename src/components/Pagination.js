@@ -1,4 +1,4 @@
-function Pagination({ pagination, changePage }) {
+const Pagination = ({ pagination, changePage }) => {
   return (
     <nav aria-label="Page navigation">
       <ul className="pagination">
@@ -48,6 +48,6 @@ function Pagination({ pagination, changePage }) {
       </ul>
     </nav>
   );
-}
+};
 
 export default Pagination;

@@ -8,7 +8,7 @@ import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
 import { formatCurrency } from "../../utilities/utils";
 
-function AdminOrders() {
+const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -159,6 +159,6 @@ function AdminOrders() {
       <Pagination pagination={pagination} changePage={getOrders} />
     </div>
   );
-}
+};
 
 export default AdminOrders;
