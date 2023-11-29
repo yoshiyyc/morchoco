@@ -1,17 +1,10 @@
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate, NavLink } from "react-router-dom";
 import axios from "axios";
-import Message from "../../components/Message";
-import {
-  MessageContext,
-  messageReducer,
-  initState,
-} from "../../store/messageStore";
 import MessageToast from "../../components/MessageToast";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const reducer = useReducer(messageReducer, initState);
 
   // Get token from cookie
   const token = document.cookie
@@ -47,7 +40,7 @@ const Dashboard = () => {
   };
 
   return (
-    <MessageContext.Provider value={reducer}>
+    <>
       <MessageToast />
       <div className="d-flex flex-column min-vh-100">
         <nav className="navbar navbar-dark navbar-expand-sm sticky-top bg-dark">
@@ -111,7 +104,7 @@ const Dashboard = () => {
           <div className="col-10">{token && <Outlet />}</div>
         </div>
       </div>
-    </MessageContext.Provider>
+    </>
   );
 };
 

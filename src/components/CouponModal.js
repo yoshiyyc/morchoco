@@ -1,12 +1,9 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
-import {
-  MessageContext,
-  handleSuccessMessage,
-  handleErrorMessage,
-} from "../store/messageStore";
+import { createAsyncMessage } from "../slice/messageSlice";
 import { Input, CheckboxRadio } from "./FormElements";
 
 const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
@@ -24,7 +21,7 @@ const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
 
   const watchTitle = watch("title");
 
-  const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === "create") {
@@ -85,12 +82,12 @@ const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
         data: submitData,
       });
 
-      handleSuccessMessage(dispatch, res);
+      dispatch(createAsyncMessage(res.data));
       handleCloseModal();
       getCoupons();
     } catch (error) {
       console.log(error);
-      handleErrorMessage(dispatch, error);
+      dispatch(createAsyncMessage(error.response.data));
     }
   };
 

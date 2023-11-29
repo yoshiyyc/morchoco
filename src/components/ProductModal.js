@@ -1,11 +1,13 @@
 import { useEffect, useContext } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import {
-  MessageContext,
-  handleSuccessMessage,
-  handleErrorMessage,
-} from "../store/messageStore";
+// import {
+//   MessageContext,
+//   handleSuccessMessage,
+//   handleErrorMessage,
+// } from "../store/messageStore";
+import { createAsyncMessage } from "../slice/messageSlice";
 import { Input, Textarea, CheckboxRadio, Select } from "./FormElements";
 import questionMark from "../img/question-mark.jpeg";
 
@@ -35,7 +37,8 @@ const ProductModal = ({
   const watchImg4Url = watch("img4");
   const watchImg5Url = watch("img5");
 
-  const [, dispatch] = useContext(MessageContext);
+  // const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === "create") {
@@ -132,12 +135,14 @@ const ProductModal = ({
         data: JSON.parse(JSON.stringify(submitData)),
       });
 
-      handleSuccessMessage(dispatch, res);
+      // handleSuccessMessage(dispatch, res);
+      dispatch(createAsyncMessage(res.data));
       handleCloseModal();
       getProducts();
     } catch (error) {
       console.log(error);
-      handleErrorMessage(dispatch, error);
+      // handleErrorMessage(dispatch, error);
+      dispatch(createAsyncMessage(error.response.data));
     }
   };
 

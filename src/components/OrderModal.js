@@ -1,11 +1,8 @@
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import {
-  MessageContext,
-  handleSuccessMessage,
-  handleErrorMessage,
-} from "../store/messageStore";
+import { createAsyncMessage } from "../slice/messageSlice";
 import { CheckboxRadio, Select } from "./FormElements";
 import { formatCurrency } from "../utilities/utils";
 
@@ -27,7 +24,7 @@ const OrderModal = ({ closeOrderModal, getOrders, tempOrder }) => {
 
   const watchIsPaid = watch("is_paid");
 
-  const [, dispatch] = useContext(MessageContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setValue("is_paid", tempOrder.is_paid);
@@ -57,13 +54,13 @@ const OrderModal = ({ closeOrderModal, getOrders, tempOrder }) => {
         data: submitData,
       });
       console.log(res);
-      handleSuccessMessage(dispatch, res);
+      dispatch(createAsyncMessage(res.data));
       console.log("inSub", submitData);
       handleCloseModal();
       getOrders();
     } catch (error) {
       console.log(error);
-      handleErrorMessage(dispatch, error);
+      dispatch(createAsyncMessage(error.response.data));
     }
   };
 

@@ -1,5 +1,3 @@
-// import { useContext } from "react";
-// import { MessageContext } from "../store/messageStore";
 import { useSelector } from "react-redux";
 
 const Message = () => {
