@@ -7,6 +7,9 @@ import { formatCurrency } from "../../utilities/utils";
 import Loading from "../../components/Loading";
 
 const Cart = () => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const { cartData, getCart } = useOutletContext();
   const [loadingItems, setLoadingItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +21,9 @@ const Cart = () => {
     setIsLoading(false);
   }, []);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const updateCartItem = async (item, quantity) => {
     setIsLoading(true);
 
@@ -36,39 +42,39 @@ const Cart = () => {
         data
       );
       getCart();
-      console.log(res);
-      setLoadingItems(
-        loadingItems.filter((loadingObject) => loadingObject !== item.id)
-      );
-      // dispatch(createAsyncMessage(res.data));
+      dispatch(createAsyncMessage(res.data));
     } catch (error) {
       console.log(error);
       dispatch(createAsyncMessage(error.response.data));
+    } finally {
+      setLoadingItems(
+        loadingItems.filter((loadingObject) => loadingObject !== item.id)
+      );
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const removeCartItem = async (id) => {
     setIsLoading(true);
     try {
-      const res = await axios.delete(
+      await axios.delete(
         `/v2/api/${process.env.REACT_APP_API_PATH}/cart/${id}`
       );
       getCart();
-      console.log(res);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
-  // Components
+  /*------------------------------------*\
+  | Components
+  \*------------------------------------*/
   const CartContent = ({ cartData }) => {
     return cartData?.carts?.map((item) => {
       return (
-        <tr key={item.product.title}>
+        <tr key={item.product.id}>
           <td className="col-5">
             <Link
               className="d-block text-decoration-none text-black"
@@ -172,7 +178,7 @@ const Cart = () => {
                 </tr>
               </thead>
               <tbody className="border-top border-bottom">
-                {cartData && cartData.carts && cartData.carts.length ? (
+                {cartData?.carts?.length ? (
                   <CartContent cartData={cartData} />
                 ) : (
                   <EmptyCartContent />
@@ -201,7 +207,10 @@ const Cart = () => {
             </Link>
             <button
               className="col col-sm-4 col-md-4 col-lg-3 btn btn-dark ms-sm-auto p-0 border-0 rounded-0"
-              disabled={cartData && cartData.carts && !cartData.carts.length}
+              disabled={
+                (cartData && cartData.carts && !cartData.carts.length) ||
+                isLoading
+              }
             >
               <Link
                 className="d-block m-0 py-3 text-decoration-none link-light"
