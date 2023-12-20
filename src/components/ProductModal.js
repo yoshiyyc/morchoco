@@ -1,12 +1,7 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-// import {
-//   MessageContext,
-//   handleSuccessMessage,
-//   handleErrorMessage,
-// } from "../store/messageStore";
 import { createAsyncMessage } from "../slice/messageSlice";
 import { Input, Textarea, CheckboxRadio, Select } from "./FormElements";
 import questionMark from "../img/question-mark.jpeg";
@@ -17,6 +12,9 @@ const ProductModal = ({
   type,
   tempProduct,
 }) => {
+  /*------------------------------------*\
+  | React Hook Form
+  \*------------------------------------*/
   const {
     register,
     handleSubmit,
@@ -30,55 +28,66 @@ const ProductModal = ({
   });
 
   const watchTitle = watch("title");
-  const watchImageUrl = watch("image");
+  const watchImageUrl = watch("imageUrl");
   const watchImg1Url = watch("img1");
   const watchImg2Url = watch("img2");
   const watchImg3Url = watch("img3");
   const watchImg4Url = watch("img4");
   const watchImg5Url = watch("img5");
 
-  // const [, dispatch] = useContext(MessageContext);
+  /*------------------------------------*\
+  | Default Values
+  \*------------------------------------*/
+  const defaultProductValues = {
+    title: "",
+    category: "",
+    origin_price: 300,
+    price: 100,
+    unit: "",
+    description: "",
+    content: "",
+    is_enabled: 1,
+    imageUrl: "",
+    img1: "",
+    img2: "",
+    img3: "",
+    img4: "",
+    img5: "",
+  };
+
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (type === "create") {
-      setValue("title", "");
-      setValue("category", "");
-      setValue("unit", "");
-      setValue("origin_price", 300);
-      setValue("price", 100);
-      setValue("description", "");
-      setValue("content", "");
-      setValue("is_enabled", 1);
-      setValue("image", "");
-      setValue("img1", "");
-      setValue("img2", "");
-      setValue("img3", "");
-      setValue("img4", "");
-      setValue("img5", "");
+      // Use defaultProductValues to give each fiels default values
+      Object.keys(defaultProductValues).forEach((i) => {
+        setValue(i, defaultProductValues[i]);
+      });
     } else if (type === "edit") {
       if (
         tempProduct &&
         tempProduct.imagesUrl &&
         tempProduct.imagesUrl.length
       ) {
-        setValue("title", tempProduct.title);
-        setValue("category", tempProduct.category);
-        setValue("unit", tempProduct.unit);
-        setValue("origin_price", tempProduct.origin_price);
-        setValue("price", tempProduct.price);
-        setValue("description", tempProduct.description);
-        setValue("content", tempProduct.content);
-        setValue("is_enabled", tempProduct.is_enabled);
-        setValue("image", tempProduct.imageUrl);
-        setValue("img1", tempProduct.imagesUrl[0]);
-        setValue("img2", tempProduct.imagesUrl[1]);
-        setValue("img3", tempProduct.imagesUrl[2]);
-        setValue("img4", tempProduct.imagesUrl[3]);
-        setValue("img5", tempProduct.imagesUrl[4]);
+        // Use the keys of defaultProductValues as fields
+        // Loop the keys to get the saved data from tempProduct
+        Object.keys(defaultProductValues).forEach((i) => {
+          if (`${i}`.startsWith("img")) {
+            setValue(i, tempProduct.imagesUrl[Number(`${i}`.slice(3)) - 1]);
+          } else {
+            setValue(i, tempProduct[i]);
+          }
+        });
       }
     }
   }, [type, tempProduct]);
+
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
 
   const handleImageError = (e) => {
     e.target.src = questionMark;
@@ -87,22 +96,7 @@ const ProductModal = ({
   const handleCloseModal = () => {
     closeProductModal();
     if (type === "create") {
-      reset({
-        title: "",
-        category: "",
-        origin_price: 100,
-        price: 300,
-        unit: "",
-        description: "",
-        content: "",
-        is_enabled: 1,
-        imageUrl: "",
-        img1: "",
-        img2: "",
-        img3: "",
-        img4: "",
-        img5: "",
-      });
+      reset(defaultProductValues);
     } else if (type === "edit") {
       reset(tempProduct);
     }
@@ -118,7 +112,7 @@ const ProductModal = ({
       description: data.description,
       content: data.content,
       is_enabled: data.is_enabled,
-      imageUrl: data.image,
+      imageUrl: data.imageUrl,
       imagesUrl: [data.img1, data.img2, data.img3, data.img4, data.img5],
     };
 
@@ -134,14 +128,11 @@ const ProductModal = ({
       const res = await axios[method](api, {
         data: JSON.parse(JSON.stringify(submitData)),
       });
-
-      // handleSuccessMessage(dispatch, res);
       dispatch(createAsyncMessage(res.data));
       handleCloseModal();
       getProducts();
     } catch (error) {
       console.log(error);
-      // handleErrorMessage(dispatch, error);
       dispatch(createAsyncMessage(error.response.data));
     }
   };
@@ -293,7 +284,7 @@ const ProductModal = ({
                     <h6 className="h5 mb-2">主圖片</h6>
                     <div className="form-group mb-3">
                       <Input
-                        id="image"
+                        id="imageUrl"
                         type="text"
                         labelText="輸入圖片網址"
                         placeholder="請輸入圖片連結"
