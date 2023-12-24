@@ -4,8 +4,9 @@ import axios from "axios";
 import MessageToast from "../../components/MessageToast";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-
+  /*------------------------------------*\
+  | Cookie
+  \*------------------------------------*/
   // Get token from cookie
   const token = document.cookie
     .split("; ")
@@ -15,10 +16,15 @@ const Dashboard = () => {
   // Assign token to axios headers
   axios.defaults.headers.common["Authorization"] = token;
 
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
+  const navigate = useNavigate();
+
   // Check if there is a valid token, then navigate accordingly
   useEffect(() => {
     if (!token) {
-      return navigate("/admin/login");
+      navigate("/admin/login");
     }
 
     (async () => {
@@ -33,6 +39,9 @@ const Dashboard = () => {
     })();
   }, [navigate, token]);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   // Logout callback - clear cookies and navigate to login page
   const handleLogout = () => {
     document.cookie = `morchocoToken=;`;

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -59,10 +59,11 @@ const ProductModal = ({
   | Hooks
   \*------------------------------------*/
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (type === "create") {
-      // Use defaultProductValues to give each fiels default values
+      // Use defaultProductValues to give each fields default values
       Object.keys(defaultProductValues).forEach((i) => {
         setValue(i, defaultProductValues[i]);
       });
@@ -75,6 +76,7 @@ const ProductModal = ({
         // Use the keys of defaultProductValues as fields
         // Loop the keys to get the saved data from tempProduct
         Object.keys(defaultProductValues).forEach((i) => {
+          // Loop through images (e.g., img1, img2, etc.)
           if (`${i}`.startsWith("img")) {
             setValue(i, tempProduct.imagesUrl[Number(`${i}`.slice(3)) - 1]);
           } else {
@@ -89,6 +91,7 @@ const ProductModal = ({
   | Functions
   \*------------------------------------*/
 
+  // If the image URL is invalid, use default question mark img
   const handleImageError = (e) => {
     e.target.src = questionMark;
   };
@@ -103,6 +106,8 @@ const ProductModal = ({
   };
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
+
     const submitData = {
       title: data.title,
       category: data.category,
@@ -117,9 +122,11 @@ const ProductModal = ({
     };
 
     try {
+      // Default api path is for "create" modal
       let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product`;
       let method = "post";
 
+      // If modal type is edit
       if (type === "edit") {
         api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/product/${tempProduct.id}`;
         method = "put";
@@ -128,12 +135,15 @@ const ProductModal = ({
       const res = await axios[method](api, {
         data: JSON.parse(JSON.stringify(submitData)),
       });
+
       dispatch(createAsyncMessage(res.data));
       handleCloseModal();
       getProducts();
     } catch (error) {
       console.log(error);
       dispatch(createAsyncMessage(error.response.data));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -432,6 +442,7 @@ const ProductModal = ({
                   type="button"
                   className="btn btn-secondary"
                   onClick={handleCloseModal}
+                  disabled={isLoading}
                 >
                   關閉
                 </button>
@@ -439,6 +450,7 @@ const ProductModal = ({
                   type="submit"
                   className="btn btn-primary ms-2"
                   onClick={handleSubmit}
+                  disabled={isLoading}
                 >
                   儲存
                 </button>

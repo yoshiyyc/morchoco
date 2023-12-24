@@ -8,12 +8,15 @@ import Loading from "../../components/Loading";
 import { formatCurrency } from "../../utilities/utils";
 
 const AdminProducts = () => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   //type: Decide modal type
-  const [type, setType] = useState("create"); // edit
+  const [type, setType] = useState("create"); // another option: edit
   const [tempProduct, setTempProduct] = useState({});
 
   const productModal = useRef(null);
@@ -32,6 +35,9 @@ const AdminProducts = () => {
     getProducts();
   }, []);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const getProducts = async (page = 1) => {
     setIsLoading(true);
 
