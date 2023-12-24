@@ -8,6 +8,9 @@ import Pagination from "../../components/Pagination";
 import Loading from "../../components/Loading";
 
 const AdminCoupons = () => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const [coupons, setCoupons] = useState([]);
   const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +23,7 @@ const AdminCoupons = () => {
   const deleteModal = useRef(null);
 
   useEffect(() => {
+    // In Bootstrap official website, it's written as: const myModalAlternative = new bootstrap.Modal('#myModal', options)
     couponModal.current = new Modal("#couponModal", {
       backdrop: "static",
     });
@@ -30,6 +34,16 @@ const AdminCoupons = () => {
     getCoupons();
   }, []);
 
+  /*------------------------------------*\
+  | Utility
+  \*------------------------------------*/
+  const formatDate = (timestamp) => {
+    return dayjs(timestamp).format("YYYY/MM/DD");
+  };
+
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const getCoupons = async (page = 1) => {
     setIsLoading(true);
 
@@ -73,10 +87,6 @@ const AdminCoupons = () => {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const formatDate = (timestamp) => {
-    return dayjs(timestamp).format("YYYY/MM/DD");
   };
 
   return (

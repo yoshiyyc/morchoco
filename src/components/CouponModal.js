@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -7,6 +7,9 @@ import { createAsyncMessage } from "../slice/messageSlice";
 import { Input, CheckboxRadio } from "./FormElements";
 
 const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
+  /*------------------------------------*\
+  | React Hook Form
+  \*------------------------------------*/
   const {
     register,
     handleSubmit,
@@ -21,38 +24,56 @@ const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
 
   const watchTitle = watch("title");
 
+  /*------------------------------------*\
+  | Default Values
+  \*------------------------------------*/
+  const defaultCouponValues = {
+    title: "",
+    percent: 0,
+    code: "",
+    due_date: null,
+    is_enabled: 0,
+  };
+
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (type === "create") {
-      setValue("title", "");
-      setValue("percent", 0);
-      setValue("code", "");
-      setValue("due_date", null);
-      setValue("is_enabled", 1);
+      // Use defaultCouponValues to give each fields default values
+      Object.keys(defaultCouponValues).forEach((i) => {
+        setValue(i, defaultCouponValues[i]);
+      });
     } else if (type === "edit") {
-      setValue("title", tempCoupon.title);
-      setValue("percent", tempCoupon.percent);
-      setValue("code", tempCoupon.code);
-      setValue("due_date", formatDatePickerDate(tempCoupon.due_date));
-      setValue("is_enabled", tempCoupon.is_enabled);
+      // Use the keys of defaultCouponValues as fields
+      // Loop the keys to get the saved data from tempProduct
+      Object.keys(defaultCouponValues).forEach((i) => {
+        if (`${i}` === "due_date") {
+          setValue(i, formatDatePickerDate(tempCoupon[i]));
+        } else {
+          setValue(i, tempCoupon[i]);
+        }
+      });
     }
   }, [type, tempCoupon]);
 
+  /*------------------------------------*\
+  | Utility
+  \*------------------------------------*/
   const formatDatePickerDate = (timestamp) => {
     return dayjs(timestamp).format("YYYY-MM-DD");
   };
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const handleCloseModal = () => {
     closeCouponModal();
     if (type === "create") {
-      reset({
-        title: "",
-        percent: 0,
-        due_date: null,
-        code: "",
-        is_enabled: 0,
-      });
+      reset(defaultCouponValues);
     } else if (type === "edit") {
       reset({
         ...tempCoupon,
@@ -62,6 +83,8 @@ const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
   };
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
+
     const submitData = {
       ...data,
       percent: Number(data.percent),
@@ -70,9 +93,11 @@ const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
     };
 
     try {
+      // Default api path is for "create" modal
       let api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon`;
       let method = "post";
 
+      // If modal type is edit
       if (type === "edit") {
         api = `/v2/api/${process.env.REACT_APP_API_PATH}/admin/coupon/${tempCoupon.id}`;
         method = "put";
@@ -88,6 +113,8 @@ const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
     } catch (error) {
       console.log(error);
       dispatch(createAsyncMessage(error.response.data));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -193,6 +220,7 @@ const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
                   type="button"
                   className="btn btn-secondary"
                   onClick={handleCloseModal}
+                  disabled={isLoading}
                 >
                   關閉
                 </button>
@@ -200,6 +228,7 @@ const CouponModal = ({ closeCouponModal, getCoupons, type, tempCoupon }) => {
                   type="submit"
                   className="btn btn-primary ms-2"
                   onClick={handleSubmit}
+                  disabled={isLoading}
                 >
                   儲存
                 </button>

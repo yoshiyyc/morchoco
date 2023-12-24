@@ -109,15 +109,9 @@ const ProductModal = ({
     setIsLoading(true);
 
     const submitData = {
-      title: data.title,
-      category: data.category,
+      ...data,
       origin_price: Number(data.origin_price),
       price: Number(data.price),
-      unit: data.unit,
-      description: data.description,
-      content: data.content,
-      is_enabled: data.is_enabled,
-      imageUrl: data.imageUrl,
       imagesUrl: [data.img1, data.img2, data.img3, data.img4, data.img5],
     };
 
