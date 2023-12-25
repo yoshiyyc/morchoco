@@ -9,23 +9,19 @@ import Loading from "../../components/Loading";
 import { formatCurrency } from "../../utilities/utils";
 
 const AdminOrders = () => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const [orders, setOrders] = useState([]);
   const [pagination, setPagination] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
   const [tempOrder, setTempOrder] = useState({});
 
   const orderModal = useRef(null);
   const deleteModal = useRef(null);
 
-  const orderStatus = {
-    0: "未確認",
-    1: "已確認",
-    2: "外送中",
-    3: "已送達",
-  };
-
   useEffect(() => {
+    // In Bootstrap official website, it's written as: const myModalAlternative = new bootstrap.Modal('#myModal', options)
     orderModal.current = new Modal("#orderModal", {
       backdrop: "static",
     });
@@ -36,10 +32,26 @@ const AdminOrders = () => {
     getOrders();
   }, []);
 
+  /*------------------------------------*\
+  | Default Values
+  \*------------------------------------*/
+  const orderStatus = {
+    0: "未確認",
+    1: "已確認",
+    2: "外送中",
+    3: "已送達",
+  };
+
+  /*------------------------------------*\
+  | Utility
+  \*------------------------------------*/
   const formatDate = (timestamp) => {
     return dayjs.unix(timestamp).format("YYYY/MM/DD");
   };
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const getOrders = async (page = 1) => {
     setIsLoading(true);
 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useForm } from "react-hook-form";
@@ -7,6 +7,9 @@ import { CheckboxRadio, Select } from "./FormElements";
 import { formatCurrency } from "../utilities/utils";
 
 const OrderModal = ({ closeOrderModal, getOrders, tempOrder }) => {
+  /*------------------------------------*\
+  | React Hook Form
+  \*------------------------------------*/
   const {
     register,
     handleSubmit,
@@ -24,24 +27,33 @@ const OrderModal = ({ closeOrderModal, getOrders, tempOrder }) => {
 
   const watchIsPaid = watch("is_paid");
 
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setValue("is_paid", tempOrder.is_paid);
     setValue("status", tempOrder.status ? tempOrder.status : 0);
   }, [tempOrder]);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const handleCloseModal = () => {
     closeOrderModal();
 
     reset({
-      ...tempOrder,
+      ...tempOrder, // Doesn't really need the line because we won't edit it
       is_paid: tempOrder.is_paid,
       status: tempOrder.status,
     });
   };
 
   const onSubmit = async (data) => {
+    setIsLoading(true);
+
     const submitData = {
       ...tempOrder,
       is_paid: data.is_paid,
@@ -53,14 +65,14 @@ const OrderModal = ({ closeOrderModal, getOrders, tempOrder }) => {
       const res = await axios.put(api, {
         data: submitData,
       });
-      console.log(res);
       dispatch(createAsyncMessage(res.data));
-      console.log("inSub", submitData);
       handleCloseModal();
       getOrders();
     } catch (error) {
       console.log(error);
       dispatch(createAsyncMessage(error.response.data));
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -215,6 +227,7 @@ const OrderModal = ({ closeOrderModal, getOrders, tempOrder }) => {
                 type="button"
                 className="btn btn-secondary"
                 onClick={handleCloseModal}
+                disabled={isLoading}
               >
                 關閉
               </button>
@@ -222,6 +235,7 @@ const OrderModal = ({ closeOrderModal, getOrders, tempOrder }) => {
                 type="submit"
                 className="btn btn-primary"
                 onClick={handleSubmit}
+                disabled={isLoading}
               >
                 儲存
               </button>
