@@ -7,11 +7,17 @@ import { createAsyncMessage } from "../slice/messageSlice";
 import { formatCurrency } from "../utilities/utils";
 
 const ProductCard = ({ product }) => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const { getCart } = useOutletContext();
   const [cartQuantity, setCartQuantity] = useState(1);
 
   const dispatch = useDispatch();
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const addToCart = async () => {
     const data = {
       data: {
@@ -20,8 +26,6 @@ const ProductCard = ({ product }) => {
       },
     };
 
-    // setIsLoading(true);
-
     try {
       const res = await axios.post(
         `/v2/api/${process.env.REACT_APP_API_PATH}/cart`,
@@ -29,10 +33,8 @@ const ProductCard = ({ product }) => {
       );
       dispatch(createAsyncMessage(res.data));
       getCart();
-      // setIsLoading(false);
     } catch (error) {
       console.log(error);
-      // setIsLoading(false);
       dispatch(createAsyncMessage(error.response.data));
     }
   };

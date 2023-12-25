@@ -14,6 +14,10 @@
   }
 }
 
+.cta-card {
+  height: 225px;
+}
+
 @include media-breakpoint-up(md) {
   .product-card {
     height: 310px;

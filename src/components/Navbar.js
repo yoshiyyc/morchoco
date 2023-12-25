@@ -1,6 +1,9 @@
 import { NavLink, Link, useLocation } from "react-router-dom";
 
 const Navbar = ({ cartData }) => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const location = useLocation();
 
   return (
@@ -102,6 +105,7 @@ const Navbar = ({ cartData }) => {
                 </NavLink>
               </li>
               <li className="nav-item">
+                {/* If the page is on CreateAccount or ForgotPassword, 會員專區 will be active*/}
                 <NavLink
                   className={`nav-link btn btn-outline-secondary px-4 border-0 rounded-0 ${
                     (location.pathname === "/createaccount" ||

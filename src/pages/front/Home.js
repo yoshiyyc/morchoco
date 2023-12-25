@@ -9,13 +9,13 @@ import "swiper/css/pagination";
 import "swiper/css/grid";
 import "swiper/css/effect-fade";
 import Loading from "../../components/Loading";
-import flour from "../../img/flour.png";
-import baker from "../../img/baker.png";
-import delicious from "../../img/spaghetti.png";
-import takeaway from "../../img/take-away.png";
 import ProductCard from "../../components/ProductCard";
+import WhyChooseUs from "../../components/WhyChooseUs";
 
 const Home = () => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,6 +23,9 @@ const Home = () => {
     getProducts();
   }, []);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const getProducts = async (page = 1) => {
     setIsLoading(true);
 
@@ -34,15 +37,18 @@ const Home = () => {
       setProducts(productRes.data.products);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
-  // Swiper
+  /*------------------------------------*\
+  | Swiper
+  \*------------------------------------*/
   const swiperEventRef = useRef();
   const swiperPopularRef = useRef();
 
+  // Prev btn
   const SlidePrevButton = ({ swiperRef }) => {
     return (
       <button
@@ -54,6 +60,7 @@ const Home = () => {
     );
   };
 
+  // Next btn
   const SlideNextButton = ({ swiperRef }) => {
     return (
       <button
@@ -116,6 +123,7 @@ const Home = () => {
           </h2>
         </div>
       </section>
+      {/* Use the products that have their prices lower than original prices as event/discount section */}
       <section className="container py-5 py-md-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <SlidePrevButton swiperRef={swiperEventRef} />
@@ -159,10 +167,7 @@ const Home = () => {
                   className="stretched-link text-decoration-none"
                   to={`/products`}
                 >
-                  <div
-                    className="d-flex justify-content-center align-items-center text-center text-primary rounded-0 "
-                    style={{ height: "225px" }}
-                  >
+                  <div className="cta-card d-flex justify-content-center align-items-center text-center text-primary rounded-0">
                     <h6 className="mb-0">查看更多商品</h6>
                     <i className="d-block bi bi-arrow-right ms-2" />
                   </div>
@@ -218,10 +223,7 @@ const Home = () => {
                   className="stretched-link text-decoration-none"
                   to={`/products`}
                 >
-                  <div
-                    className="d-flex justify-content-center align-items-center text-center text-primary rounded-0 "
-                    style={{ height: "225px" }}
-                  >
+                  <div className="cta-card d-flex justify-content-center align-items-center text-center text-primary rounded-0">
                     <h6 className="mb-0">查看更多商品</h6>
                     <i className="d-block bi bi-arrow-right ms-2" />
                   </div>
@@ -324,69 +326,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="mt-5 bg-light">
-        <div className="container py-4">
-          <h4 className="my-4 text-center text-dark">選擇 Morchoco</h4>
-          <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-4 my-4 list-unstyled text-secondary">
-            <li className="col">
-              <div className="card d-flex my-4 bg-transparent border-0">
-                <img
-                  src={flour}
-                  alt="嚴選食材"
-                  className="card-img mx-auto"
-                  style={{
-                    maxHeight: 120,
-                    objectFit: "contain",
-                  }}
-                />
-                <h6 className="card-title text-center mt-4">嚴選食材</h6>
-              </div>
-            </li>
-            <li className="col">
-              <div className="card d-flex my-4 bg-transparent border-0">
-                <img
-                  src={baker}
-                  alt="職人手作"
-                  className="card-img mx-auto"
-                  style={{
-                    maxHeight: 120,
-                    objectFit: "contain",
-                  }}
-                />
-                <h6 className="card-title text-center mt-4">職人手作</h6>
-              </div>
-            </li>
-            <li className="col">
-              <div className="card d-flex my-4 bg-transparent border-0">
-                <img
-                  src={delicious}
-                  alt="精緻美味"
-                  className="card-img mx-auto"
-                  style={{
-                    maxHeight: 120,
-                    objectFit: "contain",
-                  }}
-                />
-                <h6 className="card-title text-center mt-4">精緻美味</h6>
-              </div>
-            </li>
-            <li className="col">
-              <div className="card d-flex my-4 bg-transparent border-0">
-                <img
-                  src={takeaway}
-                  alt="宅配熱銷"
-                  className="card-img mx-auto"
-                  style={{
-                    maxHeight: 120,
-                    objectFit: "contain",
-                  }}
-                />
-                <h6 className="card-title text-center mt-4">宅配熱銷</h6>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <WhyChooseUs />
     </>
   );
 };
