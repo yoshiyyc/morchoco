@@ -9,7 +9,26 @@ import { Input, Textarea, CheckboxRadio } from "../../components/FormElements";
 import Loading from "../../components/Loading";
 
 const Checkout = () => {
-  const { cartData, getCart } = useOutletContext();
+  /*------------------------------------*\
+  | Default Values
+  \*------------------------------------*/
+  const defaultPaymentInfo = {
+    name: "",
+    email: "",
+    tel: "",
+    address: "",
+    message: "",
+    payment: "creditCard",
+    cardHolder: "",
+    creditNum: null,
+    creditCVV: null,
+    creditExpDate: "",
+    bankAccount: null,
+  };
+
+  /*------------------------------------*\
+  | React Hook Form
+  \*------------------------------------*/
   const {
     register,
     handleSubmit,
@@ -18,23 +37,15 @@ const Checkout = () => {
     formState: { errors, isSubmitSuccessful },
   } = useForm({
     mode: "onTouched",
-    defaultValues: {
-      name: "",
-      email: "",
-      tel: "",
-      address: "",
-      message: "",
-      payment: "creditCard",
-      cardHolder: "",
-      creditNum: null,
-      creditCVV: null,
-      creditExpDate: "",
-      bankAccount: null,
-    },
+    defaultValues: defaultPaymentInfo,
   });
 
   const watchPayment = watch("payment");
 
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
+  const { cartData, getCart } = useOutletContext();
   const dispatch = useDispatch();
 
   const [submittedData, setSubmittedData] = useState({});
@@ -65,23 +76,14 @@ const Checkout = () => {
   // Reset form and update cart num after form submission
   useEffect(() => {
     if (isSubmitSuccessful) {
-      reset({
-        name: "",
-        email: "",
-        tel: "",
-        address: "",
-        message: "",
-        payment: "creditCard",
-        cardHolder: "",
-        creditNum: null,
-        creditCVV: null,
-        creditExpDate: "",
-        bankAccount: null,
-      });
+      reset(defaultPaymentInfo);
     }
     getCart();
   }, [isSubmitSuccessful, submittedData, reset]);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const handleCouponChange = (e) => {
     setCouponCode(e.target.value);
   };
@@ -95,21 +97,22 @@ const Checkout = () => {
       },
     };
 
-    await axios
-      .post(`/v2/api/${process.env.REACT_APP_API_PATH}/coupon`, data)
-      .then((res) => {
-        setDiscountedTotal(res.data.data.final_total);
+    try {
+      const couponRes = await axios.post(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/coupon`,
+        data
+      );
 
-        setCouponCode("");
-        setIsLoading(false);
-        dispatch(createAsyncMessage(res.data));
-        getCart();
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-        dispatch(createAsyncMessage(error.response.data));
-      });
+      setDiscountedTotal(couponRes.data.data.final_total);
+      setCouponCode("");
+      dispatch(createAsyncMessage(couponRes.data));
+      getCart();
+    } catch (error) {
+      console.log(error);
+      dispatch(createAsyncMessage(error.response.data));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onSubmit = async (data) => {
@@ -130,33 +133,36 @@ const Checkout = () => {
       },
     };
 
-    await axios
-      .post(`/v2/api/${process.env.REACT_APP_API_PATH}/order`, form)
-      .then((res) => {
-        setCouponCode("");
-        setSubmittedData(data);
-        completePayment(res.data.orderId);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-        dispatch(createAsyncMessage(error.response.data));
-      });
+    try {
+      const formRes = await axios.post(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/order`,
+        form
+      );
+
+      setCouponCode("");
+      setSubmittedData(data);
+      completePayment(formRes.data.orderId);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      dispatch(createAsyncMessage(error.response.data));
+    }
   };
 
   const completePayment = async (orderId) => {
-    await axios
-      .post(`/v2/api/${process.env.REACT_APP_API_PATH}/pay/${orderId}`)
-      .then((res) => {
-        setIsLoading(false);
-        dispatch(createAsyncMessage(res.data));
-        navigate(`/success/${orderId}`);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-        dispatch(createAsyncMessage(error.response.data));
-      });
+    try {
+      const orderRes = await axios.post(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/pay/${orderId}`
+      );
+
+      dispatch(createAsyncMessage(orderRes.data));
+      navigate(`/success/${orderId}`);
+    } catch (error) {
+      console.log(error);
+      dispatch(createAsyncMessage(error.response.data));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

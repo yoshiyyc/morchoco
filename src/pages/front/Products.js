@@ -6,18 +6,9 @@ import Loading from "../../components/Loading";
 import ProductCard from "../../components/ProductCard";
 
 const Products = () => {
-  const { category } = useParams();
-  const navigate = useNavigate();
-
-  const [productList, setProductList] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState(
-    category ? category : "所有甜點"
-  );
-  const [pagination, setPagination] = useState({});
-  const [productTotal, setProductTotal] = useState({});
-  // const [productOrder, setProductOrder] = useState("default");
-  const [isLoading, setIsLoading] = useState(false);
-
+  /*------------------------------------*\
+  | Default Values
+  \*------------------------------------*/
   const categories = [
     "所有甜點",
     "六吋蛋糕",
@@ -27,12 +18,28 @@ const Products = () => {
     "純巧克力",
   ];
 
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
+  const { category } = useParams();
+  const navigate = useNavigate();
+
+  const [productList, setProductList] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState(
+    category || "所有甜點"
+  );
+  const [pagination, setPagination] = useState({});
+  const [productTotal, setProductTotal] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     getProducts();
     countProductTotal();
   }, []);
 
   useEffect(() => {
+    // Set the category got from param to currentCategory
+    // In the case that there is nothing for param, the default current category will be "所有甜點"
     setCurrentCategory(category ? category : "所有甜點");
   }, [category]);
 
@@ -40,86 +47,60 @@ const Products = () => {
     getProducts();
   }, [currentCategory]);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
+  // Count the number of products
   const countProductTotal = async () => {
     setIsLoading(true);
 
-    const allProducts = await axios
-      .get(`/v2/api/${process.env.REACT_APP_API_PATH}/products/all`)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const productsRes = await axios.get(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/products/all`
+      );
+
+      const allProducts = productsRes.data;
+
+      // Calcutate product total by categories
+      let obj = {};
+
+      allProducts.products.forEach((i) => {
+        obj[i.category] ? obj[i.category]++ : (obj[i.category] = 1);
       });
 
-    // Calcutate product total by categories
-    let obj = {};
-
-    allProducts.products.forEach((i) => {
-      obj[i.category] ? obj[i.category]++ : (obj[i.category] = 1);
-    });
-
-    setProductTotal({ ...obj, 所有甜點: allProducts.products.length });
-
-    setIsLoading(false);
+      setProductTotal({ ...obj, 所有甜點: allProducts.products.length });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getProducts = async (page = 1) => {
     setIsLoading(true);
 
-    const productData = await axios
-      .get(
+    try {
+      const productRes = await axios.get(
         `/v2/api/${
           process.env.REACT_APP_API_PATH
         }/products?page=${page}&category=${
           currentCategory === "所有甜點" ? "" : currentCategory
         }`
-      )
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      );
+      const productData = productRes.data;
 
-    setProductList(productData.products);
-    setPagination(productData.pagination);
-    setIsLoading(false);
+      setProductList(productData.products);
+      setPagination(productData.pagination);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChangeCategory = (e) => {
     navigate(`/products/${e.target.value}`);
   };
-
-  // const handleProductOrder = (e) => {
-  // setProductOrder(e.target.value);
-
-  // if (e.target.value === "ascPrice") {
-  //   const tempProductList = productList.sort((a, b) => {
-  //     return a.price - b.price;
-  //   });
-  //   setProductList(tempProductList);
-  // } else if (e.target.value === "dscPrice") {
-  //   const tempProductList = productList.sort((a, b) => {
-  //     return b.price - a.price;
-  //   });
-  //   setProductList(tempProductList);
-  // }
-  // };
-
-  // const sortProductOrder = (order) => {
-  //   if (order === "ascPrice") {
-  //     const tempProductList = productList.sort((a, b) => {
-  //       return a.price - b.price;
-  //     });
-  //     setProductList(tempProductList);
-  //   } else if (order === "dscPrice") {
-  //     const tempProductList = productList.sort((a, b) => {
-  //       return b.price - a.price;
-  //     });
-  //     setProductList(tempProductList);
-  //   }
-  // };
 
   return (
     <>
@@ -178,16 +159,6 @@ const Products = () => {
                 {currentCategory}
               </h2>
               <div className="d-flex align-items-center ms-md-auto">
-                {/* <select
-                  className="form-select ms-auto"
-                  aria-label="product-filter"
-                  value={productOrder}
-                  onChange={handleProductOrder}
-                >
-                  <option value="default">預設</option>
-                  <option value="ascPrice">價格由低到高</option>
-                  <option value="dscPrice">價格由高到低</option>
-                </select> */}
                 <p className="ms-md-3 mb-0 w-100 text-muted">
                   共{" "}
                   {productTotal[currentCategory]
