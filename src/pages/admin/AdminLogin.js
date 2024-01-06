@@ -5,10 +5,9 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../components/FormElements";
 
 const AdminLogin = () => {
-  const navigate = useNavigate();
-
-  const [loginState, setLoginState] = useState({});
-
+  /*------------------------------------*\
+  | React Hook Form
+  \*------------------------------------*/
   const {
     register,
     handleSubmit,
@@ -22,6 +21,13 @@ const AdminLogin = () => {
     },
   });
 
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
+  const navigate = useNavigate();
+
+  const [loginState, setLoginState] = useState({});
+
   // Reset form after form submission
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -32,6 +38,9 @@ const AdminLogin = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const handleExit = () => {
     navigate("/");
   };
@@ -73,8 +82,8 @@ const AdminLogin = () => {
             <span className="navbar-toggler-icon" />
           </button>
           <div
-            className="collapse navbar-collapse justify-content-end align-items-center mt-3 mt-sm-0"
             id="navbarNav"
+            className="collapse navbar-collapse justify-content-end align-items-center mt-3 mt-sm-0"
           >
             <ul className="navbar-nav">
               <li className="nav-item d-flex align-items-center">

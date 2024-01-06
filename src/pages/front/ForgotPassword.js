@@ -4,8 +4,9 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../components/FormElements";
 
 const ForgotPassword = () => {
-  const [loginState, setLoginState] = useState({});
-
+  /*------------------------------------*\
+  | React Hook Form
+  \*------------------------------------*/
   const {
     register,
     handleSubmit,
@@ -18,6 +19,11 @@ const ForgotPassword = () => {
     },
   });
 
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
+  const [loginState, setLoginState] = useState({});
+
   // Reset form after form submission
   useEffect(() => {
     if (isSubmitSuccessful) {
@@ -28,6 +34,9 @@ const ForgotPassword = () => {
     }
   }, [isSubmitSuccessful, reset]);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const onSubmit = async (data) => {
     try {
       setLoginState({

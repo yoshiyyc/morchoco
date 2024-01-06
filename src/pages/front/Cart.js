@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useOutletContext, NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axios from "axios";
