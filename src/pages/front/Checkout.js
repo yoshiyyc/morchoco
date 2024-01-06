@@ -56,12 +56,6 @@ const Checkout = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsLoading(true);
-    getCart();
-    setIsLoading(false);
-  }, []);
-
   // Get the discountedTotal and currentCoupon from updated cartData
   useEffect(() => {
     setDiscountedTotal(cartData ? cartData.final_total : 0);

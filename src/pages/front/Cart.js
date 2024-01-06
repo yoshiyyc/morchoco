@@ -15,12 +15,6 @@ const Cart = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setIsLoading(true);
-    getCart();
-    setIsLoading(false);
-  }, []);
-
   /*------------------------------------*\
   | Functions
   \*------------------------------------*/

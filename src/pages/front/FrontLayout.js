@@ -6,8 +6,21 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
 const FrontLayout = () => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const [cartData, setCartData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Update cart number when entering the page
+  useEffect(() => {
+    setIsLoading(true);
+    getCart();
+  }, []);
+
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const getCart = async () => {
     try {
       const res = await axios.get(
@@ -17,19 +30,17 @@ const FrontLayout = () => {
       setCartData(res.data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    getCart();
-  }, []);
 
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar cartData={cartData} />
       <MessageToast />
       <div className="flex-grow-1">
-        <Outlet context={{ getCart, cartData }}></Outlet>
+        <Outlet context={{ getCart, cartData, isLoading }}></Outlet>
       </div>
       <Footer />
     </div>

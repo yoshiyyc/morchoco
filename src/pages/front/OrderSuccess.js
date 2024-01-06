@@ -1,51 +1,55 @@
 import { useEffect, useState } from "react";
-import { Link, useOutletContext, useParams, NavLink } from "react-router-dom";
+import { Link, useParams, NavLink } from "react-router-dom";
 import axios from "axios";
 import { formatCurrency } from "../../utilities/utils";
 import Loading from "../../components/Loading";
 
 const OrderSuccess = () => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const { orderId } = useParams();
-  const { getCart } = useOutletContext();
   const [orderData, setOrderData] = useState({});
   const [originalTotal, setOriginalTotal] = useState(0);
   const [isCouponUsed, setIsCouponUsed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Update cart number when entering the page
-  useEffect(() => {
-    setIsLoading(true);
-    getCart();
-    setIsLoading(false);
-  }, []);
-
+  // Get the order detail based on the orderId obtained from param
   useEffect(() => {
     getOrder(orderId);
   }, [orderId]);
 
+  /*------------------------------------*\
+  | Functions
+  \*------------------------------------*/
   const getOrder = async (orderId) => {
     setIsLoading(true);
 
-    const res = await axios.get(
-      `/v2/api/${process.env.REACT_APP_API_PATH}/order/${orderId}`
-    );
-    setOrderData(res.data.order);
+    try {
+      const res = await axios.get(
+        `/v2/api/${process.env.REACT_APP_API_PATH}/order/${orderId}`
+      );
 
-    const productList = Object.values(res.data.order.products);
+      setOrderData(res.data.order);
 
-    // Calculate the original total
-    const tempOriginalTotal = productList.reduce((a, c) => {
-      return a + c.total;
-    }, 0);
-    setOriginalTotal(tempOriginalTotal);
+      const productList = Object.values(res.data.order.products);
 
-    // Check if the order has used coupon
-    const tempIsCouponUsed = productList.some((i) => {
-      return i.hasOwnProperty("coupon");
-    });
-    setIsCouponUsed(tempIsCouponUsed);
+      // Calculate the original total
+      const tempOriginalTotal = productList.reduce((a, c) => {
+        return a + c.total;
+      }, 0);
+      setOriginalTotal(tempOriginalTotal);
 
-    setIsLoading(false);
+      // Check if the order has used coupon
+      const tempIsCouponUsed = productList.some((i) => {
+        return i.hasOwnProperty("coupon");
+      });
+      setIsCouponUsed(tempIsCouponUsed);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
