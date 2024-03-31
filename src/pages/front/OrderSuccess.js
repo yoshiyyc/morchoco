@@ -76,7 +76,7 @@ const OrderSuccess = () => {
       </section>
       <div className="container">
         <div className="row g-0">
-          <div className="col col-md-7 px-5 pt-5 pt-md-4 pb-5">
+          <div className="col col-lg-7 px-5 pt-5 pt-md-4 pb-5">
             <h2 className="h4 mb-4 text-dark">訂單完成</h2>
             <p className="text-muted">
               感謝您的購買！我們非常感謝您選擇了 Morchoco
@@ -94,61 +94,77 @@ const OrderSuccess = () => {
               </Link>
             </div>
           </div>
-          <div className="col-md-5 px-5 pt-5 pt-md-4 pb-5 bg-light">
+          <div className="col-lg-5 px-5 pt-5 pt-md-4 pb-5 bg-light">
             <div className="my-4">
               <h3 className="h5 fw-bold text-dark">訂單明細</h3>
               <small className="text-muted">訂單編號：{orderData.id}</small>
             </div>
-            <div className="mb-5">
-              {Object.values(orderData?.products || {}).map((item) => {
-                return (
-                  <div className="d-flex align-items-center mb-3" key={item.id}>
-                    <div className="position-relative me-3 border">
-                      <img
-                        className="order-success-cart__thumbnail"
-                        src={item.product.imageUrl}
-                        alt={item.product.title}
-                      />
-                    </div>
-                    <div className="d-flex flex-column justify-content-center flex-grow-1">
-                      <div className="d-flex justify-content-between fw-bold">
-                        <p className="mb-0">
-                          <small>{item.product.title}</small>
-                        </p>
-                        <p className="mb-0">
-                          <small>NT$ {formatCurrency(item.total)}</small>
-                        </p>
-                      </div>
-                      <div className="d-flex justify-content-between">
-                        <p className="mb-0 text-muted">
-                          <small>
-                            NT$ {formatCurrency(item.product.price)}
-                          </small>
-                        </p>
-                        <p className="mb-0">x {item.qty}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="table-responsive mb-5 py-1 border border-dark">
+              <table className="table table-borderless align-middle text-nowrap">
+                <tbody>
+                  {Object.values(orderData?.products || {}).map((item) => {
+                    return (
+                      <tr key={item.product.id}>
+                        <td className="col-1">
+                          <div className="border">
+                            <img
+                              className="order-success-cart__thumbnail"
+                              src={item.product.imageUrl}
+                              alt={item.product.title}
+                            />
+                          </div>
+                        </td>
+                        <td className="">
+                          <div className="d-flex flex-column justify-content-between">
+                            <p className="mb-0 fw-bold">
+                              <small>{item.product.title}</small>
+                            </p>
+                            <p className="mb-0 text-muted">
+                              <small>
+                                NT$ {formatCurrency(item.product.price)}
+                              </small>
+                            </p>
+                          </div>
+                        </td>
+                        <td className="text-nowrap text-end">
+                          <div className="d-flex flex-column justify-content-between">
+                            <p className="mb-0 fw-bold">
+                              <small>NT$ {formatCurrency(item.total)}</small>
+                            </p>
+                            <p className="mb-0 text-muted">x {item.qty}</p>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            <div className="mt-5">
-              <div className="d-flex justify-content-between mb-1 text-dark">
-                <p className="mb-0">金額總計</p>
-                <p className="mb-0">NT$ {formatCurrency(originalTotal)}</p>
-              </div>
-              {isCouponUsed && (
-                <div className="d-flex justify-content-between mb-1 text-dark">
-                  <p className="mb-0">優惠券折抵</p>
-                  <p className="mb-0 text-danger">
-                    - NT$ {formatCurrency(originalTotal - orderData.total)}
-                  </p>
-                </div>
-              )}
-              <div className="d-flex justify-content-between mt-2 h5 fw-bold text-dark">
-                <p className="mb-0">實付總額</p>
-                <p className="mb-0">NT$ {formatCurrency(orderData.total)}</p>
-              </div>
+            <div className="table-responsive mt-5 p-2 border border-dark">
+              <table className="w-100 text-nowrap">
+                <tbody>
+                  <tr className="text-dark">
+                    <td className="py-1">金額總計</td>
+                    <td className="ps-3 py-1 text-end">
+                      NT$ {formatCurrency(originalTotal)}
+                    </td>
+                  </tr>
+                  {isCouponUsed && (
+                    <tr className="text-dark">
+                      <td className="py-1">優惠券折抵</td>
+                      <td className="ps-3 py-1 text-end text-danger">
+                        - NT$ {formatCurrency(originalTotal - orderData.total)}
+                      </td>
+                    </tr>
+                  )}
+                  <tr className="h5 fw-bold text-dark">
+                    <td className="py-1">實付總額</td>
+                    <td className="ps-3 py-1 text-end">
+                      NT$ {formatCurrency(orderData.total)}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

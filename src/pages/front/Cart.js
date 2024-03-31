@@ -71,7 +71,7 @@ const Cart = () => {
         <tr key={item.product.id}>
           <td className="col-5">
             <Link
-              className="d-block text-decoration-none text-black"
+              className="d-block text-decoration-none text-nowrap text-black"
               to={`/product/${item.product.id}`}
             >
               <img
@@ -86,11 +86,11 @@ const Cart = () => {
             NT${formatCurrency(item.product.price)}
           </td>
           <td className="col-2 text-center">
-            <div className="input-group align-items-center mx-auto w-75">
+            <div className="input-group align-items-center mx-auto w-md-75">
               <select
                 id="quantity"
                 name="quantity"
-                className="form-select"
+                className="form-select w-auto"
                 value={item.qty}
                 onChange={(e) => {
                   updateCartItem(item, e.target.value * 1);
@@ -150,7 +150,7 @@ const Cart = () => {
         </nav>
       </section>
       <div className="container pt-4 pb-5">
-        <div className="col-9 mx-auto">
+        <div className="col-11 col-md-10 col-lg-9 mx-auto">
           <h2 className="h3 mt-4 mb-5 text-center text-dark">購物車內容</h2>
           <div className="table-responsive">
             <table className="col-9 table table-borderless align-middle">

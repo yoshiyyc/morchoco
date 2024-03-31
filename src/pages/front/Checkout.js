@@ -449,9 +449,9 @@ const Checkout = () => {
               </button>
             </div>
           </form>
-          <div className="col px-5 pt-4 pb-4 pb-md-5 bg-light">
+          <div className="col px-4 px-sm-5 pt-4 pb-4 pb-md-5 bg-light">
             <h3 className="h5 mb-4 text-dark">購物車內容</h3>
-            <div className="mb-5">
+            {/* <div className="mb-5 overflowx-auto">
               {cartData?.carts?.map((item) => {
                 return (
                   <div className="d-flex align-items-center mb-3" key={item.id}>
@@ -474,6 +474,36 @@ const Checkout = () => {
                   </div>
                 );
               })}
+            </div> */}
+            <div className="table-responsive py-1">
+              <table className="table table-borderless align-middle">
+                <tbody>
+                  {cartData?.carts?.map((item) => {
+                    return (
+                      <tr key={item.product.id}>
+                        <td className="col-1">
+                          <div className="d-inline-block position-relative border">
+                            <img
+                              className="checkout-cart__thumbnail"
+                              src={item.product.imageUrl}
+                              alt={item.product.title}
+                            />
+                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">
+                              {item.qty}
+                            </span>
+                          </div>
+                        </td>
+                        <td className="">
+                          <small>{item.product.title}</small>
+                        </td>
+                        <td className="text-nowrap text-end text-muted">
+                          <small>NT$ {formatCurrency(item.total)}</small>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
             <div className="row mb-5">
               <div className="col-12">

@@ -1,6 +1,9 @@
 import { useSelector } from "react-redux";
 
 const Message = () => {
+  /*------------------------------------*\
+  | Hooks
+  \*------------------------------------*/
   const messages = useSelector((state) => state.message);
 
   return (

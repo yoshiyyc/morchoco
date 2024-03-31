@@ -23,12 +23,6 @@ export const messageSlice = createSlice({
             : action.payload.message,
         });
       }
-
-      //
-      // setTimeout(() => {
-      //   const index = state.findIndex((item) => item === id);
-      //   state.splice(index, 1);
-      // }, 2000);
     },
     removeMessage(state, action) {
       const index = state.findIndex((item) => item === action.payload);

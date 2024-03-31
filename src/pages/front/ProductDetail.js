@@ -173,7 +173,7 @@ const ProductDetail = () => {
         </nav>
       </section>
       <div className="container pt-2 pb-5">
-        <section className="row justify-content-between gx-5 mt-4 mb-7">
+        <section className="row justify-content-between gx-5 mx-0 mt-4 mb-7">
           <div className="product-preview col-md-6 mb-4 mb-md-0">
             {productImages && productImages.length && (
               <>

@@ -120,7 +120,7 @@ const Products = () => {
         </nav>
       </section>
       <section className="container pt-3 pt-md-4 pb-5">
-        <div className="row flex-column flex-md-row align-items-center align-items-md-start gx-5 my-4">
+        <div className="row flex-column flex-md-row align-items-center align-items-md-start gx-5 mx-0 my-4">
           <div className="col-9 col-md-3 mb-5 mb-md-0">
             <ul className="d-none d-md-block list-group list-group-flush">
               {categories.map((category) => {
@@ -153,7 +153,7 @@ const Products = () => {
               })}
             </select>
           </div>
-          <div className="col-12 col-md-9">
+          <div className="container col-12 col-md-9">
             <div className="d-flex flex-column flex-md-row align-items-center mb-5">
               <h2 className="h3 mb-2 mb-md-0 text-center text-sm-start text-dark">
                 {currentCategory}
@@ -168,7 +168,7 @@ const Products = () => {
                 </p>
               </div>
             </div>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center justify-content-sm-start gx-5 gy-4 mb-5">
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 justify-content-center justify-content-sm-start mx-0 gx-5 gy-4 mb-5">
               {productList.length ? (
                 productList.map((product) => {
                   return (
